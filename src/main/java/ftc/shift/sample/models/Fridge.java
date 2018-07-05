@@ -6,8 +6,6 @@ import java.util.HashMap;
 public class Fridge implements Serializable{
     private HashMap<String, Product> products = new HashMap<>();
 
-    public Fridge() {}
-
     public void add(Product product){
         this.products.put(product.getId(),product);
     }
