@@ -33,7 +33,9 @@ public class Food implements Serializable {
     }
 
     public Food getFood(Integer id){
-        return allFood.get(id);
+        if (allFood.containsKey(id))
+            return allFood.get(id);
+        else throw new IllegalArgumentException();
     }
 
     static void removeFood(Food food){
