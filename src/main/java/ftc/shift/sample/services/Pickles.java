@@ -163,4 +163,20 @@ public class Pickles {
             return userRepository.fetchUser(login).getRecipes().get(recipeId).getUserList().values();
         }
     }
+
+    public void addUserToRecipe(String login, String recipeId, String productId, User user){
+        if(login == null || recipeId == null || user == null || productId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            userRepository.fetchUser(login).getRecipes().get(recipeId).getUserList().put(productId, user);
+        }
+    }
+
+    public void removeUserFromRecipe(String login, String recipeId, String productId){
+        if(login == null || recipeId == null || user == null || productId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            userRepository.fetchUser(login).getRecipes().get(recipeId).getUserList().remove(productId);
+        }
+    }
 }
