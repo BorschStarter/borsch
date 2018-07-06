@@ -16,6 +16,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    // Расчленить user'a в аргуметах метода (updateUser)
+    //Легальность запрса, сравнение Логин-токен
+    //прверка пары Логин-пароль везде
+
+
     public User provideUser(String id) {
 
         if (userRepository.getAllUsers().containsKey(id))
@@ -32,7 +37,7 @@ public class UserService {
             userRepository.updateUser(user);
             return user;
         }
-    }
+    } //User->UserInfo
 
     public void deleteUser(String id) {
         if (userRepository.getAllUsers().containsKey(id)) {
@@ -53,7 +58,7 @@ public class UserService {
         }
     }
 
-    public void addProductToFridge(User user, Product product){
+    public void addProductToFridge(User user, Product product){ //User->userID
 
         if (user == null || product == null){
             throw new IllegalArgumentException();
@@ -63,7 +68,7 @@ public class UserService {
         }
     }
 
-    public void removeProductFromFridge(User user, Product product){
+    public void removeProductFromFridge(User user, Product product){ //User->userID product->productID
 
         if (user == null || product == null || !user.getFridge().getProducts().containsKey(product.getId())){
             throw new IllegalArgumentException();
@@ -73,7 +78,7 @@ public class UserService {
         }
     }
 
-    public Product getProductFromFridge(User user, Product product){
+    public Product getProductFromFridge(User user, Product product){ //?
         if (user == null || product == null || !user.getFridge().getProducts().containsKey(product.getId())){
             throw new IllegalArgumentException();
         }
@@ -81,6 +86,8 @@ public class UserService {
             return user.getFridge().getProducts().get(product.getId());
         }
     }
+
+    //////////////////////////////////////////////
 
     public void addRecipeToRecipes(User user, Recipe recipe){
 
