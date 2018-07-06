@@ -6,7 +6,6 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 public class UserValidInfo {
-    private String userName;
+    private String id;
     private String token;
-
 }

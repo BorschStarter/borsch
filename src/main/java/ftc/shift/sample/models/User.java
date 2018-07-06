@@ -3,6 +3,7 @@ package ftc.shift.sample.models;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @NoArgsConstructor
