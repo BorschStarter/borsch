@@ -5,15 +5,17 @@ import ftc.shift.sample.models.UserInfo;
 import ftc.shift.sample.models.UserLogin;
 import ftc.shift.sample.models.UserValidInfo;
 
-public interface UserServiceInterface {
+public interface UserService {
 
-    //Token createToken(UserLogin userLogin);
 
-    //Boolean checkAccess(UserValidInfo userValidInfo);
 
-    UserInfo provideUserInfo(String id);
+    //3. UserInfo provideUser(String id);
 
-    UserInfo updateUserInfo(String id, UserInfo userInfo);
+    //2. Boolean checkAccess(UserValidInfo userValidInfo);
+
+    //1. Token createToken(UserLogin userLogin);
+
+    //4. UserInfo updateUserInfo(String id, UserInfo userInfo);
 
     //5. void registration(UserLogin userLogin);
 }

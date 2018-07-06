@@ -6,6 +6,7 @@ import ftc.shift.sample.models.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 @RestController
@@ -18,7 +19,7 @@ public class BooksController {
 
   @GetMapping(BOOKS_PATH + "/{id}")
   public @ResponseBody
-  BaseResponse<Book> readBook(@PathVariable String id) {
+  BaseResponse<Book> readBook(@PathVariable String id,final HttpServletRequest request) {
     BaseResponse<Book> response = new BaseResponse<>();
     Book book = service.provideBook(id);
 

@@ -6,6 +6,6 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 public class UserLogin {
-    private String id;
-    private String password;
+    public String userName;
+    public String password;
 }
