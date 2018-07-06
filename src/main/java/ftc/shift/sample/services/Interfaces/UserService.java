@@ -15,10 +15,7 @@ public interface UserService {
 
     //1. Token createToken(UserLogin userLogin);
 
+    //4. UserInfo updateUserInfo(String id, UserInfo userInfo);
 
-//    UserInfo updateUserInfo(UserValidInfo userValidInfo , UserInfo userInfo);
-//
-//    void  registration(UserLogin userLogin);
-
-
+    //5. void registration(UserLogin userLogin);
 }
