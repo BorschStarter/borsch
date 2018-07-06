@@ -32,8 +32,8 @@ public class InMemoryFoodRepository implements FoodRepository {
 
     @Override
     public Food createFood(final Food food) {
-        food.setId(String.valueOf(System.currentTimeMillis()));
-        foodCache.put(food.getId(), food);
+        food.setId(food.getName());
+        foodCache.put(food.getName(), food);
         return food;
     }
 
