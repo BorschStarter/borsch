@@ -9,7 +9,6 @@ import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.util.List;
 
 @Service
@@ -18,22 +17,22 @@ public class FridgeService implements FridgeServiceInterface {
     private final UserRepository userRepository;
 
     @Autowired
-    public FridgeService(final UserRepository userRepository) {
+    public FridgeService( final UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
-    }
+ }
 
     public Fridge provideUserFridge(String id){
-        return provideUser(id).getFridge();
+        return userRepository.fetchUser(id).getFridge();
     }
 
     public Fridge addProductInFridge(String id, Product product){
-        addProductToFridge(provideUser(id), product);
+        addProductToFridge(userRepository.fetchUser(id), product);
         return provideUserFridge(id);
     }
 
-//    public List<Food> getFoodSearchList(String foodName){
-//        return new List<Food>();
-//    }
+    public List<Food> getFoodSearchList(String foodName){
+        return null;
+    }
 
     public void addProductToFridge(User user, Product product){ //User->userID
 
@@ -63,5 +62,6 @@ public class FridgeService implements FridgeServiceInterface {
             return user.getFridge().getProducts().get(product.getId());
         }
     }
+
 
 }
