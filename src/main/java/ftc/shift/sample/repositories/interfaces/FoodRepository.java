@@ -2,7 +2,7 @@ package ftc.shift.sample.repositories.interfaces;
 
 import ftc.shift.sample.models.Food;
 
-import java.util.Collection;
+import java.util.TreeMap;
 
 public interface FoodRepository {
 
@@ -14,5 +14,5 @@ public interface FoodRepository {
 
     Food createFood(Food book);
 
-    Collection<Food> getAllFoods();
+    TreeMap<String,Food> getAllFoods();
 }

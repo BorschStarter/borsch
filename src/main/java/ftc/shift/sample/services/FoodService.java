@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 public class FoodService {
@@ -18,26 +20,34 @@ public class FoodService {
     }
 
     public Food provideFood(String id) {
-        return foodRepository.fetchFood(id);
+
+        if (foodRepository.getAllFoods().containsKey(id))
+            return foodRepository.fetchFood(id);
+        else throw new IllegalArgumentException();
     }
 
     public Food updateFood(Food food) {
-        foodRepository.updateFood(food);
+
+        if (food == null)
+            throw new IllegalArgumentException();
+        else foodRepository.updateFood(food);
         return food;
     }
 
     public void deleteFood(String id) {
-        foodRepository.deleteFood(id);
+        if (foodRepository.getAllFoods().containsKey(id))
+            foodRepository.deleteFood(id);
+        else throw new IllegalArgumentException();
     }
 
-
     public Food createFood(Food food) {
-        foodRepository.createFood(food);
+        if (food == null)
+            throw new IllegalArgumentException();
+        else foodRepository.createFood(food);
         return food;
     }
 
-    public Collection<Food> provideFoods() {
+    public TreeMap<String,Food> provideFoods() {
         return foodRepository.getAllFoods();
     }
-
 }

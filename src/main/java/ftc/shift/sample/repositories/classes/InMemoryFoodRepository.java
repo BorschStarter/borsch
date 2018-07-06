@@ -9,7 +9,7 @@ import java.util.*;
 @Repository
 public class InMemoryFoodRepository implements FoodRepository {
 
-    private Map<String, Food> foodCache = new TreeMap<>();
+    private TreeMap<String, Food> foodCache = new TreeMap<>();
 
     public InMemoryFoodRepository() {}
 
@@ -38,7 +38,7 @@ public class InMemoryFoodRepository implements FoodRepository {
     }
 
     @Override
-    public Collection<Food> getAllFoods() {
-        return foodCache.values();
+    public TreeMap<String,Food> getAllFoods() {
+        return foodCache;
     }
 }
