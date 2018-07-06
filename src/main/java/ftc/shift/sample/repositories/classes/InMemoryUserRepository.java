@@ -9,7 +9,7 @@ import java.util.*;
 @Repository
 public class InMemoryUserRepository implements UserRepository {
 
-    private Map<String, User> userCache = new HashMap<>();
+    private Map<String, User> userCache = new TreeMap<>();
 
     public InMemoryUserRepository() {}
 
