@@ -3,7 +3,6 @@ package ftc.shift.sample.services;
 import ftc.shift.sample.models.*;
 
 import ftc.shift.sample.repositories.interfaces.UserRepository;
-import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import ftc.shift.sample.services.Interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService implements UserServiceInterface, FridgeServiceInterface {
+public class UserService implements UserServiceInterface {
 
     private final UserRepository userRepository;
 
@@ -20,23 +19,18 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
     public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-//
-//    public Token createToken(UserLogin userLogin){
-//        Token token = new Token(userLogin.getPassword().concat(userLogin.getId()));
-//        provideUser(userLogin.getId()).getTokens().add(token);
-//        return token;
-//    }
-//
-//    public Boolean checkAccess(UserValidInfo userValidInfo){
-//
-//        ArrayList<Token> tokens = provideUser(userValidInfo.getId()).getTokens();
-//        for (Token token : tokens) {
-//            if (token.getToken().equals(userValidInfo.getToken()))
-//                return true;
-//        }
-//        return false;
-//    }
-//
+
+    @Override
+    public Token createToken(UserLogin userLogin) {
+        return null;
+    }
+
+    @Override
+    public Boolean checkAccess(UserValidInfo userValidInfo) {
+        return null;
+    }
+
+
     public UserInfo provideUserInfo(String id){
         return provideUser(id).getUserInfo();
     }
@@ -46,18 +40,10 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         return provideUser(id).getUserInfo();
     }
 
-    public Fridge provideUserFridge(String id){
-        return provideUser(id).getFridge();
-    }
+    @Override
+    public void registration(UserLogin userLogin) {
 
-    public Fridge addProductInFridge(String id, Product product){
-        addProductToFridge(provideUser(id), product);
-        return provideUserFridge(id);
     }
-
-//    public List<Food> getFoodSearchList(String foodName){
-//
-//    }
 
     public User provideUser(String id) {
 
@@ -86,90 +72,8 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    public User createUser(User user) {
-        if (user == null) {
-            throw new IllegalArgumentException();
-        }
-        else {
-            userRepository.createUser(user);
-            return user;
-        }
-    }
 
-    public void addProductToFridge(User user, Product product){ //User->userID
 
-        if (user == null || product == null){
-            throw new IllegalArgumentException();
-        }
-        else {
-            user.getFridge().getProducts().put(product.getId(),product);
-        }
-    }
 
-    public void removeProductFromFridge(User user, Product product){ //User->userID product->productID
-
-        if (user == null || product == null || !user.getFridge().getProducts().containsKey(product.getId())){
-            throw new IllegalArgumentException();
-        }
-        else {
-            user.getFridge().getProducts().remove(product.getId());
-        }
-    }
-
-    public Product getProductFromFridge(User user, Product product){ //?
-        if (user == null || product == null || !user.getFridge().getProducts().containsKey(product.getId())){
-            throw new IllegalArgumentException();
-        }
-        else {
-            return user.getFridge().getProducts().get(product.getId());
-        }
-    }
-
-    public void addRecipeToRecipes(User user, Recipe recipe){
-
-        if (user == null || recipe == null){
-            throw new IllegalArgumentException();
-        }
-        else {
-            user.getRecipes().put(recipe.getId(),recipe);
-        }
-    }
-
-    public void removeRecipeFromRecipes(User user, Recipe recipe){
-
-        if (user == null || recipe == null || !user.getRecipes().containsKey(recipe.getId())){
-            throw new IllegalArgumentException();
-        }
-        else {
-            user.getRecipes().remove(recipe.getId());
-        }
-    }
-
-    public Recipe getRecipeFromRecipes(User user, Recipe recipe){
-        if (user == null || recipe == null || !user.getRecipes().containsKey(recipe.getId())){
-            throw new IllegalArgumentException();
-        }
-        else {
-            return user.getRecipes().get(recipe.getId());
-        }
-    }
-
-    public void changeRecipeState(User user, Recipe recipe, State state){
-        if (user == null || recipe == null || !user.getRecipeState().containsKey(recipe.getId())){
-            throw new IllegalArgumentException();
-        }
-        else {
-            user.getRecipeState().put(recipe.getId(),state);
-        }
-    }
-
-    public State getRecipeState(User user, Recipe recipe){
-        if (user == null || recipe == null || !user.getRecipeState().containsKey(recipe.getId())){
-            throw new IllegalArgumentException();
-        }
-        else {
-            return user.getRecipeState().get(recipe.getId());
-        }
-    }
 
 }

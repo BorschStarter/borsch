@@ -1,5 +1,6 @@
 package ftc.shift.sample.services;
 
+import ftc.shift.sample.models.Food;
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
 import ftc.shift.sample.models.User;
@@ -8,28 +9,30 @@ import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
-public class FridgeService {
+@Service
+public class FridgeService implements FridgeServiceInterface {
 
-//    private final UserRepository userRepository;
-//
-//    @Autowired
-//    public FridgeService(final UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
+    private final UserRepository userRepository;
 
-//    public Fridge provideUserFridge(String id){
-//        return provideUser(id).getFridge();
-//    }
-//
-//    public Fridge addProductInFridge(String id, Product product){
-//        addProductToFridge(provideUser(id), product);
-//        return provideUserFridge(id);
-//    }
+    @Autowired
+    public FridgeService( final UserRepository userRepository, UserService userService) {
+        this.userRepository = userRepository;
+ }
 
-//    public List<Food> getFoodSearchList(String foodName){
-//
-//    }
+    public Fridge provideUserFridge(String id){
+        return userRepository.fetchUser(id).getFridge();
+    }
+
+    public Fridge addProductInFridge(String id, Product product){
+        addProductToFridge(userRepository.fetchUser(id), product);
+        return provideUserFridge(id);
+    }
+
+    public List<Food> getFoodSearchList(String foodName){
+        return null;
+    }
 
     public void addProductToFridge(User user, Product product){ //User->userID
 
@@ -59,5 +62,6 @@ public class FridgeService {
             return user.getFridge().getProducts().get(product.getId());
         }
     }
+
 
 }

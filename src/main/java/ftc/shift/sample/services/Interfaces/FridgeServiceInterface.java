@@ -9,6 +9,7 @@ import ftc.shift.sample.models.Product;
 import java.util.List;
 
 public interface FridgeServiceInterface {
+
     Fridge provideUserFridge(String id);
 
     Fridge addProductInFridge(String id, Product product);

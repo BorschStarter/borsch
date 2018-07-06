@@ -4,9 +4,8 @@ package ftc.shift.sample.api;
 import ftc.shift.sample.models.Food;
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
-import ftc.shift.sample.models.UserLogin;
+import ftc.shift.sample.services.FridgeService;
 import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
-import ftc.shift.sample.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
