@@ -13,7 +13,5 @@ public interface FridgeServiceInterface {
 
     Fridge addProductInFridge(String id, Product product);
 
-    List<Food> getFoodSearchList(String foodName);
-
-
+    //List<Food> getFoodSearchList(String foodName);
 }

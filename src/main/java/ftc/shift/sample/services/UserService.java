@@ -3,11 +3,12 @@ package ftc.shift.sample.services;
 import ftc.shift.sample.models.*;
 
 import ftc.shift.sample.repositories.interfaces.UserRepository;
+import ftc.shift.sample.services.Interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService  {
+public class UserService implements UserServiceInterface {
 
     private final UserRepository userRepository;
 
@@ -147,4 +148,13 @@ public class UserService  {
         }
     }
 
+    @Override
+    public UserInfo provideUserInfo(String id) {
+        return null;
+    }
+
+    @Override
+    public UserInfo updateUserInfo(String id, UserInfo userInfo) {
+        return null;
+    }
 }

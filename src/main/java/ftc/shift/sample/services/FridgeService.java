@@ -1,9 +1,11 @@
 package ftc.shift.sample.services;
 
+import ftc.shift.sample.models.Food;
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
 import ftc.shift.sample.models.User;
 import ftc.shift.sample.repositories.interfaces.UserRepository;
+import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FridgeService{
+public class FridgeService implements FridgeServiceInterface {
 
     private final UserRepository userRepository;
 
@@ -20,17 +22,17 @@ public class FridgeService{
         this.userRepository = userRepository;
     }
 
-//    public Fridge provideUserFridge(String id){
-//        return provideUser(id).getFridge();
-//    }
-//
-//    public Fridge addProductInFridge(String id, Product product){
-//        addProductToFridge(provideUser(id), product);
-//        return provideUserFridge(id);
-//    }
+    public Fridge provideUserFridge(String id){
+        return provideUser(id).getFridge();
+    }
+
+    public Fridge addProductInFridge(String id, Product product){
+        addProductToFridge(provideUser(id), product);
+        return provideUserFridge(id);
+    }
 
 //    public List<Food> getFoodSearchList(String foodName){
-//
+//        return new List<Food>();
 //    }
 
     public void addProductToFridge(User user, Product product){ //User->userID

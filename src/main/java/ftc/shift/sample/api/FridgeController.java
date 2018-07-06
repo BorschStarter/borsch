@@ -42,14 +42,14 @@ public class FridgeController {
             return response;
 
     }
-        @GetMapping(FOOD_PATH+"/{}")
-        public @ResponseBody
-        BaseResponse<List<Food>> provideFoodSearchList(@PathVariable String nameFood,final HttpServletRequest request) {
-        BaseResponse<List<Food>> response = new BaseResponse();
-        List<Food> food = service.getFoodSearchList(nameFood);
-        response.setData(food);
-        return response;
-        }
+//        @GetMapping(FOOD_PATH+"/{}")
+//        public @ResponseBody
+//        BaseResponse<List<Food>> provideFoodSearchList(@PathVariable String nameFood,final HttpServletRequest request) {
+//        BaseResponse<List<Food>> response = new BaseResponse();
+//        List<Food> food = service.getFoodSearchList(nameFood);
+//        response.setData(food);
+//        return response;
+//        }
 
 
 
