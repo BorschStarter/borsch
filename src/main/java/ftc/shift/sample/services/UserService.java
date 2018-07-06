@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService implements UserServiceInterface {
@@ -43,6 +44,19 @@ public class UserService implements UserServiceInterface {
         provideUser(id).setUserInfo(userInfo);
         return provideUser(id).getUserInfo();
     }
+
+    public Fridge provideUserFridge(String id){
+        return provideUser(id).getFridge();
+    }
+
+    public Fridge addProductInFridge(String id, Product product){
+        addProductToFridge(provideUser(id), product);
+        return provideUserFridge(id);
+    }
+
+//    public List<Food> getFoodSearchList(String foodName){
+//        
+//    }
 
     private User provideUser(String id) {
 
