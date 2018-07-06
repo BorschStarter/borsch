@@ -35,6 +35,10 @@ public class UserService implements UserServiceInterface {
 //        return false;
 //    }
 //
+    public UserInfo provideUserInfo(String id){
+        return provideUser(id).getUserInfo();
+    }
+    
     private User provideUser(String id) {
 
         if (userRepository.getAllUsers().containsKey(id))
