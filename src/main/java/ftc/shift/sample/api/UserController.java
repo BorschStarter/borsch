@@ -19,13 +19,13 @@ public class UserController {
     @Autowired
     private UserServiceInterface service;
 
-//    @PostMapping(USERS_PATH+"/registration")
-//    public @ResponseBody
-//    BaseResponse createUser(@RequestBody UserLogin userLogin) {
-//        BaseResponse response = new BaseResponse();
-//        service.
-//        return response;
-//    }
+    @PostMapping(USERS_PATH+"/registration")
+    public @ResponseBody
+    BaseResponse createUser(@RequestBody UserLogin userLogin) {
+        BaseResponse response = new BaseResponse();
+        service.registration(userLogin);
+        return response;
+    }
 
     @PostMapping(USERS_PATH+"/{userName}")
     public @ResponseBody

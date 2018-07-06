@@ -1,7 +1,6 @@
 package ftc.shift.sample.repositories.classes;
 
-import ftc.shift.sample.models.Food;
-import ftc.shift.sample.models.User;
+import ftc.shift.sample.models.*;
 import ftc.shift.sample.repositories.interfaces.UserRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +11,14 @@ public class InMemoryUserRepository implements UserRepository {
 
     private TreeMap<String, User> userCache = new TreeMap<>();
 
-    public InMemoryUserRepository() {}
+    public InMemoryUserRepository() {
+
+            userCache.put("1", new User(new UserInfo("1","1","1","1","1","1","1","1","1","YEPY",0.1,0.2), new Fridge(), "1","2", null,
+                    null));
+            userCache.put("2", new User(new UserInfo("1","1","1","1","1","1","1","1","1","YEPY",0.1,0.2), new Fridge(), "2","2", null,
+                    null));
+
+    }
 
 
     @Override

@@ -20,6 +20,17 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
     public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    @Override
+    public Token createToken(UserLogin userLogin) {
+        return null;
+    }
+
+    @Override
+    public Boolean checkAccess(UserValidInfo userValidInfo) {
+        return null;
+    }
+
     //
 //    public Token createToken(UserLogin userLogin){
 //        Token token = new Token(userLogin.getPassword().concat(userLogin.getId()));
@@ -46,6 +57,11 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         return provideUser(id).getUserInfo();
     }
 
+    @Override
+    public void registration(UserLogin userLogin) {
+
+    }
+
     public Fridge provideUserFridge(String id){
         return provideUser(id).getFridge();
     }
@@ -53,6 +69,11 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
     public Fridge addProductInFridge(String id, Product product){
         addProductToFridge(provideUser(id), product);
         return provideUserFridge(id);
+    }
+
+    @Override
+    public List<Food> getFoodSearchList(String foodName) {
+        return null;
     }
 
 //    public List<Food> getFoodSearchList(String foodName){
