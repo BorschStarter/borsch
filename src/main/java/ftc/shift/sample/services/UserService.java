@@ -1,8 +1,6 @@
 package ftc.shift.sample.services;
 
-import ftc.shift.sample.models.Fridge;
-import ftc.shift.sample.models.Product;
-import ftc.shift.sample.models.User;
+import ftc.shift.sample.models.*;
 
 import ftc.shift.sample.repositories.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,26 +59,75 @@ public class UserService {
             throw new IllegalArgumentException();
         }
         else {
-            user.getFridge().add(product);
+            user.getFridge().getProducts().put(product.getId(),product);
         }
     }
 
     public void removeProductFromFridge(User user, Product product){
 
-        if (user == null || product == null){
+        if (user == null || product == null || !user.getFridge().getProducts().containsKey(product.getId())){
             throw new IllegalArgumentException();
         }
         else {
-            user.getFridge().remove(product);
+            user.getFridge().getProducts().remove(product.getId());
         }
     }
 
-    public  Product getProductFromFridge(User user, Product product){
-        if (user == null || product == null){
+    public Product getProductFromFridge(User user, Product product){
+        if (user == null || product == null || !user.getFridge().getProducts().containsKey(product.getId())){
             throw new IllegalArgumentException();
         }
         else {
-            return user.fridge.get(product.getId());
+            return user.getFridge().getProducts().get(product.getId());
         }
     }
+
+    public void addRecipeToRecipes(User user, Recipe recipe){
+
+        if (user == null || recipe == null){
+            throw new IllegalArgumentException();
+        }
+        else {
+            user.getRecipes().put(recipe.getId(),recipe);
+        }
+    }
+
+    public void removeRecipeFromRecipes(User user, Recipe recipe){
+
+        if (user == null || recipe == null || !user.getRecipes().containsKey(recipe.getId())){
+            throw new IllegalArgumentException();
+        }
+        else {
+            user.getRecipes().remove(recipe.getId());
+        }
+    }
+
+    public Recipe getRecipeFromRecipes(User user, Recipe recipe){
+        if (user == null || recipe == null || !user.getRecipes().containsKey(recipe.getId())){
+            throw new IllegalArgumentException();
+        }
+        else {
+            return user.getRecipes().get(recipe.getId());
+        }
+    }
+
+    public void changeRecipeState(User user, Recipe recipe, State state){
+        if (user == null || recipe == null || !user.getRecipeState().containsKey(recipe.getId())){
+            throw new IllegalArgumentException();
+        }
+        else {
+            user.getRecipeState().put(recipe.getId(),state);
+        }
+    }
+
+    public State getRecipeState(User user, Recipe recipe){
+        if (user == null || recipe == null || !user.getRecipeState().containsKey(recipe.getId())){
+            throw new IllegalArgumentException();
+        }
+        else {
+            return user.getRecipeState().get(recipe.getId());
+        }
+    }
+
+
 }
