@@ -13,7 +13,7 @@ public interface UserServiceInterface {
 
     UserInfo provideUserInfo(String id);
 
-    //4. UserInfo updateUserInfo(String id, UserInfo userInfo);
+    UserInfo updateUserInfo(String id, UserInfo userInfo);
 
     //5. void registration(UserLogin userLogin);
 }
