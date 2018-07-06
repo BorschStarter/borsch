@@ -7,13 +7,13 @@ import ftc.shift.sample.models.UserValidInfo;
 
 public interface UserServiceInterface {
 
-    UserInfo provideUserInfo(String id);
-
-    UserInfo updateUserInfo(String id, UserInfo userInfo);
-
     //Token createToken(UserLogin userLogin);
 
     //Boolean checkAccess(UserValidInfo userValidInfo);
+
+    UserInfo provideUserInfo(String id);
+
+    UserInfo updateUserInfo(String id, UserInfo userInfo);
 
     //5. void registration(UserLogin userLogin);
 }

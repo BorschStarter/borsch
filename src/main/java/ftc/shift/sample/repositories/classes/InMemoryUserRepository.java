@@ -1,18 +1,19 @@
 package ftc.shift.sample.repositories.classes;
 
-import ftc.shift.sample.models.*;
+import ftc.shift.sample.models.Food;
+import ftc.shift.sample.models.User;
 import ftc.shift.sample.repositories.interfaces.UserRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
-public class InMemoryUserRepository implements UserRepository{
+public class InMemoryUserRepository implements UserRepository {
 
     private TreeMap<String, User> userCache = new TreeMap<>();
 
-    public InMemoryUserRepository() {
-    }
+    public InMemoryUserRepository() {}
+
 
     @Override
     public User fetchUser(final String login) {
