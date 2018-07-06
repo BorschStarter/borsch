@@ -8,7 +8,9 @@ import java.util.Random;
 @NoArgsConstructor
 @Data
 public class Token {
+
     public String token;
+
     public Token (String characters) {
 
         Random random = new Random();
@@ -18,4 +20,9 @@ public class Token {
         }
         this.token = new String(text);
     }
+
+    public boolean equals(Token obj) {
+        return this.token.equals(obj.token);
+    }
+
 }

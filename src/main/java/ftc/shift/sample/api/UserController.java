@@ -19,22 +19,22 @@ public class UserController {
     @Autowired
     private UserServiceInterface service;
 
-//    @PostMapping(USERS_PATH+"/registration")
-//    public @ResponseBody
-//    BaseResponse createUser(@RequestBody UserLogin userLogin) {
-//        BaseResponse response = new BaseResponse();
-//        service.registration(userLogin);
-//        return response;
-//    }
+    @PostMapping(USERS_PATH+"/registration")
+    public @ResponseBody
+    BaseResponse createUser(@RequestBody UserLogin userLogin) {
+        BaseResponse response = new BaseResponse();
+        service.registration(userLogin);
+        return response;
+    }
 
-//    @PostMapping(USERS_PATH+"/{userName}")
-//    public @ResponseBody
-//    BaseResponse<Token> loginUser(@RequestBody UserLogin userLogin) {
-//        BaseResponse<Token> response = new BaseResponse();
-//        Token token = service.createToken(userLogin);
-//        response.setData(token);
-//        return response;
-//    }
+    @PostMapping(USERS_PATH+"/{userName}")
+    public @ResponseBody
+    BaseResponse<Token> loginUser(@RequestBody UserLogin userLogin) {
+        BaseResponse<Token> response = new BaseResponse();
+        Token token = service.createToken(userLogin);
+        response.setData(token);
+        return response;
+    }
 
     @GetMapping(USERS_PATH+"/{userName}")
     public @ResponseBody
