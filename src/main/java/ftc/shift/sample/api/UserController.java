@@ -2,8 +2,10 @@ package ftc.shift.sample.api;
 
 
 
+import ftc.shift.sample.models.Token;
 import ftc.shift.sample.models.UserInfo;
 import ftc.shift.sample.models.UserLogin;
+import ftc.shift.sample.services.Interfaces.UserServiceInterface;
 import ftc.shift.sample.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +17,7 @@ public class UserController {
     private static final String USERS_PATH = Resources.API_PREFIX + "users";
 
     @Autowired
-    private UserService service;
+    private UserServiceInterface service;
 
 //    @PostMapping(USERS_PATH+"/registration")
 //    public @ResponseBody
@@ -25,18 +27,14 @@ public class UserController {
 //        return response;
 //    }
 
-//    @PostMapping(USERS_PATH)
-//    public @ResponseBody
-//    BaseResponse<To> loginUser(@RequestBody UserLogin userLogin) {
-//        BaseResponse response = new BaseResponse();
-//        try {
-//            service.registration(userLogin);
-//        }catch (IllegalArgumentException e){
-//            response.setStatus("Fault");
-//            response.setMessage("Логин занят");
-//        }
-//        return response;
-//    }
+    @PostMapping(USERS_PATH+"/{userName}")
+    public @ResponseBody
+    BaseResponse<Token> loginUser(@RequestBody UserLogin userLogin) {
+        BaseResponse<Token> response = new BaseResponse();
+        Token token = service.createToken(userLogin);
+        response.setData(token);
+        return response;
+    }
 
     @GetMapping(USERS_PATH+"/{userName}")
     public @ResponseBody
