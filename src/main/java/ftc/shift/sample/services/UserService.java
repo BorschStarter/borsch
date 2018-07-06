@@ -59,14 +59,14 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
 //
 //    }
 
-    private User provideUser(String id) {
+    public User provideUser(String id) {
 
         if (userRepository.getAllUsers().containsKey(id))
             return userRepository.fetchUser(id);
         else throw new IllegalArgumentException();
     }
 
-    private User updateUser(User user) {
+    public User updateUser(User user) {
 
         if (user == null){
             throw new IllegalArgumentException();
@@ -77,7 +77,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    private void deleteUser(String id) {
+    public void deleteUser(String id) {
         if (userRepository.getAllUsers().containsKey(id)) {
             userRepository.deleteUser(id);
         }
@@ -86,7 +86,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    private User createUser(User user) {
+    public User createUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException();
         }
@@ -96,7 +96,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    private void addProductToFridge(User user, Product product){ //User->userID
+    public void addProductToFridge(User user, Product product){ //User->userID
 
         if (user == null || product == null){
             throw new IllegalArgumentException();
@@ -106,7 +106,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    private void removeProductFromFridge(User user, Product product){ //User->userID product->productID
+    public void removeProductFromFridge(User user, Product product){ //User->userID product->productID
 
         if (user == null || product == null || !user.getFridge().getProducts().containsKey(product.getId())){
             throw new IllegalArgumentException();
@@ -116,7 +116,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    private Product getProductFromFridge(User user, Product product){ //?
+    public Product getProductFromFridge(User user, Product product){ //?
         if (user == null || product == null || !user.getFridge().getProducts().containsKey(product.getId())){
             throw new IllegalArgumentException();
         }
@@ -125,7 +125,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    private void addRecipeToRecipes(User user, Recipe recipe){
+    public void addRecipeToRecipes(User user, Recipe recipe){
 
         if (user == null || recipe == null){
             throw new IllegalArgumentException();
@@ -135,7 +135,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    private void removeRecipeFromRecipes(User user, Recipe recipe){
+    public void removeRecipeFromRecipes(User user, Recipe recipe){
 
         if (user == null || recipe == null || !user.getRecipes().containsKey(recipe.getId())){
             throw new IllegalArgumentException();
@@ -145,7 +145,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    private Recipe getRecipeFromRecipes(User user, Recipe recipe){
+    public Recipe getRecipeFromRecipes(User user, Recipe recipe){
         if (user == null || recipe == null || !user.getRecipes().containsKey(recipe.getId())){
             throw new IllegalArgumentException();
         }
@@ -154,7 +154,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    private void changeRecipeState(User user, Recipe recipe, State state){
+    public void changeRecipeState(User user, Recipe recipe, State state){
         if (user == null || recipe == null || !user.getRecipeState().containsKey(recipe.getId())){
             throw new IllegalArgumentException();
         }
@@ -163,7 +163,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    private State getRecipeState(User user, Recipe recipe){
+    public State getRecipeState(User user, Recipe recipe){
         if (user == null || recipe == null || !user.getRecipeState().containsKey(recipe.getId())){
             throw new IllegalArgumentException();
         }
