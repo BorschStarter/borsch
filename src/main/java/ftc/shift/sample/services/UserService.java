@@ -3,16 +3,11 @@ package ftc.shift.sample.services;
 import ftc.shift.sample.models.*;
 
 import ftc.shift.sample.repositories.interfaces.UserRepository;
-import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
-import ftc.shift.sample.services.Interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
-public class UserService implements UserServiceInterface, FridgeServiceInterface {
+public class UserService  {
 
     private final UserRepository userRepository;
 
@@ -20,7 +15,8 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
     public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-//
+
+    //
 //    public Token createToken(UserLogin userLogin){
 //        Token token = new Token(userLogin.getPassword().concat(userLogin.getId()));
 //        provideUser(userLogin.getId()).getTokens().add(token);
@@ -37,27 +33,6 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
 //        return false;
 //    }
 //
-    public UserInfo provideUserInfo(String id){
-        return provideUser(id).getUserInfo();
-    }
-
-    public UserInfo updateUserInfo(String id, UserInfo userInfo){
-        provideUser(id).setUserInfo(userInfo);
-        return provideUser(id).getUserInfo();
-    }
-
-    public Fridge provideUserFridge(String id){
-        return provideUser(id).getFridge();
-    }
-
-    public Fridge addProductInFridge(String id, Product product){
-        addProductToFridge(provideUser(id), product);
-        return provideUserFridge(id);
-    }
-
-//    public List<Food> getFoodSearchList(String foodName){
-//
-//    }
 
     public User provideUser(String id) {
 
@@ -96,7 +71,7 @@ public class UserService implements UserServiceInterface, FridgeServiceInterface
         }
     }
 
-    public void addProductToFridge(User user, Product product){ //User->userID
+    private void addProductToFridge(User user, Product product){ //User->userID
 
         if (user == null || product == null){
             throw new IllegalArgumentException();

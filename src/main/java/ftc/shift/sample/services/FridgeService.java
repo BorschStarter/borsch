@@ -4,19 +4,21 @@ import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
 import ftc.shift.sample.models.User;
 import ftc.shift.sample.repositories.interfaces.UserRepository;
-import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-public class FridgeService {
+import java.util.List;
 
-//    private final UserRepository userRepository;
-//
-//    @Autowired
-//    public FridgeService(final UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
+@Service
+public class FridgeService{
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public FridgeService(final UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
 //    public Fridge provideUserFridge(String id){
 //        return provideUser(id).getFridge();
