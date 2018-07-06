@@ -3,7 +3,7 @@ package ftc.shift.sample.services;
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
 import ftc.shift.sample.models.User;
-import ftc.shift.sample.repositories.interfaces.FridgeRepository;
+
 import ftc.shift.sample.repositories.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,10 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final FridgeRepository fridgeRepository;
 
     @Autowired
-    public UserService(final UserRepository userRepository, FridgeRepository fridgeRepository) {
+    public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.fridgeRepository = fridgeRepository;
     }
 
     public User provideUser(String id) {
@@ -29,49 +27,60 @@ public class UserService {
 
     public User updateUser(User user) {
 
-        if (user == null)
+        if (user == null){
             throw new IllegalArgumentException();
-        userRepository.updateUser(user);
-        return user;
+        }
+        else {
+            userRepository.updateUser(user);
+            return user;
+        }
     }
 
     public void deleteUser(String id) {
-        if (userRepository.getAllUsers().containsKey(id))
+        if (userRepository.getAllUsers().containsKey(id)) {
             userRepository.deleteUser(id);
-        else throw new IllegalArgumentException();
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
     public User createUser(User user) {
-        if (user == null)
+        if (user == null) {
             throw new IllegalArgumentException();
-        else userRepository.createUser(user);
-        return user;
+        }
+        else {
+            userRepository.createUser(user);
+            return user;
+        }
     }
 
-    public Fridge provideUserFridge(String id){
+    public void addProductToFridge(User user, Product product){
 
-        if (fridgeRepository.getAllFridge().containsKey(id))
-            return fridgeRepository.fetchFridge(id);
-        else throw new IllegalArgumentException();
-    }
-
-    public Fridge updateFridge(Fridge fridge) {
-
-        if (fridge == null)
+        if (user == null || product == null){
             throw new IllegalArgumentException();
-        fridgeRepository.updateFridge(fridge);
-        return fridge;
+        }
+        else {
+            user.getFridge().add(product);
+        }
     }
 
-    public void addToFridge(Product product,User user){
-        Fridge fridge = user.getFridge();
-        fridge.add(product);
-        user.setFridge(fridge);
+    public void removeProductFromFridge(User user, Product product){
+
+        if (user == null || product == null){
+            throw new IllegalArgumentException();
+        }
+        else {
+            user.getFridge().remove(product);
+        }
     }
 
-    public void removeFromFridge(Product product, User user){
-        Fridge fridge = user.getFridge();
-        fridge.remove(product);
-        user.setFridge(fridge);
+    public  Product getProductFromFridge(User user, Product product){
+        if (user == null || product == null){
+            throw new IllegalArgumentException();
+        }
+        else {
+            return user.fridge.get(product.getId());
+        }
     }
 }

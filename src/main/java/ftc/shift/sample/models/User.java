@@ -9,9 +9,9 @@ import java.util.HashMap;
 @Data
 @AllArgsConstructor
 public class User implements Serializable{
-    private UserInfo userInfo;
-    private Fridge fridge;
-    private String login;
-    private String password;
-    private HashMap<String, Recipe> recipes;
+    public UserInfo userInfo;
+    public Fridge fridge;
+    public String login;
+    public String password;
+    public HashMap<String, Recipe> recipes;
 }
