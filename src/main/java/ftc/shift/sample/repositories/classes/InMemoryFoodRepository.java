@@ -9,7 +9,7 @@ import java.util.*;
 @Repository
 public class InMemoryFoodRepository implements FoodRepository {
 
-    private Map<String, Food> foodCache = new HashMap<>();
+    private Map<String, Food> foodCache = new TreeMap<>();
 
     public InMemoryFoodRepository() {}
 
