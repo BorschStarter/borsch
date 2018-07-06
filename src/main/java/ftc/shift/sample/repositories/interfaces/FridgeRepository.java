@@ -2,6 +2,8 @@ package ftc.shift.sample.repositories.interfaces;
 
 import ftc.shift.sample.models.Fridge;
 
+import java.util.TreeMap;
+
 public interface FridgeRepository {
 
     Fridge fetchFridge(String id);
@@ -11,4 +13,6 @@ public interface FridgeRepository {
     void deleteFridge(String id);
 
     Fridge createFridge(Fridge fridge);
+
+    TreeMap<String,Fridge> getAllFridge();
 }

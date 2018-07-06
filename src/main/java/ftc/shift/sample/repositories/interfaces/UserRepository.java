@@ -2,6 +2,8 @@ package ftc.shift.sample.repositories.interfaces;
 
 import ftc.shift.sample.models.User;
 
+import java.util.TreeMap;
+
 public interface UserRepository {
 
     User fetchUser(String id);
@@ -11,4 +13,6 @@ public interface UserRepository {
     void deleteUser(String id);
 
     User createUser(User user);
+
+    TreeMap<String,User> getAllUsers();
 }
