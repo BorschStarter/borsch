@@ -9,13 +9,16 @@ public interface UserService {
 
 
 
-    UserInfo provideUser(String userName, UserValidInfo userValidInfo);
+    //3. UserInfo provideUser(String id);
 
-    Token userLogin(UserLogin userLogin); //возвращает НОВЫЙ token user'a для сессии
+    //2. Boolean checkAccess(UserValidInfo userValidInfo);
 
-    UserInfo updateUserInfo(UserValidInfo userValidInfo , UserInfo userInfo);
+    //1. Token createToken(UserLogin userLogin);
 
-    void  registration(UserLogin userLogin);
+
+//    UserInfo updateUserInfo(UserValidInfo userValidInfo , UserInfo userInfo);
+//
+//    void  registration(UserLogin userLogin);
 
 
 }

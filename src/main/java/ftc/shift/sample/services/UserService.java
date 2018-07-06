@@ -17,9 +17,8 @@ public class UserService {
     }
 
     // Расчленить user'a в аргуметах метода (updateUser)
-    //Легальность запрса, сравнение Логин-токен
+    //Легальность запроса, сравнение Логин-токен
     //прверка пары Логин-пароль везде
-
 
     public User provideUser(String id) {
 
@@ -37,7 +36,7 @@ public class UserService {
             userRepository.updateUser(user);
             return user;
         }
-    } //User->UserInfo
+    }
 
     public void deleteUser(String id) {
         if (userRepository.getAllUsers().containsKey(id)) {
@@ -86,8 +85,6 @@ public class UserService {
             return user.getFridge().getProducts().get(product.getId());
         }
     }
-
-    //////////////////////////////////////////////
 
     public void addRecipeToRecipes(User user, Recipe recipe){
 

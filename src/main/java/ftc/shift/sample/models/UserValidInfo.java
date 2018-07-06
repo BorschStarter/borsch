@@ -8,4 +8,5 @@ import lombok.*;
 public class UserValidInfo {
     private String userName;
     private String token;
+
 }
