@@ -3,6 +3,7 @@ package ftc.shift.sample.services;
 import ftc.shift.sample.models.*;
 
 import ftc.shift.sample.repositories.interfaces.UserRepository;
+import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import ftc.shift.sample.services.Interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService implements UserServiceInterface {
+public class UserService implements UserServiceInterface, FridgeServiceInterface {
 
     private final UserRepository userRepository;
 
@@ -55,7 +56,7 @@ public class UserService implements UserServiceInterface {
     }
 
 //    public List<Food> getFoodSearchList(String foodName){
-//        
+//
 //    }
 
     private User provideUser(String id) {

@@ -8,9 +8,9 @@ import ftc.shift.sample.models.UserValidInfo;
 import java.util.List;
 
 public interface FridgeServiceInterface {
-    //1. Fridge provideUserFridge(String id);
+    Fridge provideUserFridge(String id);
 
-    //2. Fridge addProductInFridge(String id, Product product);
+    Fridge addProductInFridge(String id, Product product);
 
     //3. List<Food> getFoodSearchList(String foodName);
 
