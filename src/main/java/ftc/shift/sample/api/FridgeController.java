@@ -1,13 +1,12 @@
 package ftc.shift.sample.api;
 
 
+import ftc.shift.sample.models.Fridge;
+import ftc.shift.sample.models.Product;
 import ftc.shift.sample.models.UserLogin;
-import ftc.shift.sample.services.Interfaces.FridgeService;
+import ftc.shift.sample.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,26 +17,22 @@ public class FridgeController {
         private static final String FRIDGE_PATH = Resources.API_PREFIX + "fridge";
 
         @Autowired
-        private FridgeService service;
+        private UserService service;
 
-        @PostMapping(FRIDGE_PATH)
+        @GetMapping(FRIDGE_PATH)
         public @ResponseBody
-        BaseResponse createUser(@RequestBody UserLogin userLogin, final HttpServletRequest request) {
-            BaseResponse response = new BaseResponse();
+        BaseResponse<Fridge> createUser(final HttpServletRequest request) {
+            BaseResponse<Fridge> response = new BaseResponse();
+            response.setData(service.provideUserFridge(request.getHeader("Login")));
 
             return response;
         }
 
         @PostMapping(FRIDGE_PATH)
         public @ResponseBody
-        BaseResponse<To> loginUser(@RequestBody UserLogin userLogin) {
-            BaseResponse response = new BaseResponse();
-            try {
-                service.registration(userLogin);
-            }catch (IllegalArgumentException e){
-                response.setStatus("Fault");
-                response.setMessage("Логин занят");
-            }
+        BaseResponse<Fridge> loginUser(@RequestBody Product product,final HttpServletRequest request) {
+            BaseResponse<Fridge> response = new BaseResponse();
+            response.setData(service.addProductInFridge(request.getHeader("login"),product));
             return response;
 
     }

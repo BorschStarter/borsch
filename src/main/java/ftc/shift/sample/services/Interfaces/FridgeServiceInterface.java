@@ -1,3 +1,4 @@
+
 package ftc.shift.sample.services.Interfaces;
 
 import ftc.shift.sample.models.Food;
@@ -7,10 +8,10 @@ import ftc.shift.sample.models.UserValidInfo;
 
 import java.util.List;
 
-public interface FridgeService {
-    //1. Fridge provideUserFridge(String id);
+public interface FridgeServiceInterface {
+    Fridge provideUserFridge(String id);
 
-    //2. Fridge addProductInFridge(String id, Product product);
+    Fridge addProductInFridge(String id, Product product);
 
     //3. List<Food> getFoodSearchList(String foodName);
 
