@@ -8,6 +8,8 @@ import ftc.shift.sample.services.Interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 public class UserService implements UserServiceInterface {
 
@@ -96,4 +98,94 @@ public class UserService implements UserServiceInterface {
             return user;
         }
     }
+
+    public Recipe getRecipeFromRecipes(String login, String recipeId){
+        if(login == null || recipeId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            return userRepository.fetchUser(login).getRecipes().get(recipeId);
+        }
+    }
+
+    public void addRecipeToRecipes(String login, Recipe recipe){
+        if(login == null || recipe == null){
+            throw new IllegalArgumentException();
+        } else {
+            userRepository.fetchUser(login).getRecipes().put(recipe.getId(),recipe);
+        }
+    }
+
+    public void removeRecipeFromRecipes(String login, String recipeId){
+        if(login == null || recipeId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            userRepository.fetchUser(login).getRecipes().remove(recipeId);
+        }
+    }
+
+    public void changeRecipeState(String login, String recipeId, State state){
+        if(login == null || recipeId == null || !userRepository.fetchUser(login).getRecipeState().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            userRepository.fetchUser(login).getRecipeState().put(recipeId,state);
+
+        }
+    }
+
+    public State getRecipeState(String login, String recipeId){
+        if (login == null || recipeId == null || !userRepository.fetchUser(login).getRecipeState().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            return userRepository.fetchUser(login).getRecipeState().get(recipeId);
+        }
+    }
+
+    public Collection<Product> getProductsFromRecipe(String login, String recipeId){
+        if(login == null || recipeId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            return userRepository.fetchUser(login).getRecipes().get(recipeId).getProductList().values();
+        }
+    }
+
+    public void addProductToRecipe(String login, String recipeId, Product product){
+        if(login == null || recipeId == null || product == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            userRepository.fetchUser(login).getRecipes().get(recipeId).getProductList().put(product.getId(), product);
+        }
+    }
+
+    public void removeProductFromRecipe(String login, String recipeId, String productId){
+        if(login == null || recipeId == null || productId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            userRepository.fetchUser(login).getRecipes().get(recipeId).getProductList().remove(productId);
+        }
+    }
+
+    public Collection<User> getUsersFromRecipe(String login, String recipeId){
+        if(login == null || recipeId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            return userRepository.fetchUser(login).getRecipes().get(recipeId).getUserList().values();
+        }
+    }
+
+    public void addUserToRecipe(String login, String recipeId, String productId, User user){
+        if(login == null || recipeId == null || user == null || productId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            userRepository.fetchUser(login).getRecipes().get(recipeId).getUserList().put(productId, user);
+        }
+    }
+
+    public void removeUserFromRecipe(String login, String recipeId, String productId, User user){
+        if(login == null || recipeId == null || user == null || productId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
+            throw new IllegalArgumentException();
+        } else {
+            userRepository.fetchUser(login).getRecipes().get(recipeId).getUserList().remove(productId);
+        }
+    }
 }
+

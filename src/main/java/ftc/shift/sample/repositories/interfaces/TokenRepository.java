@@ -1,11 +1,8 @@
 package ftc.shift.sample.repositories.interfaces;
 
 import ftc.shift.sample.models.Token;
-import ftc.shift.sample.models.User;
-import ftc.shift.sample.models.UserValidInfo;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public interface TokenRepository {
 

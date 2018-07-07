@@ -48,6 +48,4 @@ public class FoodService {
     public TreeMap<String,Food> provideFoods() {
         return foodRepository.getAllFoods();
     }
-
-    //public Collection<Food> (string)  вернуть список фудв начинающихся на string
 }
