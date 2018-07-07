@@ -24,6 +24,7 @@ public class UserController {
     BaseResponse createUser(@RequestBody UserLogin userLogin) {
         BaseResponse response = new BaseResponse();
         service.registration(userLogin);
+        System.out.println("TEST");
         return response;
     }
 
