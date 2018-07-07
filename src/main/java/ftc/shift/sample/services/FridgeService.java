@@ -27,11 +27,21 @@ public class FridgeService implements FridgeServiceInterface {
 
     @Override
     public Fridge provideUserFridge(String id){
+
+        if (id == null){
+            throw new IllegalArgumentException("Вы ввели null");
+        }
+
         return userRepository.fetchUser(id).getFridge();
     }
 
     @Override
     public Fridge addProductInFridge(String id, Product product){
+
+        if (id == null || product == null){
+            throw new IllegalArgumentException("Вы ввели null");
+        }
+
         addProductToFridge(userRepository.fetchUser(id), product);
         return provideUserFridge(id);
     }
@@ -40,6 +50,10 @@ public class FridgeService implements FridgeServiceInterface {
     //получить список food, которая начинается на foodname
     //засунуть в FoodService
     public List<Food> getFoodSearchList(String foodName){
+
+        if (foodName == null){
+            throw new IllegalArgumentException("Вы ввели null");
+        }
 
         List<Food> list = new ArrayList<>();
         int length = foodName.length();
@@ -62,10 +76,10 @@ public class FridgeService implements FridgeServiceInterface {
 
 
 
-    public void addProductToFridge(User user, Product product){
+    private void addProductToFridge(User user, Product product){
 
         if (user == null || product == null){
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Вы ввели null");
         }
         else {
             user.getFridge().getProducts().put(product.getId(),product);
@@ -74,8 +88,11 @@ public class FridgeService implements FridgeServiceInterface {
 
     public void removeProductFromFridge(User user, Product product){
 
-        if (user == null || product == null || !user.getFridge().getProducts().containsKey(product.getId())){
-            throw new IllegalArgumentException();
+        if (user == null || product == null){
+            throw new IllegalArgumentException("Вы ввели null");
+        }
+        else if (!user.getFridge().getProducts().containsKey(product.getId())){
+            throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
         }
         else {
             user.getFridge().getProducts().remove(product.getId());
@@ -83,8 +100,11 @@ public class FridgeService implements FridgeServiceInterface {
     }
 
     public Product getProductFromFridge(User user, Product product){
-        if (user == null || product == null || !user.getFridge().getProducts().containsKey(product.getId())){
-            throw new IllegalArgumentException();
+        if (user == null || product == null){
+            throw new IllegalArgumentException("Вы ввели null");
+        }
+        else if (!user.getFridge().getProducts().containsKey(product.getId())){
+            throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
         }
         else {
             return user.getFridge().getProducts().get(product.getId());

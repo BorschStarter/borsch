@@ -19,28 +19,37 @@ public class FoodService {
 
     public Food provideFood(String id) {
 
+        if (id == null){
+            throw new IllegalArgumentException("Вы ввели null");
+        }
+
         if (foodRepository.getAllFoods().containsKey(id))
             return foodRepository.fetchFood(id);
-        else throw new IllegalArgumentException();
+        else throw new IllegalArgumentException("Такого food не существует");
     }
 
     public Food updateFood(Food food) {
 
         if (food == null)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Вы ввели null");
         else foodRepository.updateFood(food);
         return food;
     }
 
     public void deleteFood(String id) {
+
+        if (id == null){
+            throw new IllegalArgumentException("Вы ввели null");
+        }
+
         if (foodRepository.getAllFoods().containsKey(id))
             foodRepository.deleteFood(id);
-        else throw new IllegalArgumentException();
+        else throw new IllegalArgumentException("Такого food не существовало");
     }
 
     public Food createFood(Food food) {
         if (food == null)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Вы ввели null");
         else foodRepository.createFood(food);
         return food;
     }
