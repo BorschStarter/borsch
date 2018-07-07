@@ -62,14 +62,14 @@ public class UserService implements UserServiceInterface {
     //Добавь все желаемые методы в UserServiceInterface
 
 
-    public User provideUser(String id) {
+    private User provideUser(String id) {
 
         if (userRepository.getAllUsers().containsKey(id))
             return userRepository.fetchUser(id);
         else throw new IllegalArgumentException();
     }
 
-    public User updateUser(User user) {
+    private User updateUser(User user) {
 
         if (user == null){
             throw new IllegalArgumentException();
@@ -80,7 +80,7 @@ public class UserService implements UserServiceInterface {
         }
     }
 
-    public void deleteUser(String id) {
+    private void deleteUser(String id) {
         if (userRepository.getAllUsers().containsKey(id)) {
             userRepository.deleteUser(id);
         }
@@ -89,7 +89,7 @@ public class UserService implements UserServiceInterface {
         }
     }
 
-    public User createUser(User user) {
+    private User createUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException();
         }
@@ -140,6 +140,8 @@ public class UserService implements UserServiceInterface {
         }
     }
 
+    //login повара
+    //recipeId рецепт в его recipes
     public Collection<Product> getProductsFromRecipe(String login, String recipeId){
         if(login == null || recipeId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
             throw new IllegalArgumentException();
@@ -148,6 +150,7 @@ public class UserService implements UserServiceInterface {
         }
     }
 
+    //добавляет только повар с логином "login"
     public void addProductToRecipe(String login, String recipeId, Product product){
         if(login == null || recipeId == null || product == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
             throw new IllegalArgumentException();
@@ -156,6 +159,7 @@ public class UserService implements UserServiceInterface {
         }
     }
 
+    //удаляет только повар с логином "login"
     public void removeProductFromRecipe(String login, String recipeId, String productId){
         if(login == null || recipeId == null || productId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
             throw new IllegalArgumentException();
@@ -164,6 +168,7 @@ public class UserService implements UserServiceInterface {
         }
     }
 
+    //получить финальный список product<=>user
     public Collection<User> getUsersFromRecipe(String login, String recipeId){
         if(login == null || recipeId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
             throw new IllegalArgumentException();
@@ -172,6 +177,7 @@ public class UserService implements UserServiceInterface {
         }
     }
 
+    //добавить user'a в финальный список
     public void addUserToRecipe(String login, String recipeId, String productId, User user){
         if(login == null || recipeId == null || user == null || productId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
             throw new IllegalArgumentException();
@@ -180,6 +186,7 @@ public class UserService implements UserServiceInterface {
         }
     }
 
+    //удалить user'a из финального списока
     public void removeUserFromRecipe(String login, String recipeId, String productId, User user){
         if(login == null || recipeId == null || user == null || productId == null || !userRepository.fetchUser(login).getRecipes().containsKey(recipeId)){
             throw new IllegalArgumentException();
@@ -188,4 +195,3 @@ public class UserService implements UserServiceInterface {
         }
     }
 }
-
