@@ -39,10 +39,8 @@ public class UserService implements UserServiceInterface {
         if (userLogin == null){
             throw new IllegalArgumentException("Вы передали null");
         }
-        else {
-            if (provideUser(userLogin.userName).getPassword().equals(userLogin.getPassword())){
-                throw new IllegalArgumentException("Вы ввели неправильный пароль");
-            }
+        else if (provideUser(userLogin.userName).getPassword().equals(userLogin.getPassword())){
+            throw new IllegalArgumentException("Вы ввели неправильный пароль");
         }
 
         Token token = new Token();
