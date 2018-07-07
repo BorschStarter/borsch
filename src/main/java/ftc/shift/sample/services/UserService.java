@@ -51,6 +51,10 @@ public class UserService implements UserServiceInterface {
     @Override
     public Boolean checkAccess(UserValidInfo userValidInfo){
 
+        if (userValidInfo == null){
+            throw new IllegalArgumentException("Вы передали null");
+        }
+
         for (Token token : tokenRepository.getTokens(userValidInfo.getId())) {
             if (token.getToken().equals(userValidInfo.getToken()))
                 return true;
@@ -81,8 +85,13 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public void registration(UserLogin userLogin) {
+
+        if (userLogin == null){
+            throw new IllegalArgumentException("Вы передали null");
+        }
+
         if (!userRepository.getAllUsers().containsKey(userLogin.getUserName())){
-            throw new IllegalArgumentException("This login already exists");
+            throw new IllegalArgumentException("Этот логин уже существует");
         }
         else {
             User user = new User();
