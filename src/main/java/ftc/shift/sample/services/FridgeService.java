@@ -37,6 +37,8 @@ public class FridgeService implements FridgeServiceInterface {
     }
 
     @Override
+    //получить список food, которая начинается на foodname
+    //засунуть в FoodService
     public List<Food> getFoodSearchList(String foodName){
 
         List<Food> list = new ArrayList<>();
