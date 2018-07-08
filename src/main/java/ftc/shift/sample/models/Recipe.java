@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @NoArgsConstructor
 @Data
@@ -14,6 +15,6 @@ public final class Recipe implements Serializable{
     private String name;
     private String idPovar;
     private ArrayList<Product> productList;
-    private ArrayList<User> finalUserList;
-    private ArrayList<ArrayList<User>> listUsersForEachProduct;
+    private HashMap<String, String> finalUserList;
+    private HashMap<String,HashMap<String,User>> listUsersForEachProduct;
 }

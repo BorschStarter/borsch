@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-public class UserService implements UserServiceInterface {
+public final class UserService implements UserServiceInterface {
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;

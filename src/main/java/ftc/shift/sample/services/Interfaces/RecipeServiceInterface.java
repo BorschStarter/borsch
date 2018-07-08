@@ -7,40 +7,57 @@ import ftc.shift.sample.models.User;
 import lombok.NonNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface RecipeServiceInterface {
 
-    ArrayList<Recipe> getAllMyRecipes(@NonNull String idUser);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    HashMap<String,Recipe> getAllMyRecipes(@NonNull String idUser);
 
-    ArrayList<Recipe> getAllNotMyRecipes(@NonNull String idUser);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    HashMap<String,Recipe> getAllNotMyRecipes(@NonNull String idUser);
 
-    ArrayList<Recipe> addRecipeToMyRecipes(@NonNull Recipe recipe);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void addRecipeToMyRecipes(@NonNull Recipe recipe);
 
-    ArrayList<Recipe> addRecipeToNotMyRecipes(@NonNull Recipe recipe);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void addRecipeToNotMyRecipes(@NonNull Recipe recipe);
 
-    ArrayList<Recipe> removeRecipeFromMyRecipes(@NonNull String recipeId);
+    //IllegalArgumentException("Такого рецепта не существовало")
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void removeRecipeFromMyRecipes(@NonNull Recipe recipe);
 
-    ArrayList<Recipe> removeRecipeFromNotMyRecipes(@NonNull String recipeId);
+    //IllegalArgumentException("Такого рецепта не существовало")
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void removeRecipeFromNotMyRecipes(@NonNull Recipe recipe);
 
-    Recipe changeRecipeState(@NonNull String idUser,@NonNull String recipeId,@NonNull State newState);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void changeRecipeState(@NonNull String idUser,@NonNull Recipe recipe,@NonNull State newState);
 
-    ArrayList<Product> getProductsFromRecipe(@NonNull String recipeId);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    ArrayList<Product> getProductsFromRecipe(@NonNull Recipe recipe);
 
-    Recipe addProductToMyRecipe(@NonNull String recipeId,@NonNull Product product);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void addProductToMyRecipe(@NonNull Recipe recipe,@NonNull Product product);
 
-    Recipe removeProductFromMyRecipe(@NonNull String recipeId,@NonNull String productId);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void removeProductFromMyRecipe(@NonNull Recipe recipe,@NonNull Product product);
 
-    ArrayList<User> getFinalUsersFromRecipe(@NonNull String recipeId);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    HashMap<String,String> getFinalUsersFromRecipe(@NonNull Recipe recipe);
 
-    ArrayList<User> addUserToFinalListRecipe(@NonNull String recipeId,@NonNull String productId,@NonNull User user);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void addUserToFinalListRecipe(@NonNull Recipe recipe,@NonNull Product product,@NonNull String idUser);
 
-    ArrayList<User> removeUserFromFinalListRecipe(@NonNull String recipeId,@NonNull String productId,@NonNull User user);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void removeUserFromFinalListRecipe(@NonNull Recipe recipe,@NonNull Product product,@NonNull String idUser);
 
-    ArrayList<User> getAllUsersForProductIdForRecipeId(@NonNull String recipeId, @NonNull String productId);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    HashMap<String,User> getAllUsersForProductIdForRecipeId(@NonNull Recipe recipe, @NonNull Product product);
 
-    State getRecipeState(@NonNull String userId,@NonNull String recipeId);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void deleteUserFromListForProductIdForRecipeId(@NonNull Recipe recipe,@NonNull Product product,@NonNull String idUser);
 
-    Recipe getRecipeFromMyRecipes(@NonNull String recipeId);
-
-    Recipe getRecipeFromNotMyRecipes(@NonNull String recipeId);
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    State getRecipeState(@NonNull String userId,@NonNull Recipe recipe);
 }
