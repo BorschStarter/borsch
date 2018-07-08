@@ -1,22 +1,19 @@
-
 package ftc.shift.sample.services.Interfaces;
 
-import ftc.shift.sample.models.Food;
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
-
-
-import java.util.List;
+import ftc.shift.sample.models.User;
+import lombok.NonNull;
 
 public interface FridgeServiceInterface {
 
-    //IllegalArgumentException("Вы ввели null");
-    Fridge provideUserFridge(String id);
+    Fridge provideFridge(@NonNull String idUser);
 
-    //IllegalArgumentException("Вы ввели null");
-    Fridge addProductInFridge(String id, Product product);
+    Fridge addProductInFridge(@NonNull String idUser,@NonNull  Product product);
 
-    //IllegalArgumentException("Вы ввели null");
-    //IllegalArgumentException("Продуктов с таким именем нет в базе");
-    List<Food> getFoodSearchList(String foodName);
+    //IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя")
+    Fridge removeProductFromFridge(@NonNull String idUser,@NonNull  String idProduct);
+
+    //IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя")
+    Product getProductFromFridge(@NonNull String idUser,@NonNull Product product);
 }

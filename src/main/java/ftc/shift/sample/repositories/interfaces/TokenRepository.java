@@ -1,11 +1,13 @@
 package ftc.shift.sample.repositories.interfaces;
 
-import ftc.shift.sample.models.Token;
+import ftc.shift.sample.models.UserValidInfo;
+import lombok.NonNull;
 
 import java.util.ArrayList;
 
 public interface TokenRepository {
 
-    Token addToken(final Token token, final String id);
-    ArrayList<Token> getTokens(final String id);
+    void addToken(@NonNull UserValidInfo userValidInfo);
+    ArrayList<String> getAllTokensUser(@NonNull String idUser);
+    void deleteToken(@NonNull UserValidInfo userValidInfo);
 }

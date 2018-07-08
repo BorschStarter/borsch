@@ -1,18 +1,19 @@
 package ftc.shift.sample.repositories.interfaces;
 
 import ftc.shift.sample.models.User;
+import lombok.NonNull;
 
 import java.util.TreeMap;
 
 public interface UserRepository {
 
-    User fetchUser(String id);
+    User fetchUser(@NonNull String idUser);
 
-    User updateUser(User user);
+    User updateUser(@NonNull User user);
 
-    void deleteUser(String id);
+    void deleteUser(@NonNull String idUser);
 
-    User createUser(User user);
+    User createUser(@NonNull User user);
 
     TreeMap<String,User> getAllUsers();
 }

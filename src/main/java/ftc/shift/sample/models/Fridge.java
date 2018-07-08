@@ -6,6 +6,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 @Data
-public class Fridge implements Serializable{
+public final class Fridge implements Serializable{
     private HashMap<String, Product> products;
 }

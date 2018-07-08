@@ -7,7 +7,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class UserInfo implements Serializable{
+@Builder
+public final class UserInfo implements Serializable{
     private String id;
     private String firstName;
     private String secondName;

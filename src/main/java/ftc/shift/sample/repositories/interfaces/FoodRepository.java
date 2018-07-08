@@ -1,18 +1,19 @@
 package ftc.shift.sample.repositories.interfaces;
 
 import ftc.shift.sample.models.Food;
+import lombok.NonNull;
 
 import java.util.TreeMap;
 
 public interface FoodRepository {
 
-    Food fetchFood(String id);
+    Food fetchFood(@NonNull String idFood);
 
-    Food updateFood(Food book);
+    Food updateFood(@NonNull Food food);
 
-    void deleteFood(String id);
+    void deleteFood(@NonNull String idFood);
 
-    Food createFood(Food book);
+    Food createFood(@NonNull Food food);
 
     TreeMap<String,Food> getAllFoods();
 }

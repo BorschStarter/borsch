@@ -2,11 +2,10 @@ package ftc.shift.sample.api;
 
 
 
-import ftc.shift.sample.models.Token;
 import ftc.shift.sample.models.UserInfo;
 import ftc.shift.sample.models.UserLogin;
+import ftc.shift.sample.models.UserValidInfo;
 import ftc.shift.sample.services.Interfaces.UserServiceInterface;
-import ftc.shift.sample.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
@@ -29,9 +28,9 @@ public class UserController {
 
     @PostMapping(USERS_PATH+"/{userName}")
     public @ResponseBody
-    BaseResponse<Token> loginUser(@RequestBody UserLogin userLogin) {
-        BaseResponse<Token> response = new BaseResponse();
-        Token token = service.createToken(userLogin);
+    BaseResponse<UserValidInfo> loginUser(@RequestBody UserLogin userLogin) {
+        BaseResponse<UserValidInfo> response = new BaseResponse();
+        UserValidInfo token = service.createToken(userLogin);
         response.setData(token);
         return response;
     }
@@ -50,7 +49,7 @@ public class UserController {
     BaseResponse<UserInfo> updateBook(final HttpServletRequest request, @RequestBody UserInfo info) {
         BaseResponse<UserInfo> response = new BaseResponse<>();
         String userName = request.getHeader("Login");
-        UserInfo result = service.updateUserInfo(userName,info);
+        UserInfo result = service.updateUserInfo(info);
         response.setData(result);
         return response;
     }

@@ -7,7 +7,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class Food implements Serializable {
+@Builder
+public final class Food implements Serializable {
 
     private String id;
     private String name;

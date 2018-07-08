@@ -1,18 +1,19 @@
 package ftc.shift.sample.repositories.interfaces;
 
 import ftc.shift.sample.models.Recipe;
+import lombok.NonNull;
 
 import java.util.Collection;
 
 public interface RecipeRepository {
 
-    Recipe fetchRecipe(String id);
+    Recipe fetchRecipe(@NonNull String idRecipe);
 
-    Recipe updateRecipe(Recipe recipe);
+    Recipe updateRecipe(@NonNull Recipe recipe);
 
-    void deleteRecipe(String id);
+    void deleteRecipe(@NonNull String idRecipe);
 
-    Recipe createRecipe(Recipe recipe);
+    Recipe createRecipe(@NonNull Recipe recipe);
 
     Collection<Recipe> getAllRecipe();
 }

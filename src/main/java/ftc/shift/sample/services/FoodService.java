@@ -2,13 +2,16 @@ package ftc.shift.sample.services;
 
 import ftc.shift.sample.models.Food;
 import ftc.shift.sample.repositories.interfaces.FoodRepository;
+import ftc.shift.sample.services.Interfaces.FoodServiceInterface;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 @Service
-public class FoodService {
+public class FoodService implements FoodServiceInterface {
 
     private final FoodRepository foodRepository;
 
@@ -17,43 +20,53 @@ public class FoodService {
         this.foodRepository = foodRepository;
     }
 
-    public Food provideFood(String id) {
+    @Override
+    public ArrayList<Food> getListFoodStartWith(@NonNull String startNameOfFood){
 
-        if (id == null){
-            throw new IllegalArgumentException("Вы ввели null");
+        ArrayList<Food> list = new ArrayList<>();
+        int length = startNameOfFood.length();
+
+        for (String idFood : foodRepository.getAllFoods().keySet()) {
+            if (idFood.length() >= length && idFood.startsWith(startNameOfFood)){
+                list.add(foodRepository.fetchFood(idFood));
+            }
         }
+        if (list.isEmpty())
+            throw new IllegalArgumentException("Продуктов с таким именем нет в базе");
+        else return list;
+    }
 
-        if (foodRepository.getAllFoods().containsKey(id))
-            return foodRepository.fetchFood(id);
+    @Override
+    public Food provideFood(@NonNull String idFood) {
+
+        if (foodRepository.getAllFoods().containsKey(idFood))
+            return foodRepository.fetchFood(idFood);
         else throw new IllegalArgumentException("Такого food не существует");
     }
 
-    public Food updateFood(Food food) {
+    @Override
+    public Food updateFood(@NonNull Food food) {
 
-        if (food == null)
-            throw new IllegalArgumentException("Вы ввели null");
-        else foodRepository.updateFood(food);
+        foodRepository.updateFood(food);
         return food;
     }
 
-    public void deleteFood(String id) {
+    @Override
+    public void deleteFood(@NonNull String idFood) {
 
-        if (id == null){
-            throw new IllegalArgumentException("Вы ввели null");
-        }
-
-        if (foodRepository.getAllFoods().containsKey(id))
-            foodRepository.deleteFood(id);
+        if (foodRepository.getAllFoods().containsKey(idFood))
+            foodRepository.deleteFood(idFood);
         else throw new IllegalArgumentException("Такого food не существовало");
     }
 
-    public Food createFood(Food food) {
-        if (food == null)
-            throw new IllegalArgumentException("Вы ввели null");
-        else foodRepository.createFood(food);
+    @Override
+    public Food createFood(@NonNull Food food) {
+
+        foodRepository.createFood(food);
         return food;
     }
 
+    @Override
     public TreeMap<String,Food> provideFoods() {
         return foodRepository.getAllFoods();
     }

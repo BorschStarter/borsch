@@ -16,7 +16,7 @@ import java.util.List;
 public class FridgeController {
 
 
-        private static final String FRIDGE_PATH = Resources.API_PREFIX + "fridge";
+    private static final String FRIDGE_PATH = Resources.API_PREFIX + "fridge";
     private static final String FOOD_PATH = Resources.API_PREFIX + "food";
 
         @Autowired
@@ -26,7 +26,7 @@ public class FridgeController {
         public @ResponseBody
         BaseResponse<Fridge> provideFridgeInfo(final HttpServletRequest request) {
             BaseResponse<Fridge> response = new BaseResponse();
-            Fridge fridge =service.provideUserFridge(request.getHeader("Login"));
+            Fridge fridge =service.provideFridge(request.getHeader("Login"));
             response.setData(fridge);
 
             return response;
@@ -45,7 +45,7 @@ public class FridgeController {
         public @ResponseBody
         BaseResponse<List<Food>> provideFoodSearchList(@PathVariable String nameFood,final HttpServletRequest request) {
         BaseResponse<List<Food>> response = new BaseResponse();
-        List<Food> food = service.getFoodSearchList(nameFood);
+        List<Food> food = service.getFoodSearchList(nameFood); // этот метод лежит в FoodServiceInterface
         response.setData(food);
         return response;
         }

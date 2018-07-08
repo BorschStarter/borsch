@@ -9,11 +9,13 @@ import java.util.HashMap;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
+@Builder
 public class User implements Serializable{
     private UserInfo userInfo;
     private Fridge fridge;
     private String login;
     private String password;
-    private HashMap<String, Recipe> recipes; // я участвствую как повар
+    private ArrayList<Recipe> myRecipes; // я участвствую как повар
     private HashMap<String, State> recipeState; // состояния рецептов, где я учавствую, но не повар
+    private ArrayList<Recipe> notMyRecipes; // я участвствую как не повар
 }

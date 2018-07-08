@@ -1,28 +1,32 @@
 package ftc.shift.sample.services.Interfaces;
 
-import ftc.shift.sample.models.Token;
 import ftc.shift.sample.models.UserInfo;
 import ftc.shift.sample.models.UserLogin;
 import ftc.shift.sample.models.UserValidInfo;
+import lombok.NonNull;
 
 public interface UserServiceInterface {
 
-    //IllegalArgumentException("Вы передали null")
     //IllegalArgumentException("Вы ввели неправильный пароль")
     //IllegalArgumentException("Пользователя с таким логином не существует")
-    Token createToken(UserLogin userLogin);
+    UserValidInfo createToken(@NonNull UserLogin userLogin);
 
-    //IllegalArgumentException("Вы передали null")
-    Boolean checkAccess(UserValidInfo userValidInfo);
-
-    //IllegalArgumentException("Вы передали null")
-    UserInfo provideUserInfo(String id);
-
-    //IllegalArgumentException("Вы передали null")
     //IllegalArgumentException("Пользователя с таким логином не существует")
-    UserInfo updateUserInfo(String id, UserInfo userInfo);
+    void deleteToken(@NonNull UserValidInfo userValidInfo);
 
-    //IllegalArgumentException("Вы передали null")
+    Boolean checkAccess(@NonNull UserValidInfo userValidInfo);
+
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    UserInfo provideUserInfo(@NonNull String idUser);
+
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    UserInfo updateUserInfo(@NonNull UserInfo userInfo);
+
     //IllegalArgumentException("Этот логин уже существует")
-    void registration(UserLogin userLogin);
+    void registration(@NonNull UserLogin userLogin);
+
+    void deleteUser(@NonNull String idUser);
+
+    //IllegalArgumentException("Пользователя с таким логином не существует")
+    void updatePassword(@NonNull String idUser, @NonNull String newPassword);
 }

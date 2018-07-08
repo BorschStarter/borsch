@@ -2,6 +2,7 @@ package ftc.shift.sample.repositories.classes;
 
 import ftc.shift.sample.models.User;
 import ftc.shift.sample.repositories.interfaces.UserRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -11,27 +12,24 @@ public class InMemoryUserRepository implements UserRepository {
 
     private TreeMap<String, User> userCache = new TreeMap<>();
 
-    public InMemoryUserRepository() {}
-
     @Override
-    public User fetchUser(final String login) {
-        return userCache.get(login);
+    public User fetchUser(@NonNull final String idUser) {
+        return userCache.get(idUser);
     }
 
     @Override
-    public User updateUser(final User user) {
+    public User updateUser(@NonNull final User user) {
         userCache.put(user.getLogin(), user);
         return user;
     }
 
     @Override
-    public void deleteUser(final String login) {
-        userCache.remove(login);
+    public void deleteUser(@NonNull final String iduser) {
+        userCache.remove(iduser);
     }
 
     @Override
-    public User createUser(final User user) {
-        user.setLogin(user.getLogin());
+    public User createUser(@NonNull final User user) {
         userCache.put(user.getLogin(), user);
         return user;
     }

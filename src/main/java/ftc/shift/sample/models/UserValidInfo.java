@@ -5,7 +5,8 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class UserValidInfo {
+@Builder
+public final class UserValidInfo {
     private String id;
     private String token;
 }

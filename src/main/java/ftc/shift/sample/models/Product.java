@@ -4,7 +4,8 @@ import lombok.*;
 
 @Data
 @AllArgsConstructor
-public class Product {
+@Builder
+public final class Product {
     private String id;
     private String foodId;
     private Double allWeight;
