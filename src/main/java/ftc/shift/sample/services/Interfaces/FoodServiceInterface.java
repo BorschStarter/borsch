@@ -9,7 +9,7 @@ import java.util.TreeMap;
 public interface FoodServiceInterface {
 
     //IllegalArgumentException("Продуктов с таким именем нет в базе");
-    ArrayList<Food> getListFoodStartWith(@NonNull String startNameOfFood);
+    ArrayList<String> getListFoodStartWith(@NonNull String startNameOfFood);
 
     //IllegalArgumentException("Такого food не существует")
     Food provideFood(@NonNull String idFood);

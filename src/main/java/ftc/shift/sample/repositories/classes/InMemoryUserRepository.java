@@ -26,7 +26,7 @@ public class InMemoryUserRepository implements UserRepository {
         user.setLogin("durov");
         user.setPassword("pavel");
         userInfo.setId("durov");
-        userInfo.setCity("Питер");
+        userInfo.setCity("Saint-Petersburg");
         userInfo.setCookRate(3.0);
         userInfo.setDormitory("134");
         userInfo.setEatRate(3.0);
