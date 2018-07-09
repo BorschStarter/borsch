@@ -158,6 +158,12 @@ public class RecipeService implements RecipeServiceInterface {
                 .get(recipe.getName())
                 .getProductList()
                 .add(product);
+
+        provideUser(recipe.getIdPovar())
+                .getMyRecipes()
+                .get(recipe.getIdRecipe())
+                .getListUsersForEachProduct()
+                .put(product.getId(),new HashMap<>());
         updateUser(provideUser(recipe.getIdPovar()));
     }
 
