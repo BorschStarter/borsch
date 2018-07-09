@@ -185,7 +185,7 @@ public class RecipeService implements RecipeServiceInterface {
 
         provideUser(recipe.getIdPovar())
                 .getMyRecipes()
-                .get(recipe.getName())
+                .get(recipe.getIdRecipe())
                 .getFinalUserList()
                 .put(product.getId(),idUser);
 
