@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -26,31 +29,26 @@ public class FridgeController {
 
         @GetMapping(FRIDGE_PATH)
         public @ResponseBody
-        BaseResponse<Fridge> provideFridgeInfo(final HttpServletRequest request) {
-            BaseResponse<Fridge> response = new BaseResponse();
+        BaseResponse<Collection<Product>> provideFridgeInfo(final HttpServletRequest request) {
+            BaseResponse<Collection<Product>> response = new BaseResponse();
             Fridge fridge =service.provideFridge(request.getHeader("Login"));
-            response.setData(fridge);
+            Collection<Product> list = fridge.getProducts().values();
+            response.setData(list);
 
             return response;
         }
 
         @PostMapping(FRIDGE_PATH)
         public @ResponseBody
-        BaseResponse<Fridge> addProductToFriedge(@RequestBody Product product,final HttpServletRequest request) {
-            BaseResponse<Fridge> response = new BaseResponse();
+        BaseResponse<Collection<Product>> addProductToFriedge(@RequestBody Product product,final HttpServletRequest request) {
+            BaseResponse<Collection<Product>> response = new BaseResponse();
            // System.out.println(product.toString());
             String login = request.getHeader("Login");
             Fridge fridge = service.addProductInFridge(request.getHeader("Login"),product);
-            response.setData(fridge);
+            Collection<Product> list = fridge.getProducts().values();
+            response.setData(list);
             return response;
 
     }
-        @GetMapping(FOOD_PATH+"/{}")
-        public @ResponseBody
-        BaseResponse<List<Food>> provideFoodSearchList(@PathVariable String nameFood,final HttpServletRequest request) {
-        BaseResponse<List<Food>> response = new BaseResponse();
-        List<Food> food = foodService.getListFoodStartWith(nameFood); // этот метод лежит в FoodServiceInterface
-        response.setData(food);
-        return response;
-        }
+
 }

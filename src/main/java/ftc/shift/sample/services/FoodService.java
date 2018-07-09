@@ -36,6 +36,7 @@ public class FoodService implements FoodServiceInterface {
         if (list.isEmpty())
             throw new IllegalArgumentException("Продуктов с таким именем нет в базе");
         else return list;
+
     }
 
     @Override

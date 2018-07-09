@@ -13,21 +13,21 @@ public class InMemoryFoodRepository implements FoodRepository {
     private TreeMap<String, Food> foodCache = new TreeMap<>();
 
     public InMemoryFoodRepository(){
-        foodCache.put("1", new Food("1","apple","1"));
-        foodCache.put("2", new Food("2","orange","1"));
-        foodCache.put("3", new Food("3","potato","1"));
-        foodCache.put("4", new Food("4","tomato","1"));
-        foodCache.put("5", new Food("5","meat","1"));
-        foodCache.put("6", new Food("6","chicken","1"));
-        foodCache.put("7", new Food("7","pig","1"));
-        foodCache.put("8", new Food("8","flour","1"));
-        foodCache.put("9", new Food("9","salmon","1"));
-        foodCache.put("10", new Food("10","oil","1"));
-        foodCache.put("11", new Food("11","milk","1"));
-        foodCache.put("12", new Food("12","water","1"));
-        foodCache.put("13", new Food("13","sugar","1"));
-        foodCache.put("14", new Food("14","salt","1"));
-        foodCache.put("15", new Food("15","egg","1"));
+        foodCache.put("apple", new Food("1","apple","1"));
+        foodCache.put("orange", new Food("2","orange","1"));
+        foodCache.put("potato", new Food("3","potato","1"));
+        foodCache.put("tomato", new Food("4","tomato","1"));
+        foodCache.put("meat", new Food("5","meat","1"));
+        foodCache.put("chicken", new Food("6","chicken","1"));
+        foodCache.put("pig", new Food("7","pig","1"));
+        foodCache.put("flour", new Food("8","flour","1"));
+        foodCache.put("salmon", new Food("9","salmon","1"));
+        foodCache.put("oil", new Food("10","oil","1"));
+        foodCache.put("milk", new Food("11","milk","1"));
+        foodCache.put("water", new Food("12","water","1"));
+        foodCache.put("sugar", new Food("13","sugar","1"));
+        foodCache.put("salt", new Food("14","salt","1"));
+        foodCache.put("egg", new Food("15","egg","1"));
         foodCache.put("16", new Food("16","banana","1"));
         foodCache.put("17", new Food("17","bread","1"));
         foodCache.put("18", new Food("18","cherry","1"));
