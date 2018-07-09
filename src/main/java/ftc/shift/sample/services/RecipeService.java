@@ -74,10 +74,11 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public void removeRecipeFromMyRecipes(@NonNull Recipe recipe) {
+    public void removeRecipeFromMyRecipes(@NonNull String idUser, @NonNull String idRecipe) {
 
-        if (provideUser(recipe.getIdPovar()).getMyRecipes().remove(recipe.getName(),recipe)) {
-            updateUser(userRepository.fetchUser(recipe.getIdPovar()));
+        if (provideUser(idUser).getMyRecipes().containsKey(idRecipe)) {
+            provideUser(idUser).getMyRecipes().remove(idRecipe);
+            updateUser(userRepository.fetchUser(idUser));
         }
         else {
             throw new IllegalArgumentException("Такого рецепта не существовало");
@@ -85,10 +86,11 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public void removeRecipeFromNotMyRecipes(@NonNull Recipe recipe) {
+    public void removeRecipeFromNotMyRecipes(@NonNull String idUser, @NonNull String idRecipe) {
 
-        if (provideUser(recipe.getIdPovar()).getNotMyRecipes().remove(recipe.getName(),recipe)) {
-            updateUser(userRepository.fetchUser(recipe.getIdPovar()));
+        if (provideUser(idUser).getNotMyRecipes().containsKey(idRecipe)) {
+            provideUser(idUser).getNotMyRecipes().remove(idRecipe);
+            updateUser(userRepository.fetchUser(idUser));
         }
         else {
             throw new IllegalArgumentException("Такого рецепта не существовало");

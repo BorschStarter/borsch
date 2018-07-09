@@ -25,11 +25,11 @@ public interface RecipeServiceInterface {
 
     //IllegalArgumentException("Такого рецепта не существовало")
     //IllegalArgumentException("Пользователя с таким логином не существует")
-    void removeRecipeFromMyRecipes(@NonNull Recipe recipe);
+    void removeRecipeFromMyRecipes(@NonNull String idUser, @NonNull String idRecipe);
 
     //IllegalArgumentException("Такого рецепта не существовало")
     //IllegalArgumentException("Пользователя с таким логином не существует")
-    void removeRecipeFromNotMyRecipes(@NonNull Recipe recipe);
+    void removeRecipeFromNotMyRecipes(@NonNull String idUser, @NonNull String idRecipe);
 
     //IllegalArgumentException("Пользователя с таким логином не существует")
     void changeRecipeState(@NonNull String idUser,@NonNull Recipe recipe,@NonNull State newState);
