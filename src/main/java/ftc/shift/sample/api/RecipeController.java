@@ -47,7 +47,7 @@ public class RecipeController {
         // System.out.println(product.toString());
         String login = request.getHeader("Login");
         service.addRecipeToMyRecipes(recipe);
-        Collection<Recipe> list = service.getAllMyRecipes(request.getHeader("Login")).values();
+        Collection<Recipe> list = service.getAllMyRecipes(login).values();
         response.setData(list);
         return response;
 
@@ -71,14 +71,56 @@ public class RecipeController {
         // System.out.println(product.toString());
         String login = request.getHeader("Login");
         Product product = serviceFridge.getProductFromFridge(login,productName);
-        Recipe recipe = service.getAllMyRecipes("login").get(recipeName);
+        Recipe recipe = service.getAllMyRecipes(login).get(recipeName);
         service.addUserToFinalListRecipe(recipe,product,userName);
         Collection<Recipe> list = service.getAllMyRecipes(request.getHeader("Login")).values();
         response.setData(list);
         return response;
 
     }
+    @PostMapping(RECIPE_PATH+"/denied")
+    public @ResponseBody
+    BaseResponse<Collection<Recipe>> deniedUserForRecipe(@RequestBody String userName,@RequestBody String productName,@RequestBody String recipeName,final HttpServletRequest request) {
+        BaseResponse<Collection<Recipe>> response = new BaseResponse();
+        // System.out.println(product.toString());
+        String login = request.getHeader("Login");
+        Product product = serviceFridge.getProductFromFridge(userName,productName);
+        Recipe recipe = service.getAllMyRecipes(login).get(recipeName);
+        service.deleteUserFromListForProductIdForRecipeId(recipe,product,userName);
+        Collection<Recipe> list = service.getAllMyRecipes(request.getHeader("Login")).values();
+        response.setData(list);
+        return response;
 
+    }
+
+    @PostMapping(RECIPE_PATH+"/{userName}/accepted")
+    public @ResponseBody
+    BaseResponse<Collection<Recipe>> aceptedRecipeForUser(@PathVariable String userName,@RequestBody String productName,@RequestBody String recipeName,final HttpServletRequest request) {
+        BaseResponse<Collection<Recipe>> response = new BaseResponse();
+        // System.out.println(product.toString());
+        String login = request.getHeader("Login");
+        Product product = serviceFridge.getProductFromFridge(login,productName);
+        Recipe recipe = service.getAllMyRecipes(userName).get(recipeName);
+        service.addRecipeToNotMyRecipes(login,recipe,product);
+        Collection<Recipe> list = service.getAllNotMyRecipes(request.getHeader("Login")).values();
+        response.setData(list);
+        return response;
+
+    }
+    @PostMapping(RECIPE_PATH+"/{userName}/denied")
+    public @ResponseBody
+    BaseResponse<Collection<Recipe>> deniedRecipeForUser(@PathVariable String userName,@RequestBody String productName,@RequestBody String recipeName,final HttpServletRequest request) {
+        BaseResponse<Collection<Recipe>> response = new BaseResponse();
+        // System.out.println(product.toString());
+        String login = request.getHeader("Login");
+        Product product = serviceFridge.getProductFromFridge(login,productName);
+        Recipe recipe = service.getAllMyRecipes(userName).get(recipeName);
+        service.addRecipeToNotMyRecipes(login,recipe,product);
+        //Collection<Recipe> list = service(request.getHeader("Login")).values();
+        response.setData(list);
+        return response;
+
+    }
 
 
 }
