@@ -26,8 +26,7 @@ public class FoodService implements FoodServiceInterface {
 
         ArrayList<Food> list = new ArrayList<>();
         int length = startNameOfFood.length();
-        Locale rus = new Locale("ru", "RU");
-        startNameOfFood = startNameOfFood.toLowerCase(rus);
+        startNameOfFood = startNameOfFood.toLowerCase(Locale.ENGLISH);
 
         for (String idFood : foodRepository.getAllFoods().keySet()) {
             if (idFood.length() >= length && idFood.startsWith(startNameOfFood)){
