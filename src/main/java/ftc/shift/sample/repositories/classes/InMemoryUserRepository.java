@@ -16,10 +16,12 @@ public class InMemoryUserRepository implements UserRepository {
 
     public InMemoryUserRepository(){
 
+    //Pavel Durov
+
         User user = new User();
         UserInfo userInfo = new UserInfo();
         Fridge fridge = new Fridge();
-        
+
         user.setFridge(fridge);
         user.setLogin("durov");
         user.setPassword("pavel");
@@ -39,6 +41,8 @@ public class InMemoryUserRepository implements UserRepository {
         user.setUserInfo(userInfo);
 
         userCache.put(user.getLogin(),user);
+
+    //
     }
 
     @Override

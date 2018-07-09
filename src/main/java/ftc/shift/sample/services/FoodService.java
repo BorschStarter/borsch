@@ -6,8 +6,10 @@ import ftc.shift.sample.services.Interfaces.FoodServiceInterface;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.text.normalizer.UTF16;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.TreeMap;
 
 @Service
@@ -25,6 +27,7 @@ public class FoodService implements FoodServiceInterface {
 
         ArrayList<Food> list = new ArrayList<>();
         int length = startNameOfFood.length();
+        startNameOfFood = startNameOfFood.toLowerCase();
 
         for (String idFood : foodRepository.getAllFoods().keySet()) {
             if (idFood.length() >= length && idFood.startsWith(startNameOfFood)){
