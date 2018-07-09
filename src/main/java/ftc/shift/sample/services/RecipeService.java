@@ -10,8 +10,10 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import static ftc.shift.sample.models.State.ACCEPTED;
 import static ftc.shift.sample.models.State.DENIED;
@@ -156,8 +158,14 @@ public class RecipeService implements RecipeServiceInterface {
         updateUser(provideUser(recipe.getIdPovar()));
 
         changeRecipeState(idUser,recipe,ACCEPTED);
+        
+        for (Map.Entry<String, User> entry : getAllUsersForProductIdForRecipeId(recipe, product).entrySet()) {
 
-        updateUser(provideUser(idUser));
+            if (!idUser.equals(entry.getKey())){
+                deleteUserFromListForProductIdForRecipeId(recipe,product,entry.getKey());
+                updateUser(provideUser(idUser));
+            }
+        }
     }
 
     @Override
