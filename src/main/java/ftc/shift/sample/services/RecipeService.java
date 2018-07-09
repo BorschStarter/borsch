@@ -64,15 +64,24 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public void addRecipeToNotMyRecipes(@NonNull Recipe recipe) {
+    public void addRecipeToNotMyRecipes(@NonNull Recipe recipe, @NonNull String idUser, @NonNull Product product) {
 
-        provideUser(recipe.getIdPovar())
+        provideUser(idUser)
                 .getNotMyRecipes()
                 .put(recipe.getName(),recipe);
-        provideUser(recipe.getIdPovar())
+        provideUser(idUser)
                 .getRecipeState()
                 .put(recipe.getName(),WAITING);
         updateUser(userRepository.fetchUser(recipe.getIdPovar()));
+
+        addUserToAllUsersForProductIdForRecipeId(recipe,idUser,product);
+    }
+
+    @Override
+    public void addUserToAllUsersForProductIdForRecipeId(@NonNull Recipe recipe, @NonNull String idUser, @NonNull Product product){
+
+        getAllUsersForProductIdForRecipeId(recipe,product)
+                .put(idUser,provideUser(idUser));
     }
 
     @Override

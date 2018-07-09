@@ -21,7 +21,7 @@ public interface RecipeServiceInterface {
     void addRecipeToMyRecipes(@NonNull Recipe recipe);
 
     //IllegalArgumentException("Пользователя с таким логином не существует")
-    void addRecipeToNotMyRecipes(@NonNull Recipe recipe);
+    void addRecipeToNotMyRecipes(@NonNull Recipe recipe, @NonNull String idUser, @NonNull Product product);
 
     //IllegalArgumentException("Такого рецепта не существовало")
     //IllegalArgumentException("Пользователя с таким логином не существует")
@@ -30,6 +30,8 @@ public interface RecipeServiceInterface {
     //IllegalArgumentException("Такого рецепта не существовало")
     //IllegalArgumentException("Пользователя с таким логином не существует")
     void removeRecipeFromNotMyRecipes(@NonNull String idUser, @NonNull String idRecipe);
+
+    void addUserToAllUsersForProductIdForRecipeId(@NonNull Recipe recipe, @NonNull String idUser, @NonNull Product product);
 
     //IllegalArgumentException("Пользователя с таким логином не существует")
     void changeRecipeState(@NonNull String idUser,@NonNull Recipe recipe,@NonNull State newState);
