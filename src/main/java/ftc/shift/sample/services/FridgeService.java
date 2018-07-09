@@ -32,7 +32,7 @@ public class FridgeService implements FridgeServiceInterface {
     @Override
     public Fridge addProductInFridge(@NonNull String idUser,@NonNull Product product){
 
-        userRepository.fetchUser(idUser).getFridge().getProducts().put(product.getId(),product);
+        userRepository.fetchUser(idUser).getFridge().getProducts().put(product.getFoodName(),product);
 
         return provideFridge(idUser);
     }

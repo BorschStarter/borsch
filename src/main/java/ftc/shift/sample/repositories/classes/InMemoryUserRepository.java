@@ -1,8 +1,6 @@
 package ftc.shift.sample.repositories.classes;
 
-import ftc.shift.sample.models.Fridge;
-import ftc.shift.sample.models.User;
-import ftc.shift.sample.models.UserInfo;
+import ftc.shift.sample.models.*;
 import ftc.shift.sample.repositories.interfaces.UserRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
@@ -21,7 +19,15 @@ public class InMemoryUserRepository implements UserRepository {
         User user = new User();
         UserInfo userInfo = new UserInfo();
         Fridge fridge = new Fridge();
+        ArrayList<Product> arrayList = new ArrayList<>();
+        arrayList.add(new Product("apple","apple",1.0,0.0));
+        arrayList.add(new Product("orange","orange",1.0,0.0));
+        arrayList.add(new Product("potato","potato",1.0,0.0));
 
+        Recipe recipe = new Recipe("Borsch","Borsch","durov",arrayList,new HashMap<>(),new HashMap<>());
+        HashMap<String,Recipe> hashMap =new HashMap<String,Recipe>() ;
+        hashMap.put("Borsch", recipe);
+        user.setMyRecipes(hashMap);
         user.setFridge(fridge);
         user.setLogin("durov");
         user.setPassword("pavel");
