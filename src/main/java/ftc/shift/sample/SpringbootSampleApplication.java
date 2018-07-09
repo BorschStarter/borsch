@@ -10,9 +10,6 @@ public class SpringbootSampleApplication {
 
 	public static void main(String[] args) {
 
-		InMemoryFoodRepository foodRepository = new InMemoryFoodRepository();
-		InMemoryUserRepository userRepository = new InMemoryUserRepository();
-
 		SpringApplication.run(SpringbootSampleApplication.class, args);
 	}
 }
