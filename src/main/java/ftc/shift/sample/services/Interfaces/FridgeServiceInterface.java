@@ -2,7 +2,6 @@ package ftc.shift.sample.services.Interfaces;
 
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
-import ftc.shift.sample.models.User;
 import lombok.NonNull;
 
 public interface FridgeServiceInterface {
