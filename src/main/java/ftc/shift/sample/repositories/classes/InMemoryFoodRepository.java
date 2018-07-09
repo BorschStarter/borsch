@@ -28,21 +28,21 @@ public class InMemoryFoodRepository implements FoodRepository {
         foodCache.put("sugar", new Food("13","sugar","1"));
         foodCache.put("salt", new Food("14","salt","1"));
         foodCache.put("egg", new Food("15","egg","1"));
-        foodCache.put("16", new Food("16","banana","1"));
-        foodCache.put("17", new Food("17","bread","1"));
-        foodCache.put("18", new Food("18","cherry","1"));
-        foodCache.put("19", new Food("19","cabbage","1"));
-        foodCache.put("20", new Food("20","pepper","1"));
-        foodCache.put("21", new Food("21","carrot","1"));
-        foodCache.put("22", new Food("22","onion","1"));
-        foodCache.put("23", new Food("23","garlic","1"));
-        foodCache.put("24", new Food("24","bay leaf","1"));
-        foodCache.put("25", new Food("25","champignons","1"));
-        foodCache.put("26", new Food("26","dill","1"));
-        foodCache.put("27", new Food("27","parsley","1"));
-        foodCache.put("28", new Food("28","cheese","1"));
-        foodCache.put("29", new Food("29","beer","1"));
-        foodCache.put("30", new Food("30","wine","1"));
+        foodCache.put("banana", new Food("16","banana","1"));
+        foodCache.put("bread", new Food("17","bread","1"));
+        foodCache.put("cherry", new Food("18","cherry","1"));
+        foodCache.put("cabbage", new Food("19","cabbage","1"));
+        foodCache.put("pepper", new Food("20","pepper","1"));
+        foodCache.put("carrot", new Food("21","carrot","1"));
+        foodCache.put("onion", new Food("22","onion","1"));
+        foodCache.put("garlic", new Food("23","garlic","1"));
+        foodCache.put("bay leaf", new Food("24","bay leaf","1"));
+        foodCache.put("champignons", new Food("25","champignons","1"));
+        foodCache.put("dill", new Food("26","dill","1"));
+        foodCache.put("parsley", new Food("27","parsley","1"));
+        foodCache.put("cheese", new Food("28","cheese","1"));
+        foodCache.put("beer", new Food("29","beer","1"));
+        foodCache.put("wine", new Food("30","wine","1"));
     }
 
     @Override
