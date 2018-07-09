@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.TreeMap;
 
 @Service
@@ -25,7 +26,8 @@ public class FoodService implements FoodServiceInterface {
 
         ArrayList<Food> list = new ArrayList<>();
         int length = startNameOfFood.length();
-        startNameOfFood = startNameOfFood.toLowerCase();
+        Locale rus = new Locale("ru", "RU");
+        startNameOfFood = startNameOfFood.toLowerCase(rus);
 
         for (String idFood : foodRepository.getAllFoods().keySet()) {
             if (idFood.length() >= length && idFood.startsWith(startNameOfFood)){
