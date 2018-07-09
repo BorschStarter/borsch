@@ -138,7 +138,7 @@ public class RecipeService implements RecipeServiceInterface {
 
         provideUser(idUser)
                 .getRecipeState()
-                .put(recipe.getName(),newState);
+                .put(recipe.getIdRecipe(),newState);
         updateUser(provideUser(idUser));
     }
 

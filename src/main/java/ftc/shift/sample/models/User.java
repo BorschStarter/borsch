@@ -15,7 +15,7 @@ public class User implements Serializable{
     private Fridge fridge;
     private String login;
     private String password;
-    private HashMap<String,Recipe> myRecipes; // я участвствую как повар
-    private HashMap<String, State> recipeState; // состояния рецептов, где я учавствую, но не повар
-    private HashMap<String,Recipe> notMyRecipes; // я участвствую как не повар
+    private HashMap<String,Recipe> myRecipes = new HashMap<>(); // я участвствую как повар
+    private HashMap<String, State> recipeState = new HashMap<>(); // состояния рецептов, где я учавствую, но не повар
+    private HashMap<String,Recipe> notMyRecipes = new HashMap<>(); // я участвствую как не повар
 }
