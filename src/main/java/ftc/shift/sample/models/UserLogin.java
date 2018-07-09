@@ -5,7 +5,6 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-@Builder
 public final class UserLogin {
     public String userName;
     public String password;
