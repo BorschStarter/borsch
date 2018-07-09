@@ -55,6 +55,16 @@ public class UserController {
         response.setData(result);
         return response;
     }
+    @GetMapping(USERS_PATH+"/logout"+"/{userName}")
+    public @ResponseBody
+    BaseResponse<UserInfo> logoutUser(@PathVariable String userName,final HttpServletRequest request) {
+        BaseResponse<UserInfo> response = new BaseResponse();
+        UserValidInfo userValidInfo = new UserValidInfo();
+        userValidInfo.setId(userName);
+        userValidInfo.setToken(request.getHeader("Token"));
+        service.deleteToken(userValidInfo);
+        return response;
+    }
 }
 
 

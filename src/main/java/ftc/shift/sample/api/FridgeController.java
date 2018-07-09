@@ -5,6 +5,7 @@ import ftc.shift.sample.models.Food;
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
 import ftc.shift.sample.services.FridgeService;
+import ftc.shift.sample.services.Interfaces.FoodServiceInterface;
 import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class FridgeController {
 
         @Autowired
         private FridgeServiceInterface service;
+        private FoodServiceInterface foodService;
 
         @GetMapping(FRIDGE_PATH)
         public @ResponseBody
@@ -41,12 +43,12 @@ public class FridgeController {
             return response;
 
     }
-//        @GetMapping(FOOD_PATH+"/{}")
-//        public @ResponseBody
-//        BaseResponse<List<Food>> provideFoodSearchList(@PathVariable String nameFood,final HttpServletRequest request) {
-//        BaseResponse<List<Food>> response = new BaseResponse();
-//        List<Food> food = service.getFoodSearchList(nameFood); // этот метод лежит в FoodServiceInterface
-//        response.setData(food);
-//        return response;
-//        }
+        @GetMapping(FOOD_PATH+"/{}")
+        public @ResponseBody
+        BaseResponse<List<Food>> provideFoodSearchList(@PathVariable String nameFood,final HttpServletRequest request) {
+        BaseResponse<List<Food>> response = new BaseResponse();
+        List<Food> food = foodService.getListFoodStartWith(nameFood); // этот метод лежит в FoodServiceInterface
+        response.setData(food);
+        return response;
+        }
 }
