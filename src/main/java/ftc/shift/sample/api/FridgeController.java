@@ -42,12 +42,25 @@ public class FridgeController {
         public @ResponseBody
         BaseResponse<Collection<Product>> addProductToFriedge(@RequestBody Product product,final HttpServletRequest request) {
             BaseResponse<Collection<Product>> response = new BaseResponse();
-           // System.out.println(product.toString());
+
             String login = request.getHeader("Login");
             Fridge fridge = service.addProductInFridge(request.getHeader("Login"),product);
+            System.out.println(fridge.toString());
             Collection<Product> list = fridge.getProducts().values();
             response.setData(list);
             return response;
+
+    }
+    @PostMapping(FRIDGE_PATH+"/delete")
+    public @ResponseBody
+    BaseResponse<Collection<Product>> removeProductToFriedge(@RequestBody Product product,final HttpServletRequest request) {
+        BaseResponse<Collection<Product>> response = new BaseResponse();
+        String login = request.getHeader("Login");
+        Fridge fridge = service.removeProductFromFridge(request.getHeader("Login"),product.getFoodName());
+        System.out.println(fridge.toString());
+        Collection<Product> list = fridge.getProducts().values();
+        response.setData(list);
+        return response;
 
     }
 
