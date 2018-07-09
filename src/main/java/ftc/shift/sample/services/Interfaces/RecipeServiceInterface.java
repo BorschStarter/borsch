@@ -11,6 +11,8 @@ import java.util.HashMap;
 
 public interface RecipeServiceInterface {
 
+    HashMap<String,Recipe> getAllRecipesForUser(@NonNull String idUser);
+
     //IllegalArgumentException("Пользователя с таким логином не существует")
     HashMap<String,Recipe> getAllMyRecipes(@NonNull String idUser);
 

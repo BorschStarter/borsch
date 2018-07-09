@@ -10,7 +10,6 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,6 +74,32 @@ public class RecipeService implements RecipeServiceInterface {
         updateUser(userRepository.fetchUser(recipe.getIdPovar()));
 
         addUserToAllUsersForProductIdForRecipeId(recipe,idUser,product);
+    }
+
+    @Override
+    public HashMap<String,Recipe> getAllRecipesForUser(@NonNull String idUser){
+
+        HashMap<String,Recipe> myLenta = new HashMap<>();
+
+        for (Map.Entry<String,Product> myProduct : provideUser(idUser).getFridge().getProducts().entrySet()) {
+
+            for (Map.Entry<String,User> otherUser: userRepository.getAllUsers().entrySet()) {
+
+                for (Map.Entry<String,Recipe> recipeOtherUser: otherUser.getValue().getMyRecipes().entrySet()) {
+
+                    for (Product currentProduct : recipeOtherUser.getValue().getProductList()) {
+
+                        if (myProduct.getValue().equals(currentProduct)){
+
+                            myLenta.put(recipeOtherUser.getKey(),recipeOtherUser.getValue());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return myLenta;
     }
 
     @Override
