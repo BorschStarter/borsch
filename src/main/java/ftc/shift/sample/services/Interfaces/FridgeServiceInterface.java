@@ -14,5 +14,5 @@ public interface FridgeServiceInterface {
     Fridge removeProductFromFridge(@NonNull String idUser,@NonNull  String idProduct);
 
     //IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя")
-    Product getProductFromFridge(@NonNull String idUser,@NonNull Product product);
+    Product getProductFromFridge(@NonNull String idUser,@NonNull String idProduct);
 }

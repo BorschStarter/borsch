@@ -49,13 +49,13 @@ public class FridgeService implements FridgeServiceInterface {
     }
 
     @Override
-    public Product getProductFromFridge(@NonNull String idUser,@NonNull Product product){
+    public Product getProductFromFridge(@NonNull String idUser,@NonNull String idProduct){
 
-        if (!provideFridge(idUser).getProducts().containsKey(product.getId())){
+        if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
             throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
         }
         else {
-            return provideFridge(idUser).getProducts().get(product.getId());
+            return provideFridge(idUser).getProducts().get(idProduct);
         }
     }
 }
