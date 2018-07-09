@@ -36,12 +36,13 @@ public final class UserService implements UserServiceInterface {
     @Override
     public UserValidInfo createToken(@NonNull UserLogin userLogin) {
 
-        if (provideUser(userLogin.userName).getPassword().equals(userLogin.getPassword())) {
+        if (!provideUser(userLogin.userName).getPassword().equals(userLogin.getPassword())) {
             throw new IllegalArgumentException("Вы ввели неправильный пароль");
         }
 
         UserValidInfo userValidInfo = new UserValidInfo();
         userValidInfo.setToken(generateToken(userLogin.getPassword().concat(userLogin.userName)));
+        userValidInfo.setId(userLogin.getUserName());
         tokenRepository.addToken(userValidInfo);
         return userValidInfo;
     }
@@ -86,13 +87,17 @@ public final class UserService implements UserServiceInterface {
     @Override
     public void registration(@NonNull UserLogin userLogin) {
 
-        if (!userRepository.getAllUsers().containsKey(userLogin.getUserName())) {
+        if (userRepository.getAllUsers().containsKey(userLogin.getUserName())) {
             throw new IllegalArgumentException("Этот логин уже существует");
         } else {
             User user = new User();
             user.setLogin(userLogin.getUserName());
             user.setPassword(userLogin.getPassword());
-            user.getUserInfo().setId(userLogin.getUserName());
+            UserInfo userInfo = new UserInfo();
+            Fridge fridge = new Fridge();
+            user.setFridge(fridge);
+            userInfo.setId(userLogin.getUserName());
+            user.setUserInfo(userInfo);
             createUser(user);
         }
     }

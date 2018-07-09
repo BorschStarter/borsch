@@ -21,12 +21,14 @@ public class UserController {
     @PostMapping(USERS_PATH+"/registration")
     public @ResponseBody
     BaseResponse createUser(@RequestBody UserLogin userLogin) {
+        System.out.println(userLogin.userName);
+        System.out.println(userLogin.password);
         BaseResponse response = new BaseResponse();
         service.registration(userLogin);
         return response;
     }
 
-    @PostMapping(USERS_PATH+"/{userName}")
+    @PostMapping(USERS_PATH+"/login"+"/{userName}")
     public @ResponseBody
     BaseResponse<UserValidInfo> loginUser(@RequestBody UserLogin userLogin) {
         BaseResponse<UserValidInfo> response = new BaseResponse();
