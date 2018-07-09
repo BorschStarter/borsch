@@ -1,23 +1,14 @@
 package ftc.shift.sample.api;
 
 
-import ftc.shift.sample.models.Food;
-import ftc.shift.sample.models.Fridge;
-import ftc.shift.sample.models.Product;
-import ftc.shift.sample.models.Recipe;
-import ftc.shift.sample.services.FridgeService;
-import ftc.shift.sample.services.Interfaces.FoodServiceInterface;
+import ftc.shift.sample.models.*;
 import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import ftc.shift.sample.services.Interfaces.RecipeServiceInterface;
-import ftc.shift.sample.services.Interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 @RestController
 public class RecipeController {
@@ -52,12 +43,12 @@ public class RecipeController {
         return response;
 
     }
-    @GetMapping(RECIPE_PATH+"/delete")
+    @GetMapping(RECIPE_PATH+"/delete/{recipeName}")
     public @ResponseBody
-    BaseResponse<Collection<Recipe>> deleteRecipe(@RequestBody String recipe,final HttpServletRequest request) {
+    BaseResponse<Collection<Recipe>> deleteRecipe(@PathVariable String recipeName,final HttpServletRequest request) {
         BaseResponse<Collection<Recipe>> response = new BaseResponse();
-        String userName = request.getHeader("userName");
-        service.removeRecipeFromMyRecipes(userName,recipe);
+        String userName = request.getHeader("Login");
+        service.removeRecipeFromMyRecipes(userName,recipeName);
         Collection<Recipe> list = service.getAllMyRecipes(request.getHeader("Login")).values();
         response.setData(list);
 
@@ -66,13 +57,13 @@ public class RecipeController {
 
     @PostMapping(RECIPE_PATH+"/accept")
     public @ResponseBody
-    BaseResponse<Collection<Recipe>> accepUserForRecipe(@RequestBody String userName,@RequestBody String productName,@RequestBody String recipeName,final HttpServletRequest request) {
+    BaseResponse<Collection<Recipe>> accepUserForRecipe(@RequestBody AcceptModel acceptModel, final HttpServletRequest request) {
         BaseResponse<Collection<Recipe>> response = new BaseResponse();
         // System.out.println(product.toString());
         String login = request.getHeader("Login");
-        Product product = serviceFridge.getProductFromFridge(login,productName);
-        Recipe recipe = service.getAllMyRecipes(login).get(recipeName);
-        service.addUserToFinalListRecipe(recipe,product,userName);
+        Product product = serviceFridge.getProductFromFridge(acceptModel.getUserName(),acceptModel.getProductName());
+        Recipe recipe = service.getAllMyRecipes(login).get(acceptModel.getRecipeName());
+        service.addUserToFinalListRecipe(recipe,product,acceptModel.getProductName());
         Collection<Recipe> list = service.getAllMyRecipes(request.getHeader("Login")).values();
         response.setData(list);
         return response;
@@ -101,7 +92,7 @@ public class RecipeController {
         String login = request.getHeader("Login");
         Product product = serviceFridge.getProductFromFridge(login,productName);
         Recipe recipe = service.getAllMyRecipes(userName).get(recipeName);
-        service.addRecipeToNotMyRecipes(login,recipe,product);
+        service.addRecipeToNotMyRecipes(recipe,login,product);
         Collection<Recipe> list = service.getAllNotMyRecipes(request.getHeader("Login")).values();
         response.setData(list);
         return response;
@@ -115,12 +106,13 @@ public class RecipeController {
         String login = request.getHeader("Login");
         Product product = serviceFridge.getProductFromFridge(login,productName);
         Recipe recipe = service.getAllMyRecipes(userName).get(recipeName);
-        service.addRecipeToNotMyRecipes(login,recipe,product);
-        //Collection<Recipe> list = service(request.getHeader("Login")).values();
+        service.addRecipeToNotMyRecipes(recipe,login,product);
+        Collection<Recipe> list = service.getAllNotMyRecipes(login).values();
         response.setData(list);
         return response;
 
     }
+
 
 
 }
