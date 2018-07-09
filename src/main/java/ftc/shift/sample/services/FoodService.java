@@ -22,15 +22,15 @@ public class FoodService implements FoodServiceInterface {
     }
 
     @Override
-    public ArrayList<String> getListFoodStartWith(@NonNull String startNameOfFood){
+    public ArrayList<Food> getListFoodStartWith(@NonNull String startNameOfFood){
 
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<Food> list = new ArrayList<>();
         int length = startNameOfFood.length();
         startNameOfFood = startNameOfFood.toLowerCase(Locale.ENGLISH);
 
         for (String idFood : foodRepository.getAllFoods().keySet()) {
             if (idFood.length() >= length && idFood.startsWith(startNameOfFood)){
-                list.add(foodRepository.fetchFood(idFood).getName());
+                list.add(foodRepository.fetchFood(idFood));
             }
         }
         if (list.isEmpty())
