@@ -34,9 +34,9 @@ public class InMemoryUserRepository implements UserRepository {
         userInfo.setFirstName("Pavel");
         userInfo.setRoom("567");
         userInfo.setSecondName("Durov");
-        userInfo.setTelegram("t.me/durov");
+        userInfo.setTelegram("https://t.me/durov");
         userInfo.setUniversity("NSU");
-        userInfo.setVk("vk.com/1");
+        userInfo.setVk("https://vk.com/id1");
 
         user.setUserInfo(userInfo);
 
