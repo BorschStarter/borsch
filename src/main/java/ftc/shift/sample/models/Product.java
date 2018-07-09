@@ -2,8 +2,10 @@ package ftc.shift.sample.models;
 
 import lombok.*;
 
-@Data
+
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Builder
 public final class Product {
     private String id;

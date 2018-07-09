@@ -38,7 +38,9 @@ public class FridgeController {
         public @ResponseBody
         BaseResponse<Fridge> addProductToFriedge(@RequestBody Product product,final HttpServletRequest request) {
             BaseResponse<Fridge> response = new BaseResponse();
-            Fridge fridge = service.addProductInFridge(request.getHeader("login"),product);
+           // System.out.println(product.toString());
+            String login = request.getHeader("Login");
+            Fridge fridge = service.addProductInFridge(request.getHeader("Login"),product);
             response.setData(fridge);
             return response;
 
