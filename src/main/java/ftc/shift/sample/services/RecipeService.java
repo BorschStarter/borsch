@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static ftc.shift.sample.models.State.ACCEPTED;
 import static ftc.shift.sample.models.State.DENIED;
@@ -35,10 +36,9 @@ public class RecipeService implements RecipeServiceInterface {
         else throw new IllegalArgumentException("Пользователя с таким логином не существует");
     }
 
-    private User updateUser(@NonNull User user) {
+    private void updateUser(@NonNull User user) {
 
         userRepository.updateUser(user);
-        return user;
     }
 
     @Override
@@ -191,6 +191,11 @@ public class RecipeService implements RecipeServiceInterface {
 
         changeRecipeState(idUser,recipe,ACCEPTED);
         updateUser(provideUser(recipe.getIdPovar()));
+
+        if (getAllUsersForProductIdForRecipeId(recipe, product).isEmpty()){
+
+            throw new IllegalArgumentException("По этому продукту нет заявок");
+        }
 
         for (Map.Entry<String, User> entry : getAllUsersForProductIdForRecipeId(recipe, product).entrySet()) {
 
