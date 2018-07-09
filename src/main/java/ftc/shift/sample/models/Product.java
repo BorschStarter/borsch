@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 public final class Product {
     private String id;
-    private String foodId;
+    private String foodname;
     private Double allWeight;
     private Double reservedWeight;
 }
