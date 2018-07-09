@@ -155,10 +155,9 @@ public class RecipeService implements RecipeServiceInterface {
                 .getFinalUserList()
                 .put(product.getId(),idUser);
 
+        changeRecipeState(idUser,recipe,ACCEPTED);
         updateUser(provideUser(recipe.getIdPovar()));
 
-        changeRecipeState(idUser,recipe,ACCEPTED);
-        
         for (Map.Entry<String, User> entry : getAllUsersForProductIdForRecipeId(recipe, product).entrySet()) {
 
             if (!idUser.equals(entry.getKey())){
