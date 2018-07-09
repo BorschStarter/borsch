@@ -42,7 +42,7 @@ public final class UserService implements UserServiceInterface {
 
         UserValidInfo userValidInfo = new UserValidInfo();
         userValidInfo.setToken(generateToken(userLogin.getPassword().concat(userLogin.userName)));
-        userValidInfo.setId(userValidInfo.getId());
+        userValidInfo.setId(userLogin.getUserName());
         tokenRepository.addToken(userValidInfo);
         return userValidInfo;
     }

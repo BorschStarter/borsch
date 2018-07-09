@@ -1,5 +1,6 @@
 package ftc.shift.sample.services;
 
+import ftc.shift.sample.models.Food;
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
 import ftc.shift.sample.repositories.interfaces.FoodRepository;
@@ -8,6 +9,8 @@ import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FridgeService implements FridgeServiceInterface {
@@ -25,6 +28,7 @@ public class FridgeService implements FridgeServiceInterface {
         return userRepository.fetchUser(idUser).getFridge();
     }
 
+
     @Override
     public Fridge addProductInFridge(@NonNull String idUser,@NonNull Product product){
 
@@ -32,6 +36,8 @@ public class FridgeService implements FridgeServiceInterface {
 
         return provideFridge(idUser);
     }
+
+
 
     @Override
     public Fridge removeProductFromFridge(@NonNull String idUser,@NonNull String idProduct) {
