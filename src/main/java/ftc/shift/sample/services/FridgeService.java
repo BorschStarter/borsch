@@ -36,7 +36,7 @@ public class FridgeService implements FridgeServiceInterface {
 
         return provideFridge(idUser);
     }
-    
+
     @Override
     public Fridge removeProductFromFridge(@NonNull String idUser,@NonNull String idProduct) {
         if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
