@@ -9,6 +9,7 @@ import java.util.HashMap;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
+@Builder
 public class User implements Serializable{
     private UserInfo userInfo;
     private Fridge fridge;

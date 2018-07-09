@@ -7,6 +7,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
+@Builder
 public final class UserInfo implements Serializable{
     private String id;
     private String firstName;
