@@ -31,6 +31,7 @@ public class RecipeController {
         return response;
     }
 
+
     @PostMapping(RECIPE_PATH)
     public @ResponseBody
     BaseResponse<Collection<Recipe>> addRecipe(@RequestBody Recipe recipe,final HttpServletRequest request) {
@@ -63,7 +64,7 @@ public class RecipeController {
         String login = request.getHeader("Login");
         Product product = serviceFridge.getProductFromFridge(acceptModel.getUserName(),acceptModel.getProductName());
         Recipe recipe = service.getAllMyRecipes(login).get(acceptModel.getRecipeName());
-        service.addUserToFinalListRecipe(recipe,product,acceptModel.getProductName());
+        service.addUserToFinalListRecipe(recipe,product,acceptModel.getUserName());
         Collection<Recipe> list = service.getAllMyRecipes(request.getHeader("Login")).values();
         response.setData(list);
         return response;

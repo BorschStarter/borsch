@@ -9,6 +9,7 @@ import java.util.HashMap;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
+//@Builder
 public final class Recipe implements Serializable{
     private String idRecipe;
     private String name;

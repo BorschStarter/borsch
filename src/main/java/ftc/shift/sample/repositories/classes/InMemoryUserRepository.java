@@ -23,6 +23,7 @@ public class InMemoryUserRepository implements UserRepository {
         arrayList.add(new Product("apple","apple",1.0,0.0));
         arrayList.add(new Product("orange","orange",1.0,0.0));
         arrayList.add(new Product("potato","potato",1.0,0.0));
+        user.setRecipeState(new HashMap<String,State>());
 
         Recipe recipe = new Recipe("Borsch","Borsch","durov",arrayList,new HashMap<>(),new HashMap<>());
         HashMap<String,Recipe> hashMap =new HashMap<String,Recipe>() ;

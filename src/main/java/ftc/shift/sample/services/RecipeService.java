@@ -197,17 +197,18 @@ public class RecipeService implements RecipeServiceInterface {
 
         changeRecipeState(idUser,recipe,ACCEPTED);
         updateUser(provideUser(recipe.getIdPovar()));
+        if (getAllUsersForProductIdForRecipeId(recipe, product)==null){
 
-        if (getAllUsersForProductIdForRecipeId(recipe, product).isEmpty()){
+            //throw new IllegalArgumentException("По этому продукту нет заявок");
+        }else {
+            Set<String> set = getAllUsersForProductIdForRecipeId(recipe, product).keySet();
+            for (String entry : set) {
 
-            throw new IllegalArgumentException("По этому продукту нет заявок");
-        }
 
-        for (Map.Entry<String, User> entry : getAllUsersForProductIdForRecipeId(recipe, product).entrySet()) {
-
-            if (!idUser.equals(entry.getKey())){
-                deleteUserFromListForProductIdForRecipeId(recipe,product,entry.getKey());
-                updateUser(provideUser(idUser));
+                if (!idUser.equals(entry)) {
+                    deleteUserFromListForProductIdForRecipeId(recipe, product, entry);
+                    updateUser(provideUser(idUser));
+                }
             }
         }
     }
@@ -231,11 +232,11 @@ public class RecipeService implements RecipeServiceInterface {
     @Override
     public HashMap<String,User> getAllUsersForProductIdForRecipeId(@NonNull Recipe recipe, @NonNull Product product) {
 
-        return provideUser(recipe.getIdPovar())
+        HashMap<String,User> result = provideUser(recipe.getIdPovar())
                 .getMyRecipes()
                 .get(recipe.getName())
-                .getListUsersForEachProduct()
-                .get(product.getId());
+                .getListUsersForEachProduct().get(product.getId());
+        return result;
     }
 
     @Override
