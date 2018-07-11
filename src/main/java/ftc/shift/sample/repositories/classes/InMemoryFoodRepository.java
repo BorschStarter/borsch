@@ -71,9 +71,11 @@ public class InMemoryFoodRepository implements FoodRepository {
 
     @Override
     public Food createFood(@NonNull final Food food) {
-        food.setId(null);
-        service.save(food.toFoodEntity());
-        return food;
+        //food.setId(null);
+        //service.save(food.toFoodEntity());
+        //Метод требует подключения дополнительного сервиса по составлению SQL запросов
+        //Жаль Малой кровью не обошлись
+        return service.save(food.toFoodEntity()).toFood();
     }
 
     @Override

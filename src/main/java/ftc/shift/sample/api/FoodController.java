@@ -34,4 +34,12 @@ public class  FoodController {
         response.setData(food);
         return response;
     }
+
+    @PutMapping(FOOD_PATH)
+    public @ResponseBody
+    BaseResponse createFood(@RequestBody Food food) {
+        BaseResponse response = new BaseResponse();
+        foodService.createFood(food);
+        return response;
+    }
 }
