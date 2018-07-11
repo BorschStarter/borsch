@@ -18,6 +18,7 @@ public class FoodService implements FoodServiceInterface {
 
     @Autowired
     public FoodService(final FoodRepository foodRepository) {
+
         this.foodRepository = foodRepository;
     }
 
@@ -28,9 +29,10 @@ public class FoodService implements FoodServiceInterface {
         int length = startNameOfFood.length();
         startNameOfFood = startNameOfFood.toLowerCase(Locale.ENGLISH);
 
-        for (String idFood : foodRepository.getAllFoods().keySet()) {
+        TreeMap<String,Food> map = foodRepository.getAllFoods();
+        for (String idFood : map.keySet()) {
             if (idFood.length() >= length && idFood.startsWith(startNameOfFood)){
-                list.add(foodRepository.fetchFood(idFood));
+                list.add(foodRepository.fetchFood(map.get(idFood).getId()));
             }
         }
         if (list.isEmpty())
@@ -40,9 +42,9 @@ public class FoodService implements FoodServiceInterface {
     }
 
     @Override
-    public Food provideFood(@NonNull String idFood) {
-
-        if (foodRepository.getAllFoods().containsKey(idFood))
+    public Food provideFood(@NonNull Integer idFood) {
+        Food food = foodRepository.fetchFood(idFood);
+        if (food!=null)
             return foodRepository.fetchFood(idFood);
         else throw new IllegalArgumentException("Такого food не существует");
     }
@@ -55,9 +57,9 @@ public class FoodService implements FoodServiceInterface {
     }
 
     @Override
-    public void deleteFood(@NonNull String idFood) {
-
-        if (foodRepository.getAllFoods().containsKey(idFood))
+    public void deleteFood(@NonNull Integer idFood) {
+        Food food = foodRepository.fetchFood(idFood);
+        if (food!=null)
             foodRepository.deleteFood(idFood);
         else throw new IllegalArgumentException("Такого food не существовало");
     }

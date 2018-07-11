@@ -3,7 +3,7 @@ package ftc.shift.sample.repositories.classes;
 import ftc.shift.sample.entity.UserEntity;
 import ftc.shift.sample.models.*;
 import ftc.shift.sample.repositories.interfaces.UserRepository;
-import ftc.shift.sample.repositories.interfaces.UserRepositoryInterface;
+import ftc.shift.sample.repositories.interfaces.UserRepositoryEntity;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -56,7 +56,7 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Autowired
-    private UserRepositoryInterface repository;
+    private UserRepositoryEntity repository;
 
     @Override
     public UserInfo fetchUserInfo(@NonNull final String idUser){

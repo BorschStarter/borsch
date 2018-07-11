@@ -12,12 +12,12 @@ public interface FoodServiceInterface {
     ArrayList<Food> getListFoodStartWith(@NonNull String startNameOfFood);
 
     //IllegalArgumentException("Такого food не существует")
-    Food provideFood(@NonNull String idFood);
+    Food provideFood(@NonNull Integer idFood);
 
     Food updateFood(@NonNull Food food);
 
     //IllegalArgumentException("Такого food не существовало")
-    void deleteFood(@NonNull String idFood);
+    void deleteFood(@NonNull Integer idFood);
 
     Food createFood(@NonNull Food food);
 

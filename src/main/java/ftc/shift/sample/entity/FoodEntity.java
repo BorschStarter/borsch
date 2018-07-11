@@ -1,5 +1,6 @@
 package ftc.shift.sample.entity;
 
+import ftc.shift.sample.models.Food;
 import lombok.*;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -24,5 +25,14 @@ public class FoodEntity {
 
     @Column(name="category", columnDefinition = "text")
     private String category;
+
+    public Food toFood(){
+        Food food =new Food();
+        food.setId(this.getId());
+        food.setName(this.getName());
+        food.setCategory(this.getCategory());
+        return food;
+    }
+
 
 }
