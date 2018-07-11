@@ -59,6 +59,7 @@ public class UserEntity {
 
 
     //временное решение для теста
+    //В теории можно оставить для лучшей инкапсуляции базы
     public UserInfo toUserInfo(){
         UserInfo userInfo = new UserInfo();
         userInfo.setId(this.getId().toString());
