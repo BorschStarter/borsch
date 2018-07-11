@@ -57,6 +57,8 @@ public class UserEntity {
     @Column(name="eatrate")
     private Integer eatRate;
 
+
+    //временное решение для теста
     public UserInfo toUserInfo(){
         UserInfo userInfo = new UserInfo();
         userInfo.setId(this.getId().toString());
