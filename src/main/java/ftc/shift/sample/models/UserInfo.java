@@ -19,6 +19,6 @@ public final class UserInfo implements Serializable{
     private String vk;
     private String telegram;
     private String email;
-    private Double cookRate;
-    private Double eatRate;
+    private Integer cookRate;
+    private Integer eatRate;
 }

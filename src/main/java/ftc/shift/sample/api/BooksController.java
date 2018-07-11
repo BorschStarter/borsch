@@ -17,6 +17,7 @@ public class BooksController {
   @Autowired
   private BookService service;
 
+
   @GetMapping(BOOKS_PATH + "/{id}")
   public @ResponseBody
   BaseResponse<Book> readBook(@PathVariable String id,final HttpServletRequest request) {

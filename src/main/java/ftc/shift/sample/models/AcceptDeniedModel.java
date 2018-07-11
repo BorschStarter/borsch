@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class AcceptModel {
+public class AcceptDeniedModel {
     	String userName;
         String productName;
         String recipeName;

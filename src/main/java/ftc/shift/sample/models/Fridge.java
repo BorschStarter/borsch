@@ -10,4 +10,5 @@ import java.util.HashMap;
 @NoArgsConstructor
 public final class Fridge implements Serializable{
     private HashMap<String, Product> products = new HashMap<>();
+    //private ArrayList<Product> products;
 }

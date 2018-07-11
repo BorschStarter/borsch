@@ -111,9 +111,9 @@ public final class UserService implements UserServiceInterface {
 
     private User provideUser(@NonNull String idUser) {
 
-        if (userRepository.getAllUsers().containsKey(idUser))
+       // if (userRepository.getAllUsers().containsKey(idUser))
             return userRepository.fetchUser(idUser);
-        else throw new IllegalArgumentException("Пользователя с таким логином не существует");
+       // else throw new IllegalArgumentException("Пользователя с таким логином не существует");
     }
 
     private User updateUser(@NonNull User user) {

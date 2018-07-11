@@ -25,7 +25,6 @@ public class FridgeController {
 
         @Autowired
         private FridgeServiceInterface service;
-        private FoodServiceInterface foodService;
 
         @GetMapping(FRIDGE_PATH)
         public @ResponseBody
@@ -51,7 +50,7 @@ public class FridgeController {
             return response;
 
     }
-    @PostMapping(FRIDGE_PATH+"/delete")
+    @DeleteMapping(FRIDGE_PATH)
     public @ResponseBody
     BaseResponse<Collection<Product>> removeProductToFriedge(@RequestBody Product product,final HttpServletRequest request) {
         BaseResponse<Collection<Product>> response = new BaseResponse();
