@@ -23,7 +23,6 @@ public class UserEntity {
     @Column(name="id")
     private Integer id;
 
-
     @Column(name="firstname", columnDefinition = "text")
     private String firstName;
 
@@ -76,9 +75,5 @@ public class UserEntity {
         userInfo.setCookRate(this.getCookRate());
         userInfo.setEatRate(this.getEatRate());
         return userInfo;
-
     }
-
-
-
 }

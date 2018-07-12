@@ -31,5 +31,5 @@ public class RecipeActivityEntity {
     private Integer recipeId;
 
     @Column(name="state")
-    private Integer state;
+    private Boolean state;
 }

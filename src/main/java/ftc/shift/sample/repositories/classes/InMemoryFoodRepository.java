@@ -15,10 +15,12 @@ public class InMemoryFoodRepository implements FoodRepository {
 
     private TreeMap<String, Food> foodCache = new TreeMap<>();
 
-    @Autowired
-    private FoodRepositoryEntity service;
+    private final FoodRepositoryEntity service;
 
-    public InMemoryFoodRepository(){}
+    @Autowired
+    public InMemoryFoodRepository(FoodRepositoryEntity service){
+        this.service = service;
+    }
 
     @Override
     public Food fetchFood(@NonNull final Integer idFood) {

@@ -25,6 +25,4 @@ public class RecipeCookerEntity {
 
     @Column(name="user_id")
     private Integer userId;
-
-
 }

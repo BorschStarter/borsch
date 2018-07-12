@@ -27,7 +27,7 @@ public class FoodEntity {
     private String category;
 
     public Food toFood(){
-        Food food =new Food();
+        Food food = new Food();
         food.setId(this.getId());
         food.setName(this.getName());
         food.setCategory(this.getCategory());
