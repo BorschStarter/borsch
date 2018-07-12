@@ -163,19 +163,19 @@ public class RecipeService implements RecipeServiceInterface {
 
     @Override
     public void addProductToMyRecipe(@NonNull Recipe recipe,@NonNull Product product) {
-
-        provideUser(recipe.getIdCooker())
-                .getMyRecipes()
-                .get(recipe.getName())
-                .getProductList()
-                .add(product);
-
-        provideUser(recipe.getIdCooker())
-                .getMyRecipes()
-                .get(recipe.getIdRecipe())
-                .getListUsersForEachProduct()
-                .put(product.getId(),new HashMap<>());
-        updateUser(provideUser(recipe.getIdCooker()));
+//
+//        provideUser(recipe.getIdCooker())
+//                .getMyRecipes()
+//                .get(recipe.getName())
+//                .getProductList()
+//                .add(product);
+//
+//        provideUser(recipe.getIdCooker())
+//                .getMyRecipes()
+//                .get(recipe.getIdRecipe())
+//                .getListUsersForEachProduct()
+//                .put(product.getId(),new HashMap<>());
+//        updateUser(provideUser(recipe.getIdCooker()));
     }
 
     @Override

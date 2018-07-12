@@ -60,7 +60,7 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User fetchUser(@NonNull final Integer idUser){
-        UserEntity userEntity = repository.findOne(0);
+        UserEntity userEntity = repository.findOne(idUser);
         UserInfo userInfo = userEntity.toUserInfo();
         User user = new User();
         user.setUserInfo(userInfo);
