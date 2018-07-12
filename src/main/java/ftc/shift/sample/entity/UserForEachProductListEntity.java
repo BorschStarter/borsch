@@ -15,7 +15,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class UserForEachProductListEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
@@ -27,4 +26,6 @@ public class UserForEachProductListEntity {
     @Column(name="recipe_id")
     private Integer recipeId;
 
+    @Column(name="user_id")
+    private Integer userId;
 }

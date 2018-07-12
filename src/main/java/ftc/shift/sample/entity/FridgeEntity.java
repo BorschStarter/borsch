@@ -26,9 +26,4 @@ public class FridgeEntity {
 
     @Column(name="product_id")
     private Integer productId;
-
-
-
-
-
 }

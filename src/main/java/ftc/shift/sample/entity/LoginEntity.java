@@ -28,6 +28,4 @@ public class LoginEntity {
 
     @Column(name="password", columnDefinition = "text")
     private String password;
-
-
 }

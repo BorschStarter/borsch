@@ -29,6 +29,5 @@ public class TokenEntity {
 
     @Column(name="token", columnDefinition = "text")
     private String token;
-
 }
 

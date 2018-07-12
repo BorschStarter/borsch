@@ -33,6 +33,4 @@ public class FoodEntity {
         food.setCategory(this.getCategory());
         return food;
     }
-
-
 }
