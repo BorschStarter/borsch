@@ -24,13 +24,13 @@ public class InMemoryFoodRepository implements FoodRepository {
     @Override
     public Food fetchFood(@NonNull final Integer idFood) {
         FoodEntity foodEntity = service.findOne(idFood);
-        return EntityProcessor.FoodEntityToFood(foodEntity);
+        return EntityProcessor.foodEntityToFood(foodEntity);
     }
 
     @Override
     public Food updateFood(@NonNull final Food food) {
         service.delete(food.getId());
-        service.save(EntityProcessor.FoodToFoodEntity(food));
+        service.save(EntityProcessor.foodToFoodEntity(food));
         return food;
     }
 
@@ -41,7 +41,7 @@ public class InMemoryFoodRepository implements FoodRepository {
 
     @Override
     public Food createFood(@NonNull final Food food) {
-        return EntityProcessor.FoodEntityToFood(service.save(EntityProcessor.FoodToFoodEntity(food)));
+        return EntityProcessor.foodEntityToFood(service.save(EntityProcessor.foodToFoodEntity(food)));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class InMemoryFoodRepository implements FoodRepository {
         Iterable<FoodEntity> foods = service.findAll();
         TreeMap<String,Food> listFood = new TreeMap<>();
         foods.forEach(item ->
-                listFood.put(item.getName(),EntityProcessor.FoodEntityToFood(item)));
+                listFood.put(item.getName(),EntityProcessor.foodEntityToFood(item)));
 
         return listFood;
     }

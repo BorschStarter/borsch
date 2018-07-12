@@ -17,48 +17,6 @@ import java.util.*;
 @Repository
 public class InMemoryUserRepository implements UserRepository {
 
-//    private TreeMap<String, ftc.shift.sample.models.User> userCache = new TreeMap<>();
-
-    public InMemoryUserRepository(){
-
-//Pavel Durov
-
-//        User user = new User();
-//        UserInfo userInfo = new UserInfo();
-//        Fridge fridge = new Fridge();
-//        ArrayList<Product> arrayList = new ArrayList<>();
-//        arrayList.add(new Product("apple","apple",1.0,0.0));
-//        arrayList.add(new Product("orange","orange",1.0,0.0));
-//        arrayList.add(new Product("potato","potato",1.0,0.0));
-//        user.setRecipeState(new HashMap<String,State>());
-
-//        Recipe recipe = new Recipe("Borsch","Borsch","durov",Boolean.FALSE,arrayList,new HashMap<>(),new HashMap<>());
-//        HashMap<String,Recipe> hashMap =new HashMap<String,Recipe>() ;
-//        hashMap.put("Borsch", recipe);
-//        user.setMyRecipes(hashMap);
-//        user.setFridge(fridge);
-//        user.setLogin("durov");
-//        user.setPassword("pavel");
-//        userInfo.setId("durov");
-//        userInfo.setCity("Saint-Petersburg");
-//        userInfo.setCookRate(3);
-//        userInfo.setDormitory("134");
-//        userInfo.setEatRate(3);
-//        userInfo.setEmail("durov@ya.com");
-//        userInfo.setFirstName("Pavel");
-//        userInfo.setRoom("567");
-//        userInfo.setSecondName("Durov");
-//        userInfo.setTelegram("https://t.me/durov");
-//        userInfo.setUniversity("NSU");
-//        userInfo.setVk("https://vk.com/id1");
-
-//        user.setUserInfo(userInfo);
-
-//        userCache.put(user.getLogin(),user);
-
-    //
-    }
-
     @Autowired
     private UserRepositoryEntity repository;
     @Autowired
@@ -84,7 +42,7 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public User fetchUser(@NonNull final Integer idUser){
         UserInfoEntity userInfoEntity = repository.findOne(idUser);
-        UserInfo userInfo = EntityProcessor.UserInfoEntityToUserInfo(userInfoEntity);
+        UserInfo userInfo = EntityProcessor.userInfoEntityToUserInfo(userInfoEntity);
         User user = new User();
         user.setUserInfo(userInfo);
         LoginEntity login = provideUserLoginInfo(idUser);
@@ -110,16 +68,16 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public Boolean checkLoginInformation(UserLogin userLogin) {
+    public Boolean authenticate(UserLogin userLogin) {
         return null;
     }
 
     @Override
     public User updateUser(@NonNull  User user) {
-        UserInfo userInfo =EntityProcessor.UserInfoEntityToUserInfo(
+        UserInfo userInfo =EntityProcessor.userInfoEntityToUserInfo(
                 repository
                         .save(EntityProcessor
-                                .UserInfoToUserInfoEntity(
+                                .userInfoToUserInfoEntity(
                                         user
                                                 .getUserInfo()
                                 )));
@@ -143,20 +101,16 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public User createUser(@NonNull final User user) {
-        user.setUserInfo(EntityProcessor.UserInfoEntityToUserInfo(
-                repository.save(EntityProcessor
-                        .UserInfoToUserInfoEntity(
-                                user.getUserInfo()))));
+    public UserInfo createUser(@NonNull final UserLogin userLogin) {
+        UserInfo userInfo = new UserInfo();
+        userInfo = EntityProcessor.userInfoEntityToUserInfo(
+                repository.save(
+                        EntityProcessor.userInfoToUserInfoEntity(userInfo)
+        ));
+        userLogin.setIdUser(userInfo.getId());
+        loginRepository.save(EntityProcessor.userLoginToLoginEntity(userLogin));
 
-        LoginEntity login = new LoginEntity();
-        login.setLogin(user.getLogin());
-        login.setPassword(user.getPassword());
-        login.setUserId(user.getUserInfo().getId());
-        login=loginRepository.save(login);
-        user.setLogin(login.getLogin());
-        user.setPassword(login.getPassword());
-        return user;
+        return userInfo;
     }
 
     public LoginEntity provideUserLoginInfo(Integer idUser){

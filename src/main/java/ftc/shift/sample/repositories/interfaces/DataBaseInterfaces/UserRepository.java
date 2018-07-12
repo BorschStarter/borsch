@@ -13,13 +13,13 @@ public interface UserRepository {
 
     Boolean checkInitLogin(@NonNull String login);
 
-    Boolean checkLoginInformation(@NonNull UserLogin userLogin);
+    Boolean authenticate(@NonNull UserLogin userLogin);
 
     User updateUser(@NonNull User user);
 
     void deleteUser(@NonNull Integer idUser);
 
-    User createUser(@NonNull User user);
+    UserInfo createUser(@NonNull UserLogin userLogin);
 
     TreeMap<String,User> getAllUsers();
 }

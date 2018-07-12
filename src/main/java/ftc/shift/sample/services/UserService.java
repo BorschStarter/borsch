@@ -11,9 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 @Service
 public final class UserService implements UserServiceInterface {
+
+    private static final String INCORRECT_LOGIN = "Логин некорректен " +
+            "Ваш логин должен быть длинее 5 символов и короче 16" +
+            "и состоять только из букв латинского алфавита и цифр";
+
+    private static final String INCORRECT_PASSWORD = "Пароль некорректен " +
+            "Ваш пароль должен быть длинее 5 символов и короче 16" +
+            "и состоять только из букв латинского алфавита и цифр";
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
@@ -32,17 +41,25 @@ public final class UserService implements UserServiceInterface {
 
 
     @Override
-    public void registration(@NonNull UserLogin userLogin) {
-        User user = new User();
-        user.setLogin(userLogin.getUserName());
-        user.setPassword(userLogin.getPassword());
-        userRepository.createUser(user);
+    public void registration(@NonNull UserLogin userLogin) throws IllegalArgumentException{
+        if(loginCorrectCheck(userLogin.getUserName())){
+            throw new IllegalArgumentException(INCORRECT_LOGIN);
+        }
+        if(passwordCorrectCheck(userLogin.getPassword())){
+            throw new IllegalArgumentException(INCORRECT_PASSWORD);
+        }
+        if (userRepository.checkInitLogin(userLogin.getUserName())){
+            userRepository.createUser(userLogin);
+        }else{
+            throw new IllegalArgumentException("Логин занят");
+        }
 
     }
+
     @Override
     public UserValidInfo logIn(@NonNull UserLogin userLogin) throws IllegalArgumentException{
         if(userRepository.checkInitLogin(userLogin.getUserName())){
-            if(userRepository.checkLoginInformation(userLogin)){
+            if(userRepository.authenticate(userLogin)){
                 return startTokenSession(userLogin);
             }else{
                 throw new IllegalArgumentException("Вы ввели неверный пароль.");
@@ -125,10 +142,6 @@ public final class UserService implements UserServiceInterface {
         }
     }
 
-    private void createUser(@NonNull User user) {
-
-        userRepository.createUser(user);
-    }
 
 
 
@@ -146,6 +159,31 @@ public final class UserService implements UserServiceInterface {
             return true;
         }else{
             return false;
+        }
+    }
+    private Boolean loginCorrectCheck(String login){
+        if((login==null)||(login.length()<6)||
+                ((login.length()>16))){
+            return false;
+        }else{
+            if (login.matches("[A-Za-z]+[0-9]")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private Boolean passwordCorrectCheck(String password){
+        if((password==null)||(password.length()<6)||
+                ((password.length()>16))){
+            return false;
+        }else{
+            if (password.matches("[A-Za-z]+[0-9]")) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
