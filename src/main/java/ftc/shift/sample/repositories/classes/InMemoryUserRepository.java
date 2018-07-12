@@ -3,7 +3,6 @@ package ftc.shift.sample.repositories.classes;
 import ftc.shift.sample.Controllers.EntityProcessor;
 import ftc.shift.sample.entity.LoginEntity;
 import ftc.shift.sample.entity.ProductEntity;
-import ftc.shift.sample.entity.UserInfoEntity;
 import ftc.shift.sample.models.*;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.UserRepository;
@@ -18,7 +17,7 @@ import java.util.*;
 public class InMemoryUserRepository implements UserRepository {
 
     @Autowired
-    private UserRepositoryEntity repository;
+    private UserRepositoryEntity userRepository;
     @Autowired
     private LoginRepositoryEntity loginRepository;
     @Autowired
@@ -40,26 +39,13 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public User fetchUser(@NonNull final Integer idUser){
-        UserInfoEntity userInfoEntity = repository.findOne(idUser);
-        UserInfo userInfo = EntityProcessor.userInfoEntityToUserInfo(userInfoEntity);
-        User user = new User();
-        user.setUserInfo(userInfo);
-        LoginEntity login = provideUserLoginInfo(idUser);
-        user.setPassword(login.getPassword());
-        user.setLogin(login.getLogin());
-        Fridge fridge = new Fridge();
-        HashMap<String,Product> map = new HashMap<>();
-        for (ProductEntity productEntity : productRepository.findAll()){
-           if(productEntity.getUserId().equals(idUser)){
-              Product product = productEntity.toProduct();//productRepository.findOne(fridgeEntity.getProductId()).toProduct();
-               product.setFoodName(foodRepositoryEntity.findOne(product.getFoodId()).getName());
-                map.put(product.getFoodName(),product);
-           }
+    public UserInfo fetchUser(@NonNull final Integer idUser) throws IllegalArgumentException {
+        UserInfo userInfo = EntityProcessor.userInfoEntityToUserInfo(userRepository.findOne(idUser));
+        if(userInfo==null){
+            throw new IllegalArgumentException("Пользователь не найден");
+        }else{
+            return userInfo;
         }
-        fridge.setProducts(map);
-        user.setFridge(fridge);
-        return user;
     }
 
     @Override
@@ -74,37 +60,38 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User updateUser(@NonNull  User user) {
-        UserInfo userInfo =EntityProcessor.userInfoEntityToUserInfo(
-                repository
-                        .save(EntityProcessor
-                                .userInfoToUserInfoEntity(
-                                        user
-                                                .getUserInfo()
-                                )));
-
-        for(ProductEntity productEntity: productRepository.findAll()){
-            if(productEntity.getUserId().equals(user.getUserInfo().getId()));
-            productRepository.delete(productEntity.getId());
-        }
-        for(Product product : user.getFridge().getProducts().values()){
-            productRepository.save(product.toProductEntity());
-        }
-
-
-        return fetchUser(user.getUserInfo().getId());
+//        UserInfo userInfo =EntityProcessor.userInfoEntityToUserInfo(
+//                userRepository
+//                        .save(EntityProcessor
+//                                .userInfoToUserInfoEntity(
+//                                        user
+//                                                .getUserInfo()
+//                                )));
+//
+//        for(ProductEntity productEntity: productRepository.findAll()){
+//            if(productEntity.getUserId().equals(user.getUserInfo().getId()));
+//            productRepository.delete(productEntity.getId());
+//        }
+//        for(Product product : user.getFridge().getProducts().values()){
+//            productRepository.save(product.toProductEntity());
+//        }
+//
+//
+//        return fetchUser(user.getUserInfo().getId());
+        return null;
 
     }
 
     @Override
     public void deleteUser(@NonNull final Integer iduser) {
-        repository.delete(iduser);
+        userRepository.delete(iduser);
     }
 
     @Override
     public UserInfo createUser(@NonNull final UserLogin userLogin) {
         UserInfo userInfo = new UserInfo();
         userInfo = EntityProcessor.userInfoEntityToUserInfo(
-                repository.save(
+                userRepository.save(
                         EntityProcessor.userInfoToUserInfoEntity(userInfo)
         ));
         userLogin.setIdUser(userInfo.getId());
@@ -123,17 +110,6 @@ public class InMemoryUserRepository implements UserRepository {
         return null;
     }
 
-    @Override
-    public TreeMap<String, User> getAllUsers() {
-        TreeMap<String,User> map = new TreeMap<>();
-        Iterable<LoginEntity> list = loginRepository.findAll();
-
-        for(LoginEntity loginEntity : list){
-            User user = fetchUser(loginEntity.getUserId());
-            map.put(loginEntity.getLogin(),user);
-        }
-        return  map;
-    }
 
 
 }

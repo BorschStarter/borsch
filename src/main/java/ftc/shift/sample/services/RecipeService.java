@@ -29,9 +29,10 @@ public class RecipeService implements RecipeServiceInterface {
 
     private User provideUser(@NonNull Integer idUser) {
 
-        if (userRepository.getAllUsers().containsKey(idUser))
-            return userRepository.fetchUser(idUser);
-        else throw new IllegalArgumentException("Пользователя с таким логином не существует");
+//        if (userRepository.getAllUsers().containsKey(idUser))
+//            return userRepository.fetchUser(idUser);
+//        else throw new IllegalArgumentException("Пользователя с таким логином не существует");
+        return null;
     }
 
     private void updateUser(@NonNull User user) {
@@ -54,25 +55,25 @@ public class RecipeService implements RecipeServiceInterface {
     @Override
     public void addRecipeToMyRecipes(@NonNull Recipe recipe) {
 
-        provideUser(recipe.getIdCooker())
-                .getMyRecipes()
-                .put(recipe.getName(),recipe);
-        updateUser(userRepository.fetchUser(recipe.getIdCooker()));
+//        provideUser(recipe.getIdCooker())
+//                .getMyRecipes()
+//                .put(recipe.getName(),recipe);
+//        updateUser(userRepository.fetchUser(recipe.getIdCooker()));
 
     }
 
     @Override
     public void addRecipeToNotMyRecipes(@NonNull Recipe recipe, @NonNull Integer idUser, @NonNull Product product) {
 
-        provideUser(idUser)
-                .getNotMyRecipes()
-                .put(recipe.getName(),recipe);
-        provideUser(idUser)
-                .getRecipeState()
-                .put(recipe.getName(),WAITING);
-        updateUser(userRepository.fetchUser(recipe.getIdCooker()));
-
-        addUserToAllUsersForProductIdForRecipeId(recipe,idUser,product);
+//        provideUser(idUser)
+//                .getNotMyRecipes()
+//                .put(recipe.getName(),recipe);
+//        provideUser(idUser)
+//                .getRecipeState()
+//                .put(recipe.getName(),WAITING);
+//        updateUser(userRepository.fetchUser(recipe.getIdCooker()));
+//
+//        addUserToAllUsersForProductIdForRecipeId(recipe,idUser,product);
     }
 
     @Override
@@ -80,23 +81,23 @@ public class RecipeService implements RecipeServiceInterface {
 
         HashMap<String,Recipe> myLenta = new HashMap<>();
 
-        for (Map.Entry<String,Product> myProduct : provideUser(idUser).getFridge().getProducts().entrySet()) {
-
-            for (Map.Entry<String,User> otherUser: userRepository.getAllUsers().entrySet()) {
-
-                for (Map.Entry<String,Recipe> recipeOtherUser: otherUser.getValue().getMyRecipes().entrySet()) {
-
-                    for (Product currentProduct : recipeOtherUser.getValue().getProductList()) {
-
-                        if (myProduct.getValue().equals(currentProduct)){
-
-                            myLenta.put(recipeOtherUser.getKey(),recipeOtherUser.getValue());
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+//        for (Map.Entry<String,Product> myProduct : provideUser(idUser).getFridge().getProducts().entrySet()) {
+//
+//            for (Map.Entry<String,User> otherUser: userRepository.getAllUsers().entrySet()) {
+//
+//                for (Map.Entry<String,Recipe> recipeOtherUser: otherUser.getValue().getMyRecipes().entrySet()) {
+//
+//                    for (Product currentProduct : recipeOtherUser.getValue().getProductList()) {
+//
+//                        if (myProduct.getValue().equals(currentProduct)){
+//
+//                            myLenta.put(recipeOtherUser.getKey(),recipeOtherUser.getValue());
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         return myLenta;
     }
@@ -116,25 +117,25 @@ public class RecipeService implements RecipeServiceInterface {
     @Override
     public void removeRecipeFromMyRecipes(@NonNull Integer idUser, @NonNull Integer idRecipe) {
 
-        if (provideUser(idUser).getMyRecipes().containsKey(idRecipe)) {
-            provideUser(idUser).getMyRecipes().remove(idRecipe);
-            updateUser(userRepository.fetchUser(idUser));
-        }
-        else {
-            throw new IllegalArgumentException("Такого рецепта не существовало");
-        }
+//        if (provideUser(idUser).getMyRecipes().containsKey(idRecipe)) {
+//            provideUser(idUser).getMyRecipes().remove(idRecipe);
+//            updateUser(userRepository.fetchUser(idUser));
+//        }
+//        else {
+//            throw new IllegalArgumentException("Такого рецепта не существовало");
+//        }
     }
 
     @Override
     public void removeRecipeFromNotMyRecipes(@NonNull Integer idUser, @NonNull Integer idRecipe) {
 
-        if (provideUser(idUser).getNotMyRecipes().containsKey(idRecipe)) {
-            provideUser(idUser).getNotMyRecipes().remove(idRecipe);
-            updateUser(userRepository.fetchUser(idUser));
-        }
-        else {
-            throw new IllegalArgumentException("Такого рецепта не существовало");
-        }
+//        if (provideUser(idUser).getNotMyRecipes().containsKey(idRecipe)) {
+//            provideUser(idUser).getNotMyRecipes().remove(idRecipe);
+//            updateUser(userRepository.fetchUser(idUser));
+//        }
+//        else {
+//            throw new IllegalArgumentException("Такого рецепта не существовало");
+//        }
     }
 
     @Override

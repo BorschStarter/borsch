@@ -23,29 +23,31 @@ public class FridgeService implements FridgeServiceInterface {
     @Override
     public Fridge provideFridge(@NonNull Integer idUser){
 
-        return userRepository.fetchUser(idUser).getFridge();
+        return null; //userRepository.fetchUser(idUser).getFridge();
     }
 
 
     @Override
     public Fridge addProductInFridge(@NonNull Integer idUser,@NonNull Product product){
-        User user = userRepository.fetchUser(idUser);
-        user.getFridge().getProducts().put(product.getFoodName(),product);
-        userRepository.updateUser(user);
-        return provideFridge(idUser);
+//        User user = userRepository.fetchUser(idUser);
+//        user.getFridge().getProducts().put(product.getFoodName(),product);
+//        userRepository.updateUser(user);
+//        return provideFridge(idUser);
+        return null;
     }
 
     @Override
     public Fridge removeProductFromFridge(@NonNull Integer idUser,@NonNull Integer idProduct) {
-        if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
-            throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
-        }
-        else {
-            User user = userRepository.fetchUser(idUser);
-            user.getFridge().getProducts().remove(idProduct);
-            userRepository.updateUser(user);
-            return provideFridge(idUser);
-        }
+//        if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
+//            throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
+//        }
+//        else {
+//            User user = userRepository.fetchUser(idUser);
+//            user.getFridge().getProducts().remove(idProduct);
+//            userRepository.updateUser(user);
+//            return provideFridge(idUser);
+//        }
+        return null;
     }
 
     @Override

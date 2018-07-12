@@ -33,13 +33,6 @@ public final class UserService implements UserServiceInterface {
         this.tokenRepository = tokenRepository;
     }
 
-
-//    public Integer getUserByLogin(String login){
-//        return userRepository.getAllUsers().get(login).getUserInfo().getId();
-//
-//    }
-
-
     @Override
     public void registration(@NonNull UserLogin userLogin) throws IllegalArgumentException{
         if(loginCorrectCheck(userLogin.getUserName())){
@@ -95,19 +88,25 @@ public final class UserService implements UserServiceInterface {
 
 
     @Override
-    public UserInfo provideUserInfo(@NonNull Integer idUser) {
-
-        return provideUser(idUser).getUserInfo();
+    public UserInfo provideUserInfo(@NonNull Integer idUser) throws IllegalArgumentException{
+        try{
+                return userRepository.fetchUser(idUser);
+        }catch (IllegalArgumentException ex){
+                throw ex;
+        }
     }
+
+
 
     @Override
     public UserInfo updateUserInfo(@NonNull UserInfo userInfo) {
-        User user = provideUser(userInfo.getId());
-        userInfo.setEatRate(user.getUserInfo().getEatRate());
-        userInfo.setCookRate(user.getUserInfo().getCookRate());
-        user.setUserInfo(userInfo);
-        updateUser(user);
-        return provideUser(userInfo.getId()).getUserInfo();
+//        User user = provideUser(userInfo.getId());
+//        userInfo.setEatRate(user.getUserInfo().getEatRate());
+//        userInfo.setCookRate(user.getUserInfo().getCookRate());
+//        user.setUserInfo(userInfo);
+//        updateUser(user);
+//        return provideUser(userInfo.getId()).getUserInfo();
+        return null;
     }
 
 
@@ -115,16 +114,10 @@ public final class UserService implements UserServiceInterface {
     @Override
     public void updatePassword(@NonNull Integer idUser, @NonNull String newPassword) {
 
-        provideUser(idUser).setPassword(newPassword);
-        updateUser(provideUser(idUser));
+//        provideUser(idUser).setPassword(newPassword);
+//        updateUser(provideUser(idUser));
     }
 
-    private User provideUser(@NonNull Integer idUser) {
-
-       // if (userRepository.getAllUsers().containsKey(idUser))
-            return userRepository.fetchUser(idUser);
-       // else throw new IllegalArgumentException("Пользователя с таким логином не существует");
-    }
 
     private User updateUser(@NonNull User user) {
 
@@ -135,11 +128,11 @@ public final class UserService implements UserServiceInterface {
     @Override
     public void deleteUser(@NonNull Integer idUser) {
 
-        if (userRepository.getAllUsers().containsKey(idUser)) {
-            userRepository.deleteUser(idUser);
-        } else {
-            throw new IllegalArgumentException("Вы пытаетесь удалить несуществующего пользователя");
-        }
+//        if (userRepository.getAllUsers().containsKey(idUser)) {
+//            userRepository.deleteUser(idUser);
+//        } else {
+//            throw new IllegalArgumentException("Вы пытаетесь удалить несуществующего пользователя");
+//        }
     }
 
 

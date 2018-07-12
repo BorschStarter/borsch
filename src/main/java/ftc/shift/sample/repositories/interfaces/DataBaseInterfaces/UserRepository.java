@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 public interface UserRepository {
 
-    User fetchUser(@NonNull Integer idUser);
+    UserInfo fetchUser(@NonNull Integer idUser);
 
     Boolean checkInitLogin(@NonNull String login);
 
@@ -21,5 +21,4 @@ public interface UserRepository {
 
     UserInfo createUser(@NonNull UserLogin userLogin);
 
-    TreeMap<String,User> getAllUsers();
 }

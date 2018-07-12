@@ -12,8 +12,6 @@ public interface UserServiceInterface {
 
     UserValidInfo logIn(@NonNull UserLogin userLogin) throws IllegalArgumentException;
 
-
-
     void LogOut(@NonNull UserValidInfo userValidInfo);
 
     Boolean checkAccess(@NonNull UserValidInfo userValidInfo);
