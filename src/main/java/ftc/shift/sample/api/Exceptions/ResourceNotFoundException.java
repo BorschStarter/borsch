@@ -1,4 +1,4 @@
-package ftc.shift.sample.api;
+package ftc.shift.sample.api.Exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -31,7 +31,14 @@ public final class UserService implements UserServiceInterface {
 //    }
 
 
+    @Override
+    public void registration(@NonNull UserLogin userLogin) {
+        User user = new User();
+        user.setLogin(userLogin.getUserName());
+        user.setPassword(userLogin.getPassword());
+        userRepository.createUser(user);
 
+    }
     @Override
     public UserValidInfo logIn(@NonNull UserLogin userLogin) throws IllegalArgumentException{
         if(userRepository.checkInitLogin(userLogin.getUserName())){
@@ -45,7 +52,6 @@ public final class UserService implements UserServiceInterface {
         }
 
     }
-
 
     @Override
     public void LogOut(@NonNull UserValidInfo userValidInfo) {
@@ -70,6 +76,7 @@ public final class UserService implements UserServiceInterface {
         }
     }
 
+
     @Override
     public UserInfo provideUserInfo(@NonNull Integer idUser) {
 
@@ -86,14 +93,7 @@ public final class UserService implements UserServiceInterface {
         return provideUser(userInfo.getId()).getUserInfo();
     }
 
-    @Override
-    public void registration(@NonNull UserLogin userLogin) {
-        User user = new User();
-        user.setLogin(userLogin.getUserName());
-        user.setPassword(userLogin.getPassword());
-        userRepository.createUser(user);
 
-    }
 
     @Override
     public void updatePassword(@NonNull Integer idUser, @NonNull String newPassword) {

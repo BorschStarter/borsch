@@ -1,6 +1,6 @@
 package ftc.shift.sample.models;
 
-import ftc.shift.sample.entity.UserEntity;
+import ftc.shift.sample.entity.UserInfoEntity;
 import lombok.*;
 
 import java.io.Serializable;
@@ -38,21 +38,5 @@ public final class UserInfo implements Serializable{
     private String email;
     private Integer cookRate;
     private Integer eatRate;
-    
-    public UserEntity toUserEntity(){
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(this.getId());
-        userEntity.setFirstName(this.getFirstName());
-        userEntity.setSecondName(this.getSecondName());
-        userEntity.setCity(this.getCity());
-        userEntity.setUniversity(this.getUniversity());
-        userEntity.setDormitory(this.getDormitory());
-        userEntity.setRoom(this.getRoom());
-        userEntity.setVk(this.getVk());
-        userEntity.setTelegram(this.getTelegram());
-        userEntity.setEmail(this.getEmail());
-        userEntity.setCookRate(this.getCookRate());
-        userEntity.setEatRate(this.getEatRate());
-        return userEntity;
-    }
+
 }

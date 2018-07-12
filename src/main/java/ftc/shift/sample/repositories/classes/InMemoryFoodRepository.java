@@ -1,5 +1,6 @@
 package ftc.shift.sample.repositories.classes;
 
+import ftc.shift.sample.Controllers.EntityProcessor;
 import ftc.shift.sample.entity.FoodEntity;
 import ftc.shift.sample.models.Food;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
@@ -13,8 +14,6 @@ import java.util.*;
 @Repository
 public class InMemoryFoodRepository implements FoodRepository {
 
-    private TreeMap<String, Food> foodCache = new TreeMap<>();
-
     private final FoodRepositoryEntity service;
 
     @Autowired
@@ -25,13 +24,13 @@ public class InMemoryFoodRepository implements FoodRepository {
     @Override
     public Food fetchFood(@NonNull final Integer idFood) {
         FoodEntity foodEntity = service.findOne(idFood);
-        return foodEntity.toFood();
+        return EntityProcessor.FoodEntityToFood(foodEntity);
     }
 
     @Override
     public Food updateFood(@NonNull final Food food) {
         service.delete(food.getId());
-        service.save(food.toFoodEntity());
+        service.save(EntityProcessor.FoodToFoodEntity(food));
         return food;
     }
 
@@ -42,24 +41,15 @@ public class InMemoryFoodRepository implements FoodRepository {
 
     @Override
     public Food createFood(@NonNull final Food food) {
-        //food.setId(null);
-        //service.save(food.toFoodEntity());
-        //Метод требует подключения дополнительного сервиса по составлению SQL запросов
-        //Жаль Малой кровью не обошлись
-        return service.save(food.toFoodEntity()).toFood();
+        return EntityProcessor.FoodEntityToFood(service.save(EntityProcessor.FoodToFoodEntity(food)));
     }
 
     @Override
     public TreeMap<String,Food> getAllFoods() {
-//        TreeMap<String,Food> map = new TreeMap<>();
-//        Iterable<FoodEntity> list = service.findAll();
-//        for(FoodEntity foodEntity : list){
-//            map.put(foodEntity.getName(),foodEntity.toFood());
-//        }
-//        return map;
         Iterable<FoodEntity> foods = service.findAll();
         TreeMap<String,Food> listFood = new TreeMap<>();
-        foods.forEach(item -> listFood.put(item.getName(),item.toFood()));
+        foods.forEach(item ->
+                listFood.put(item.getName(),EntityProcessor.FoodEntityToFood(item)));
 
         return listFood;
     }

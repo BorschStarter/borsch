@@ -1,4 +1,4 @@
-package ftc.shift.sample.api;
+package ftc.shift.sample.Controllers;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;

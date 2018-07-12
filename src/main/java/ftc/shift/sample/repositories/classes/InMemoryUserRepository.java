@@ -1,8 +1,9 @@
 package ftc.shift.sample.repositories.classes;
 
+import ftc.shift.sample.Controllers.EntityProcessor;
 import ftc.shift.sample.entity.LoginEntity;
 import ftc.shift.sample.entity.ProductEntity;
-import ftc.shift.sample.entity.UserEntity;
+import ftc.shift.sample.entity.UserInfoEntity;
 import ftc.shift.sample.models.*;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.UserRepository;
@@ -82,8 +83,8 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User fetchUser(@NonNull final Integer idUser){
-        UserEntity userEntity = repository.findOne(idUser);
-        UserInfo userInfo = userEntity.toUserInfo();
+        UserInfoEntity userInfoEntity = repository.findOne(idUser);
+        UserInfo userInfo = EntityProcessor.UserInfoEntityToUserInfo(userInfoEntity);
         User user = new User();
         user.setUserInfo(userInfo);
         LoginEntity login = provideUserLoginInfo(idUser);
@@ -115,7 +116,14 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User updateUser(@NonNull  User user) {
-        UserInfo userInfo =repository.save(user.getUserInfo().toUserEntity()).toUserInfo();
+        UserInfo userInfo =EntityProcessor.UserInfoEntityToUserInfo(
+                repository
+                        .save(EntityProcessor
+                                .UserInfoToUserInfoEntity(
+                                        user
+                                                .getUserInfo()
+                                )));
+
         for(ProductEntity productEntity: productRepository.findAll()){
             if(productEntity.getUserId().equals(user.getUserInfo().getId()));
             productRepository.delete(productEntity.getId());
@@ -136,7 +144,11 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User createUser(@NonNull final User user) {
-        user.setUserInfo(repository.save(user.getUserInfo().toUserEntity()).toUserInfo());
+        user.setUserInfo(EntityProcessor.UserInfoEntityToUserInfo(
+                repository.save(EntityProcessor
+                        .UserInfoToUserInfoEntity(
+                                user.getUserInfo()))));
+
         LoginEntity login = new LoginEntity();
         login.setLogin(user.getLogin());
         login.setPassword(user.getPassword());

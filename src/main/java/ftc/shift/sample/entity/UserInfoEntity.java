@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity {
+public class UserInfoEntity {
 //id, firstname, secondname, city, university, dormitory, room, vk, telegram, email, cookrate, eatrate
 
     @Id
@@ -57,23 +57,4 @@ public class UserEntity {
     private Integer eatRate;
 
 
-    //временное решение для теста
-    //В теории можно оставить для лучшей инкапсуляции базы
-    public UserInfo toUserInfo(){
-        UserInfo userInfo = new UserInfo();
-//        userInfo.setId(this.getId().toString());
-        userInfo.setId(this.getId());
-        userInfo.setFirstName(this.getFirstName());
-        userInfo.setSecondName(this.getSecondName());
-        userInfo.setCity(this.getCity());
-        userInfo.setUniversity(this.getUniversity());
-        userInfo.setDormitory(this.getDormitory());
-        userInfo.setRoom(this.getRoom());
-        userInfo.setVk(this.getVk());
-        userInfo.setTelegram(this.getTelegram());
-        userInfo.setEmail(this.getEmail());
-        userInfo.setCookRate(this.getCookRate());
-        userInfo.setEatRate(this.getEatRate());
-        return userInfo;
-    }
 }
