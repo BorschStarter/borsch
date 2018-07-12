@@ -17,7 +17,7 @@ public final class Recipe implements Serializable{
     private Integer isInProcess;
     private ArrayList<Product> productList = new ArrayList<>();
     private HashMap<String, String> finalUserList = new HashMap<>();
-    private HashMap<String,HashMap<String,User>> listUsersForEachProduct = new HashMap<>();
+    //private HashMap<String,HashMap<String,User>> listUsersForEachProduct = new HashMap<>();
     //HashMap<String,String> продукт-ИдПользователь
 
 }

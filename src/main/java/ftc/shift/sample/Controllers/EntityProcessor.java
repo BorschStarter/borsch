@@ -3,6 +3,8 @@ package ftc.shift.sample.Controllers;
 import ftc.shift.sample.entity.*;
 import ftc.shift.sample.models.*;
 
+import java.util.ArrayList;
+
 public class EntityProcessor {
 
     public static FoodEntity foodToFoodEntity(Food food){
@@ -79,5 +81,30 @@ public class EntityProcessor {
         productEntity.setId(product.getId());
         productEntity.setAllWeight(product.getAllWeight());
         return productEntity;
+    }
+
+    public static RecipeInfo recipeEntitysToRecipeInfo (ArrayList<RecipeEntity> listOfRecipeEntity){
+        RecipeInfo recipeInfo = new RecipeInfo();
+        recipeInfo.setRecipeId(listOfRecipeEntity.get(0).getRecipeId());
+        recipeInfo.setRecipeName(listOfRecipeEntity.get(0).getName());
+        recipeInfo.setUserId(listOfRecipeEntity.get(0).getUserId());
+        ArrayList<Integer> idProducts = new ArrayList<Integer>();
+        for(RecipeEntity recipeEntity :listOfRecipeEntity){
+            idProducts.add(recipeEntity.getProductId());
+        }
+        recipeInfo.setIdProducts(idProducts);
+        return recipeInfo;
+    }
+    public static ArrayList<RecipeEntity> recipeInfoToRecipeEntitys (RecipeInfo recipeInfo){
+        ArrayList<RecipeEntity> listOfRecipeEntitie = new ArrayList<>();
+        RecipeEntity recipeEntity;
+        for(Integer productId : recipeInfo.getIdProducts()){
+            recipeEntity = new RecipeEntity();
+            recipeEntity.setName(recipeInfo.getRecipeName());
+            recipeEntity.setUserId(recipeInfo.getUserId());
+            recipeEntity.setRecipeId(recipeInfo.getRecipeId());
+            recipeEntity.setProductId(productId);
+        }
+        return listOfRecipeEntitie;
     }
 }

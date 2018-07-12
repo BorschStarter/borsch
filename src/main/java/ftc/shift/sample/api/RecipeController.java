@@ -18,7 +18,7 @@ public class RecipeController {
     private static final String RECIPE_PATH = Resources.API_PREFIX + "recipes";
 
     @Autowired
-    private RecipeServiceInterface service;
+    private RecipeServiceInterface recipeService;
     @Autowired
     private FridgeServiceInterface serviceFridge;
 

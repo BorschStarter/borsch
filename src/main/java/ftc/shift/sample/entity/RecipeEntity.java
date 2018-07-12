@@ -20,6 +20,9 @@ public class RecipeEntity {
     @Column(name="id")
     private Integer id;
 
+    @Column(name="recipe_id")
+    private Integer recipeId;
+
     @Column(name="user_id")
     private Integer userId;
 
