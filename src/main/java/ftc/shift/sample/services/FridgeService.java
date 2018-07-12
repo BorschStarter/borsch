@@ -1,16 +1,14 @@
 package ftc.shift.sample.services;
 
-import ftc.shift.sample.models.Food;
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
-import ftc.shift.sample.repositories.interfaces.FoodRepository;
-import ftc.shift.sample.repositories.interfaces.UserRepository;
+import ftc.shift.sample.models.User;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.UserRepository;
 import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class FridgeService implements FridgeServiceInterface {
@@ -31,9 +29,9 @@ public class FridgeService implements FridgeServiceInterface {
 
     @Override
     public Fridge addProductInFridge(@NonNull Integer idUser,@NonNull Product product){
-
-        userRepository.fetchUser(idUser).getFridge().getProducts().put(product.getFoodName(),product);
-
+        User user = userRepository.fetchUser(idUser);
+        user.getFridge().getProducts().put(product.getFoodName(),product);
+        userRepository.updateUser(user);
         return provideFridge(idUser);
     }
 
@@ -43,7 +41,9 @@ public class FridgeService implements FridgeServiceInterface {
             throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
         }
         else {
-            provideFridge(idUser).getProducts().remove(idProduct);
+            User user = userRepository.fetchUser(idUser);
+            user.getFridge().getProducts().remove(idProduct);
+            userRepository.updateUser(user);
             return provideFridge(idUser);
         }
     }

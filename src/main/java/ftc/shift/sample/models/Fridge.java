@@ -9,6 +9,7 @@ import java.util.HashMap;
 @Data
 @NoArgsConstructor
 public final class Fridge implements Serializable{
+    private Integer idFridge;
     private HashMap<String, Product> products = new HashMap<>();
     //private ArrayList<Product> products;
 }

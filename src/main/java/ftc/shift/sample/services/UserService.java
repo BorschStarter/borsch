@@ -1,16 +1,16 @@
 package ftc.shift.sample.services;
 
+import ftc.shift.sample.Controllers.StringGenerator;
 import ftc.shift.sample.models.*;
 
-import ftc.shift.sample.repositories.interfaces.TokenRepository;
-import ftc.shift.sample.repositories.interfaces.UserRepository;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.TokenRepository;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.UserRepository;
 import ftc.shift.sample.services.Interfaces.UserServiceInterface;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.Random;
+import java.util.ArrayList;
 
 @Service
 public final class UserService implements UserServiceInterface {
@@ -24,59 +24,50 @@ public final class UserService implements UserServiceInterface {
         this.tokenRepository = tokenRepository;
     }
 
-    private String generateToken(@NonNull String characters) {
 
-        Random random = new Random();
-        char[] text = new char[characters.length()];
-        for (int i = 0; i < characters.length(); i++) {
-            text[i] = characters.charAt(random.nextInt(characters.length()));
-        }
-        return new String(text);
-    }
-
-
-    public Integer getUserByLogin(String login){
-        return userRepository.getAllUsers().get(login).getUserInfo().getId();
-
-    }
-
-    @Override
-    public UserValidInfo createToken(@NonNull UserLogin userLogin) {
-    userLogin.setIdUser(getUserByLogin(userLogin.getUserName()));
-        if (!provideUser(userLogin.getIdUser()).getPassword().equals(userLogin.getPassword())) {
-            throw new IllegalArgumentException("Вы ввели неправильный пароль");
-        }
-
-        UserValidInfo userValidInfo = new UserValidInfo();
-        userValidInfo.setToken(generateToken(userLogin.getPassword().concat(userLogin.userName)));
-        userValidInfo.setLogin(userLogin.getUserName());
-        userValidInfo.setIdUser(userLogin.getIdUser());
-        tokenRepository.addToken(userValidInfo);
-        return userValidInfo;
-    }
-
-    @Override
-    public void deleteToken(@NonNull UserValidInfo userValidInfo) {
-
-        if (userRepository.getAllUsers().containsKey(userValidInfo.getLogin())) {
-            if (tokenRepository.getAllTokensUser(userValidInfo.getIdUser()).contains(userValidInfo.getToken())) {
-                tokenRepository.deleteToken(userValidInfo);
-            } else {
-                throw new IllegalArgumentException("Токена с таким пользователем не существует");
-            }
-        } else {
-            throw new IllegalArgumentException("Пользователя с таким логином не существует");
-        }
-    }
-
-    @Override
-    public Boolean checkAccess(@NonNull UserValidInfo userValidInfo) {
+//    public Integer getUserByLogin(String login){
+//        return userRepository.getAllUsers().get(login).getUserInfo().getId();
 //
-//        for (String token : tokenRepository.getAllTokensUser(userValidInfo.getId())) {
-//            if (token.equals(userValidInfo.getToken()))
-//                return true;
-//        }
-         return false;
+//    }
+
+
+
+    @Override
+    public UserValidInfo logIn(@NonNull UserLogin userLogin) throws IllegalArgumentException{
+        if(userRepository.checkInitLogin(userLogin.getUserName())){
+            if(userRepository.checkLoginInformation(userLogin)){
+                return startTokenSession(userLogin);
+            }else{
+                throw new IllegalArgumentException("Вы ввели неверный пароль.");
+            }
+        }else{
+            throw new IllegalArgumentException("Пользователь с таким лоогином не найден.");
+        }
+
+    }
+
+
+    @Override
+    public void LogOut(@NonNull UserValidInfo userValidInfo) {
+        tokenRepository.deleteToken(userValidInfo);
+    }
+
+    @Override
+    public Boolean checkAccess(@NonNull UserValidInfo userValidInfo) throws IllegalArgumentException {
+        if (userRepository.checkInitLogin(userValidInfo.getLogin())){
+            try{
+                if(checkTokenValid(userValidInfo)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch (IllegalArgumentException ex){
+                throw ex;
+            }
+
+        }else{
+            throw new IllegalArgumentException("Пользователь с таким лоогином не найден.");
+        }
     }
 
     @Override
@@ -87,9 +78,12 @@ public final class UserService implements UserServiceInterface {
 
     @Override
     public UserInfo updateUserInfo(@NonNull UserInfo userInfo) {
-
-        provideUser(userInfo.getId()).setUserInfo(userInfo);
-        return updateUser(provideUser(userInfo.getId())).getUserInfo();
+        User user = provideUser(userInfo.getId());
+        userInfo.setEatRate(user.getUserInfo().getEatRate());
+        userInfo.setCookRate(user.getUserInfo().getCookRate());
+        user.setUserInfo(userInfo);
+        updateUser(user);
+        return provideUser(userInfo.getId()).getUserInfo();
     }
 
     @Override
@@ -135,4 +129,24 @@ public final class UserService implements UserServiceInterface {
 
         userRepository.createUser(user);
     }
+
+
+
+    private UserValidInfo startTokenSession(@NonNull UserLogin userLogin){
+        UserValidInfo userValidInfo = StringGenerator.generateUserValidInfo(userLogin.getIdUser(),userLogin.getUserName());
+        return tokenRepository.addToken(userValidInfo);
+    }
+
+    private Boolean checkTokenValid(UserValidInfo userValidInfo) throws IllegalArgumentException {
+        ArrayList<String> userToken = tokenRepository.getAllTokensUser(userValidInfo.getIdUser());
+        if (userToken==null){
+            throw new IllegalArgumentException("Нет открытых сессий у данного пользователя");
+        }
+        if (userToken.contains(userValidInfo.getToken())){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

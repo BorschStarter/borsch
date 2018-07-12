@@ -9,10 +9,12 @@ public interface UserServiceInterface {
 
     //IllegalArgumentException("Вы ввели неправильный пароль")
     //IllegalArgumentException("Пользователя с таким логином не существует")
-    UserValidInfo createToken(@NonNull UserLogin userLogin);
 
-    //IllegalArgumentException("Пользователя с таким логином не существует")
-    void deleteToken(@NonNull UserValidInfo userValidInfo);
+    UserValidInfo logIn(@NonNull UserLogin userLogin) throws IllegalArgumentException;
+
+
+
+    void LogOut(@NonNull UserValidInfo userValidInfo);
 
     Boolean checkAccess(@NonNull UserValidInfo userValidInfo);
 

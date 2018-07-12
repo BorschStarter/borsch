@@ -4,7 +4,7 @@ import ftc.shift.sample.models.Product;
 import ftc.shift.sample.models.Recipe;
 import ftc.shift.sample.models.State;
 import ftc.shift.sample.models.User;
-import ftc.shift.sample.repositories.interfaces.UserRepository;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.UserRepository;
 import ftc.shift.sample.services.Interfaces.RecipeServiceInterface;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import static ftc.shift.sample.models.State.ACCEPTED;
 import static ftc.shift.sample.models.State.DENIED;
 import static ftc.shift.sample.models.State.WAITING;
 

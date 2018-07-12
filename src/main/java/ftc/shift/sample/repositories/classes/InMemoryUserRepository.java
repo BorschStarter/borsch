@@ -1,11 +1,12 @@
 package ftc.shift.sample.repositories.classes;
 
 import ftc.shift.sample.entity.LoginEntity;
+import ftc.shift.sample.entity.ProductEntity;
 import ftc.shift.sample.entity.UserEntity;
 import ftc.shift.sample.models.*;
-import ftc.shift.sample.repositories.interfaces.LoginRepositoryEntity;
-import ftc.shift.sample.repositories.interfaces.UserRepository;
-import ftc.shift.sample.repositories.interfaces.UserRepositoryEntity;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.UserRepository;
+import ftc.shift.sample.repositories.interfaces.EntityUnterfaces.*;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -61,6 +62,23 @@ public class InMemoryUserRepository implements UserRepository {
     private UserRepositoryEntity repository;
     @Autowired
     private LoginRepositoryEntity loginRepository;
+    @Autowired
+    private FridgeRepositoryEntity fridgeRepository;
+    @Autowired
+    private ProductRepositoryEntity productRepository;
+    @Autowired
+    private FoodRepository foodRepository;
+    @Autowired
+    private FoodRepositoryEntity foodRepositoryEntity;
+
+    public Integer getFoodId(String foodName){
+        for (Food food: foodRepository.getAllFoods().values()){
+            if(food.getName().equals(foodName)){
+                return food.getId();
+            }
+        }
+        return null;
+    }
 
     @Override
     public User fetchUser(@NonNull final Integer idUser){
@@ -71,13 +89,43 @@ public class InMemoryUserRepository implements UserRepository {
         LoginEntity login = provideUserLoginInfo(idUser);
         user.setPassword(login.getPassword());
         user.setLogin(login.getLogin());
+        Fridge fridge = new Fridge();
+        HashMap<String,Product> map = new HashMap<>();
+        for (ProductEntity productEntity : productRepository.findAll()){
+           if(productEntity.getUserId().equals(idUser)){
+              Product product = productEntity.toProduct();//productRepository.findOne(fridgeEntity.getProductId()).toProduct();
+               product.setFoodName(foodRepositoryEntity.findOne(product.getFoodId()).getName());
+                map.put(product.getFoodName(),product);
+           }
+        }
+        fridge.setProducts(map);
+        user.setFridge(fridge);
         return user;
     }
 
     @Override
+    public Boolean checkInitLogin(String login) {
+        return null;
+    }
+
+    @Override
+    public Boolean checkLoginInformation(UserLogin userLogin) {
+        return null;
+    }
+
+    @Override
     public User updateUser(@NonNull  User user) {
-        user.setUserInfo(repository.save(user.getUserInfo().toUserEntity()).toUserInfo());
-        return user;
+        UserInfo userInfo =repository.save(user.getUserInfo().toUserEntity()).toUserInfo();
+        for(ProductEntity productEntity: productRepository.findAll()){
+            if(productEntity.getUserId().equals(user.getUserInfo().getId()));
+            productRepository.delete(productEntity.getId());
+        }
+        for(Product product : user.getFridge().getProducts().values()){
+            productRepository.save(product.toProductEntity());
+        }
+
+
+        return fetchUser(user.getUserInfo().getId());
 
     }
 

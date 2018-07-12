@@ -1,7 +1,7 @@
 package ftc.shift.sample.services;
 
 import ftc.shift.sample.models.Food;
-import ftc.shift.sample.repositories.interfaces.FoodRepository;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
 import ftc.shift.sample.services.Interfaces.FoodServiceInterface;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class FoodService implements FoodServiceInterface {
 
         TreeMap<String,Food> map = foodRepository.getAllFoods();
         for (String idFood : map.keySet()) {
-            if (idFood.length() >= length && idFood.startsWith(startNameOfFood)){
+            if ( idFood.toLowerCase(Locale.ENGLISH).startsWith(startNameOfFood)){
                 list.add(foodRepository.fetchFood(map.get(idFood).getId()));
             }
         }

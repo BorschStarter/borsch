@@ -1,4 +1,4 @@
-package ftc.shift.sample.repositories.interfaces;
+package ftc.shift.sample.repositories.interfaces.DataBaseInterfaces;
 
 import ftc.shift.sample.models.Book;
 

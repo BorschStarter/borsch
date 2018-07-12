@@ -2,8 +2,8 @@ package ftc.shift.sample.repositories.classes;
 
 import ftc.shift.sample.entity.FoodEntity;
 import ftc.shift.sample.models.Food;
-import ftc.shift.sample.repositories.interfaces.FoodRepository;
-import ftc.shift.sample.repositories.interfaces.FoodRepositoryEntity;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
+import ftc.shift.sample.repositories.interfaces.EntityUnterfaces.FoodRepositoryEntity;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -59,7 +59,7 @@ public class InMemoryFoodRepository implements FoodRepository {
 //        return map;
         Iterable<FoodEntity> foods = service.findAll();
         TreeMap<String,Food> listFood = new TreeMap<>();
-        foods.forEach(item -> listFood.put(item.getId().toString(),item.toFood()));
+        foods.forEach(item -> listFood.put(item.getName(),item.toFood()));
 
         return listFood;
     }

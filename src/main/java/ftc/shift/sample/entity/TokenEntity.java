@@ -1,6 +1,7 @@
 package ftc.shift.sample.entity;
 
 
+import ftc.shift.sample.models.UserValidInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,5 +30,14 @@ public class TokenEntity {
 
     @Column(name="token", columnDefinition = "text")
     private String token;
+
+    public UserValidInfo toUserValidInfo(){
+        UserValidInfo userValidInfo = new UserValidInfo();
+        userValidInfo.setLogin(this.getLogin());
+        userValidInfo.setIdUser(this.getUserId());
+        userValidInfo.setToken(this.getToken());
+        return userValidInfo;
+    }
 }
+
 

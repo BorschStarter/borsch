@@ -15,8 +15,11 @@ public class UserController {
 
     private static final String USERS_PATH = Resources.API_PREFIX + "users";
 
+
+
+
     @Autowired
-    private UserServiceInterface service;
+    private UserServiceInterface userService;
 
     @PostMapping(USERS_PATH+"/registration")
     public @ResponseBody
@@ -24,7 +27,7 @@ public class UserController {
         System.out.println(userLogin.userName);
         System.out.println(userLogin.password);
         BaseResponse response = new BaseResponse();
-        service.registration(userLogin);
+        userService.registration(userLogin);
         return response;
     }
 
@@ -32,8 +35,36 @@ public class UserController {
     public @ResponseBody
     BaseResponse<UserValidInfo> loginUser(@RequestBody UserLogin userLogin) {
         BaseResponse<UserValidInfo> response = new BaseResponse();
-        UserValidInfo token = service.createToken(userLogin);
-        response.setData(token);
+        try{
+            UserValidInfo token = userService.logIn(userLogin);
+            response.setData(token);
+        }catch (IllegalArgumentException ex){
+            response.setStatus("1");
+            response.setMessage(ex.getMessage());
+        }finally {
+            response.setStatus("0");
+            response.setMessage("Unexpected Error");
+        }
+        return response;
+    }
+
+    @GetMapping(USERS_PATH+"/logout")
+    public @ResponseBody
+    BaseResponse<UserInfo> logoutUser(final HttpServletRequest request) {
+        BaseResponse<UserInfo> response = new BaseResponse();
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try{
+            if(userService.checkAccess(userValidInfo)){
+                userService.LogOut(userValidInfo);
+            }else{
+                response.setStatus("NON_VALID");
+                response.setMessage("Данная сессия была завершена.");
+            }
+        }finally {
+            response.setStatus("0");
+            response.setMessage("Unexpected Error");
+        }
+
         return response;
     }
 
@@ -41,7 +72,7 @@ public class UserController {
     public @ResponseBody
     BaseResponse<UserInfo> createUser(@PathVariable Integer userId,final HttpServletRequest request) {
         BaseResponse<UserInfo> response = new BaseResponse();
-        UserInfo info = service.provideUserInfo(userId);
+        UserInfo info = userService.provideUserInfo(userId);
         response.setData(info);
         return response;
     }
@@ -50,22 +81,11 @@ public class UserController {
     public @ResponseBody
     BaseResponse<UserInfo> updateBook(final HttpServletRequest request, @RequestBody UserInfo info) {
         BaseResponse<UserInfo> response = new BaseResponse<>();
-        String userName = request.getHeader("Login");
-        UserInfo result = service.updateUserInfo(info);
+        UserInfo result = userService.updateUserInfo(info);
         response.setData(result);
         return response;
     }
-    @GetMapping(USERS_PATH+"/logout"+"/{userName}")
-    public @ResponseBody
-    BaseResponse<UserInfo> logoutUser(@PathVariable String userName,final HttpServletRequest request) {
-        BaseResponse<UserInfo> response = new BaseResponse();
-        UserValidInfo userValidInfo = new UserValidInfo();
-        userValidInfo.setIdUser(request.getIntHeader("idUser"));
-        userValidInfo.setToken(request.getHeader("Token"));
-        userValidInfo.setLogin(request.getHeader("Login"));
-        service.deleteToken(userValidInfo);
-        return response;
-    }
+
 
 
 

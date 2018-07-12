@@ -30,7 +30,7 @@ public class FridgeController {
         public @ResponseBody
         BaseResponse<Collection<Product>> provideFridgeInfo(final HttpServletRequest request) {
             BaseResponse<Collection<Product>> response = new BaseResponse();
-            Fridge fridge =service.provideFridge(Integer.getInteger(request.getHeader("id")));
+            Fridge fridge =service.provideFridge(request.getIntHeader("idUser"));
             Collection<Product> list = fridge.getProducts().values();
             response.setData(list);
 
@@ -41,9 +41,9 @@ public class FridgeController {
         public @ResponseBody
         BaseResponse<Collection<Product>> addProductToFriedge(@RequestBody Product product,final HttpServletRequest request) {
             BaseResponse<Collection<Product>> response = new BaseResponse();
-
+            product.setUserId(request.getIntHeader("idUser"));
             String login = request.getHeader("Login");
-            Fridge fridge = service.addProductInFridge(Integer.getInteger(request.getHeader("id")),product);
+            Fridge fridge = service.addProductInFridge(request.getIntHeader("idUser"),product);
             System.out.println(fridge.toString());
             Collection<Product> list = fridge.getProducts().values();
             response.setData(list);

@@ -1,7 +1,7 @@
 package ftc.shift.sample.repositories.classes;
 
 import ftc.shift.sample.models.Book;
-import ftc.shift.sample.repositories.interfaces.BookRepository;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.BookRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

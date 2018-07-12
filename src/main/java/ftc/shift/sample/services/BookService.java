@@ -1,7 +1,7 @@
 package ftc.shift.sample.services;
 
 import ftc.shift.sample.models.Book;
-import ftc.shift.sample.repositories.interfaces.BookRepository;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

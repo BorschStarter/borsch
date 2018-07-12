@@ -1,4 +1,4 @@
-package ftc.shift.sample.repositories.interfaces;
+package ftc.shift.sample.repositories.interfaces.EntityUnterfaces;
 
 import ftc.shift.sample.entity.FridgeEntity;
 import ftc.shift.sample.entity.UserEntity;
