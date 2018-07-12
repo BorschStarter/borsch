@@ -23,6 +23,6 @@ public interface UserRepository {
 
     void deleteUser(@NonNull Integer idUser);
 
-    UserInfo createUser(@NonNull UserLogin userLogin);
+    void createUser(@NonNull UserLogin userLogin);
 
 }

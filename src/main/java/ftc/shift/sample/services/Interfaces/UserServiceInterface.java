@@ -10,7 +10,7 @@ public interface UserServiceInterface {
 
     void LogOut(@NonNull UserValidInfo userValidInfo);
 
-    Boolean checkAccess(@NonNull UserValidInfo userValidInfo);
+    Boolean checkAccess(@NonNull UserValidInfo userValidInfo) throws IllegalArgumentException;
 
     UserInfo provideUserInfo(@NonNull Integer idUser);
 

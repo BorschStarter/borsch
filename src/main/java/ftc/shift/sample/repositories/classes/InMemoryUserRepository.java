@@ -83,7 +83,7 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public UserInfo createUser(@NonNull final UserLogin userLogin) {
+    public void createUser(@NonNull final UserLogin userLogin) {
         UserInfo userInfo = new UserInfo();
         userInfo = EntityProcessor.userInfoEntityToUserInfo(
                 userRepository.save(
@@ -91,8 +91,6 @@ public class InMemoryUserRepository implements UserRepository {
         ));
         userLogin.setIdUser(userInfo.getId());
         loginRepository.save(EntityProcessor.userLoginToLoginEntity(userLogin));
-
-        return userInfo;
     }
 
     @Override

@@ -91,7 +91,6 @@ public final class UserService implements UserServiceInterface {
         }
     }
 
-
     @Override
     public UserInfo provideUserInfo(@NonNull Integer idUser) throws IllegalArgumentException{
         try{
@@ -100,8 +99,6 @@ public final class UserService implements UserServiceInterface {
                 throw ex;
         }
     }
-
-
 
     @Override
     public UserInfo updateUserInfo(@NonNull UserInfo userInfo, @NonNull Integer idUser) {
@@ -112,8 +109,6 @@ public final class UserService implements UserServiceInterface {
         userInfo = EntityProcessor.userInfoEntityToUserInfo(userInfoEntity);
         return userInfo;
     }
-
-
 
     @Override
     public void updateUserLoginInfo(@NonNull UserLogin userLogin) throws IllegalArgumentException {
@@ -130,8 +125,6 @@ public final class UserService implements UserServiceInterface {
             throw new IllegalArgumentException("Логин занят");
         }
     }
-
-
 
     @Override
     public void deleteUser(@NonNull Integer idUser) throws IllegalArgumentException {
