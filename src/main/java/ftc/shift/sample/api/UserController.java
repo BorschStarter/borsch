@@ -62,6 +62,7 @@ public class UserController {
         UserValidInfo userValidInfo = new UserValidInfo();
         userValidInfo.setIdUser(request.getIntHeader("idUser"));
         userValidInfo.setToken(request.getHeader("Token"));
+        userValidInfo.setLogin(request.getHeader("Login"));
         service.deleteToken(userValidInfo);
         return response;
     }

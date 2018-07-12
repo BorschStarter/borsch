@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public interface TokenRepository {
 
     void addToken(@NonNull UserValidInfo userValidInfo);
-    ArrayList<String> getAllTokensUser(@NonNull String idUser);
+
+    ArrayList<String> getAllTokensUser(@NonNull Integer idUser);
+
     void deleteToken(@NonNull UserValidInfo userValidInfo);
 }

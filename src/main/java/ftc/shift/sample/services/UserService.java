@@ -57,16 +57,16 @@ public final class UserService implements UserServiceInterface {
 
     @Override
     public void deleteToken(@NonNull UserValidInfo userValidInfo) {
-//
-//        if (userRepository.getAllUsers().containsKey(userValidInfo.getIdUser())) {
-//            if (tokenRepository.getAllTokensUser(userValidInfo.getIdUser()).contains(userValidInfo.getToken())) {
-//                tokenRepository.deleteToken(userValidInfo);
-//            } else {
-//                throw new IllegalArgumentException("Токена с таким пользователем не существует");
-//            }
-//        } else {
-//            throw new IllegalArgumentException("Пользователя с таким логином не существует");
-//        }
+
+        if (userRepository.getAllUsers().containsKey(userValidInfo.getLogin())) {
+            if (tokenRepository.getAllTokensUser(userValidInfo.getIdUser()).contains(userValidInfo.getToken())) {
+                tokenRepository.deleteToken(userValidInfo);
+            } else {
+                throw new IllegalArgumentException("Токена с таким пользователем не существует");
+            }
+        } else {
+            throw new IllegalArgumentException("Пользователя с таким логином не существует");
+        }
     }
 
     @Override

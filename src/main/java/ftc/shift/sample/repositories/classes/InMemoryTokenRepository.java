@@ -32,7 +32,7 @@ public class InMemoryTokenRepository implements TokenRepository {
     }
 
     @Override
-    public ArrayList<String> getAllTokensUser(@NonNull final String idUser) {
+    public ArrayList<String> getAllTokensUser(@NonNull final Integer idUser) {
 
 //        ArrayList<String> tokens = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class InMemoryTokenRepository implements TokenRepository {
         Iterable<TokenEntity> allTokens = service.findAll();
         ArrayList<String> result = new ArrayList<>();
         allTokens.forEach(item ->{
-            if(item.getLogin().equals(idUser)){
+            if(item.getUserId().equals(idUser)){
                 result.add(item.getToken());
             }
         });
