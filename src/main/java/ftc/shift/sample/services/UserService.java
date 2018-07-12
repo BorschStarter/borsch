@@ -25,6 +25,7 @@ public final class UserService implements UserServiceInterface {
     private static final String INCORRECT_PASSWORD_FIELD = "Пароль некорректен " +
             "Ваш пароль должен быть длинее 5 символов и короче 16" +
             "и состоять только из букв латинского алфавита и цифр";
+
     private static final String USER_NOT_FOUND = "Пользователь не найден";
     private static final String LOGIN_IS_RESERVED = "Логин занят";
     private static final String INCORRECT_PASSWORD = "Вы ввели неверный пароль";

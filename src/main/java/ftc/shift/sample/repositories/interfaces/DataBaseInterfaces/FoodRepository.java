@@ -1,5 +1,6 @@
 package ftc.shift.sample.repositories.interfaces.DataBaseInterfaces;
 
+import ftc.shift.sample.entity.FoodEntity;
 import ftc.shift.sample.models.Food;
 import lombok.NonNull;
 
@@ -8,13 +9,13 @@ import java.util.TreeMap;
 
 public interface FoodRepository {
 
-    Food fetchFood(@NonNull Integer idFood);
+    FoodEntity fetchFood(@NonNull Integer idFood);
 
-    Food updateFood(@NonNull Food food);
+    FoodEntity updateFood(@NonNull FoodEntity foodEntity);
 
     void deleteFood(@NonNull Integer idFood);
 
-    Food createFood(@NonNull Food food);
+    FoodEntity createFood(@NonNull FoodEntity foodEntity);
 
     TreeMap<String,Food> getAllFoods();
 }

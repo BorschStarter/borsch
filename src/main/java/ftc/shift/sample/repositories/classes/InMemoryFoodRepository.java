@@ -22,16 +22,14 @@ public class InMemoryFoodRepository implements FoodRepository {
     }
 
     @Override
-    public Food fetchFood(@NonNull final Integer idFood) {
-        FoodEntity foodEntity = service.findOne(idFood);
-        return EntityProcessor.foodEntityToFood(foodEntity);
+    public FoodEntity fetchFood(@NonNull final Integer idFood) {
+        return service.findOne(idFood);
     }
 
     @Override
-    public Food updateFood(@NonNull final Food food) {
-        service.delete(food.getId());
-        service.save(EntityProcessor.foodToFoodEntity(food));
-        return food;
+    public FoodEntity updateFood(@NonNull final FoodEntity foodEntity) {
+        service.delete(foodEntity.getId());
+        return service.save(foodEntity);
     }
 
     @Override
@@ -40,10 +38,12 @@ public class InMemoryFoodRepository implements FoodRepository {
     }
 
     @Override
-    public Food createFood(@NonNull final Food food) {
-        return EntityProcessor.foodEntityToFood(service.save(EntityProcessor.foodToFoodEntity(food)));
+    public FoodEntity createFood(@NonNull final FoodEntity foodEntity) {
+        return (service.save(foodEntity));
     }
 
+
+    //todo Выгрузить преобразование Entity в модель на сервис (быстроодейстие?)
     @Override
     public TreeMap<String,Food> getAllFoods() {
         Iterable<FoodEntity> foods = service.findAll();

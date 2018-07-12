@@ -5,30 +5,22 @@ import ftc.shift.sample.models.UserInfo;
 import ftc.shift.sample.models.UserLogin;
 import ftc.shift.sample.models.UserValidInfo;
 import ftc.shift.sample.services.Interfaces.UserServiceInterface;
+import ftc.shift.sample.services.Validation;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-
+import static ftc.shift.sample.api.ExceptionsConst.*;
 import static ftc.shift.sample.api.ValidationStatus.*;
 
 @RestController
 public class UserController {
 
-    private static final String USERS_PATH = Resources.API_PREFIX + "users";
-    private static final String ILLEGAL_ARGUMENT_ERROR_STATUS="ILLEGAL_ARGUMENT_ERROR";
-    private static final String UNEXPECTED_ERROR_STATUS = "UNEXPECTED_ERROR";
-    private static final String UNEXPECTED_ERROR_MESSAGE="Unexpected Error in method";
-    private static final String NON_VALID_ERROR_STATUS ="NON_VALID_ERROR";
-    private static final String NON_VALID_ERROR_MESSAGE ="Данная сессия была завершена." +
-            " Повторите авторизацию";
-    //Не уверен что фронту вообще это надо (может удалить где иименно возник нул?
-    private static final String NULL_POINTER_EXCEPTION_STATUS ="NULL_POINTER_EXCEPTION";
-    private static final String NULL_POINTER_EXCEPTION_MESSAGE = "Тело запроса " +
-            "отсутствует или некорректно";
 
     @Autowired
     private UserServiceInterface userService;
+    @Autowired
+    private Validation validation;
 
     @PostMapping(USERS_PATH+"/registration")
     public @ResponseBody
@@ -77,7 +69,7 @@ public class UserController {
         BaseResponse<UserInfo> response = new BaseResponse();
         UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
         try{
-            switch(checkValidation(userValidInfo,response)){
+            switch(validation.checkValidation(userValidInfo,response)){
                 case VALID:
                     userService.LogOut(userValidInfo);
                     break;
@@ -102,7 +94,7 @@ public class UserController {
         BaseResponse<UserInfo> response = new BaseResponse();
         UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
         try{
-            switch(checkValidation(userValidInfo,response)){
+            switch(validation.checkValidation(userValidInfo,response)){
                 case VALID:
                     UserInfo info = userService.provideUserInfo(userId);
                     response.setData(info);
@@ -133,7 +125,7 @@ public class UserController {
         BaseResponse<UserInfo> response = new BaseResponse<>();
         UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
         try{
-            switch(checkValidation(userValidInfo,response)){
+            switch(validation.checkValidation(userValidInfo,response)){
                 case VALID:
                     UserInfo userInfo = userService.updateUserInfo(info,request.getIntHeader("id"));
                     response.setData(userInfo);
@@ -157,25 +149,7 @@ public class UserController {
         }
         return response;
     }
-
-    private ValidationStatus checkValidation(@NonNull UserValidInfo userValidInfo, BaseResponse response){
-        try{
-
-            if(userService.checkAccess(userValidInfo)){
-                return VALID;
-            }else{
-                return NON_VALID;
-            }
-        }catch (IllegalArgumentException ex) {
-            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
-            response.setMessage(ex.getMessage());
-            return ERROR;
-        }catch (Exception ex){
-            response.setStatus(UNEXPECTED_ERROR_STATUS);
-            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" "+ex.getMessage());
-            return ERROR;
-        }
-    }
+    
 
 
 

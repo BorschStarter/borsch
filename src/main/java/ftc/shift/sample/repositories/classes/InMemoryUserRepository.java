@@ -2,7 +2,6 @@ package ftc.shift.sample.repositories.classes;
 
 import ftc.shift.sample.Controllers.EntityProcessor;
 import ftc.shift.sample.entity.LoginEntity;
-import ftc.shift.sample.entity.ProductEntity;
 import ftc.shift.sample.entity.UserInfoEntity;
 import ftc.shift.sample.models.*;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
@@ -11,8 +10,6 @@ import ftc.shift.sample.repositories.interfaces.EntityUnterfaces.*;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.*;
 
 @Repository
 public class InMemoryUserRepository implements UserRepository {

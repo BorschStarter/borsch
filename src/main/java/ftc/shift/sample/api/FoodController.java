@@ -29,6 +29,7 @@ public class  FoodController {
     public @ResponseBody
     BaseResponse<Collection<Food>> provideFoodSearchList(@PathVariable String nameFood) {
         BaseResponse<Collection<Food>> response = new BaseResponse();
+
         ArrayList<Food> arrayList = foodService.getListFoodStartWith(nameFood);
         Collection<Food> food  = arrayList; // этот метод лежит в FoodServiceInterface
         response.setData(food);
