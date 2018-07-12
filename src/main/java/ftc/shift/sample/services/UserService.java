@@ -15,21 +15,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+import static ftc.shift.sample.services.ServiceResources.*;
+
 @Service
 public final class UserService implements UserServiceInterface {
 
-    private static final String INCORRECT_LOGIN_FIELD = "Логин некорректен " +
-            "Ваш логин должен быть длинее 5 символов и короче 16" +
-            "и состоять только из букв латинского алфавита и цифр";
-
-    private static final String INCORRECT_PASSWORD_FIELD = "Пароль некорректен " +
-            "Ваш пароль должен быть длинее 5 символов и короче 16" +
-            "и состоять только из букв латинского алфавита и цифр";
-
-    private static final String USER_NOT_FOUND = "Пользователь не найден";
-    private static final String LOGIN_IS_RESERVED = "Логин занят";
-    private static final String INCORRECT_PASSWORD = "Вы ввели неверный пароль";
-    private static final String CANT_FIND_USER_WITH_THAT_LOGIN = "Пользователь с таким логином не найден";
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
@@ -48,7 +38,7 @@ public final class UserService implements UserServiceInterface {
         if(passwordCorrectCheck(userLogin.getPassword())){
             throw new IllegalArgumentException(INCORRECT_PASSWORD_FIELD);
         }
-        if (userRepository.checkInitLogin(userLogin.getUserName())){
+        if (!userRepository.checkInitLogin(userLogin.getUserName())){
             userRepository.createUser(userLogin);
         }else{
             throw new IllegalArgumentException(LOGIN_IS_RESERVED);
@@ -60,7 +50,9 @@ public final class UserService implements UserServiceInterface {
     public UserValidInfo logIn(@NonNull UserLogin userLogin) throws IllegalArgumentException{
 
         if(userRepository.checkInitLogin(userLogin.getUserName())){
+            userLogin.setIdUser(userRepository.provideUserLoginInfo(userLogin.getUserName()).getUserId());
             LoginEntity loginEntity = EntityProcessor.userLoginToLoginEntity(userLogin);
+
             if(userRepository.authenticate(loginEntity)){
                 return startTokenSession(userLogin);
             }else{
@@ -86,7 +78,7 @@ public final class UserService implements UserServiceInterface {
                 throw ex;
             }
         } else{
-            throw new IllegalArgumentException(CANT_FIND_USER_WITH_THAT_LOGIN);
+            throw new IllegalArgumentException(CANT_VALID_USER_WITH_THAT_LOGIN);
         }
     }
 
@@ -145,10 +137,15 @@ public final class UserService implements UserServiceInterface {
 
     private Boolean checkTokenValid(UserValidInfo userValidInfo) throws IllegalArgumentException {
         ArrayList<String> userToken = tokenRepository.getAllTokensUser(userValidInfo.getIdUser());
-        if (userToken==null){
-            throw new IllegalArgumentException("Нет открытых сессий у данного пользователя");
+        if (userToken.isEmpty()){
+            throw new IllegalArgumentException(NO_TOKEN_FOR_USER);
         }
-        return userToken.contains(userValidInfo.getToken());
+        for(String token : userToken){
+            if (token.equals(userValidInfo.getToken())){
+                return true;
+            }
+        }
+        return false;
     }
 
     private Boolean loginCorrectCheck(String login){
@@ -184,22 +181,10 @@ public final class UserService implements UserServiceInterface {
             result.setVk(userInfo.getVk());
         }
 
-        if(userInfo.getCookRate()==null){
-            result.setCookRate(baseInfo.getCookRate());
-        }else{
-            result.setCookRate(userInfo.getCookRate());
-        }
-
         if(userInfo.getDormitory()==null){
             result.setDormitory(baseInfo.getDormitory());
         }else{
             result.setDormitory(userInfo.getDormitory());
-        }
-
-        if(userInfo.getEatRate()==null){
-            result.setEatRate(baseInfo.getEatRate());
-        }else{
-            result.setEatRate(userInfo.getEatRate());
         }
 
         if(userInfo.getEmail()==null){
@@ -237,6 +222,10 @@ public final class UserService implements UserServiceInterface {
         }else{
             result.setUniversity(userInfo.getUniversity());
         }
+
+        //Запрещенные к самостоятельному изменению поля
+            result.setCookRate(baseInfo.getCookRate());
+            result.setEatRate(baseInfo.getEatRate());
 
         return result;
     }

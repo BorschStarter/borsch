@@ -1,7 +1,6 @@
 package ftc.shift.sample.api;
 
 public class ExceptionsConst {
-    public static final String USERS_PATH = Resources.API_PREFIX + "users";
     public static final String ILLEGAL_ARGUMENT_ERROR_STATUS="ILLEGAL_ARGUMENT_ERROR";
     public static final String UNEXPECTED_ERROR_STATUS = "UNEXPECTED_ERROR";
     public static final String UNEXPECTED_ERROR_MESSAGE="Unexpected Error in method";

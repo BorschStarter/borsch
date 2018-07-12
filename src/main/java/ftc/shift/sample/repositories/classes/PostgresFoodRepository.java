@@ -12,12 +12,12 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class InMemoryFoodRepository implements FoodRepository {
+public class PostgresFoodRepository implements FoodRepository {
 
     private final FoodRepositoryEntity service;
 
     @Autowired
-    public InMemoryFoodRepository(FoodRepositoryEntity service){
+    public PostgresFoodRepository(FoodRepositoryEntity service){
         this.service = service;
     }
 

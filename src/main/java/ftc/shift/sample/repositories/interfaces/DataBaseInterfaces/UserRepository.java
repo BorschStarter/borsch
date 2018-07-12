@@ -25,4 +25,6 @@ public interface UserRepository {
 
     void createUser(@NonNull UserLogin userLogin);
 
+    LoginEntity provideUserLoginInfo(String userLogin);
+
 }

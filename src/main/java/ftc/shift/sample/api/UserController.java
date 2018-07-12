@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import static ftc.shift.sample.api.ExceptionsConst.*;
+import static ftc.shift.sample.api.Resources.USERS_PATH;
 
 @RestController
 public class UserController {
@@ -25,16 +26,18 @@ public class UserController {
     BaseResponse createUser(@RequestBody UserLogin userLogin) {
         BaseResponse response = new BaseResponse();
         try {
+
             userService.registration(userLogin);
+
         } catch (IllegalArgumentException ex) {
             response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
             response.setMessage(ex.getMessage());
         }catch(NullPointerException ex){
             response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
             response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
-        }finally {
+        }catch(Exception ex) {
             response.setStatus(UNEXPECTED_ERROR_STATUS);
-            response.setMessage(UNEXPECTED_ERROR_MESSAGE+"logoutUser");
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" logoutUser "+ex.getMessage());
         }
         return response;
     }
@@ -44,19 +47,21 @@ public class UserController {
     BaseResponse<UserValidInfo> loginUser(@RequestBody UserLogin userLogin) {
         BaseResponse<UserValidInfo> response = new BaseResponse();
         try{
+
             UserValidInfo token = userService.logIn(userLogin);
             response.setData(token);
+
         }catch (IllegalArgumentException ex){
             response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
             response.setMessage(ex.getMessage());
         }catch(NullPointerException ex){
             response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
             response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
-        }finally {
+        }catch(Exception ex) {
             response.setStatus(UNEXPECTED_ERROR_STATUS);
             //по хорошему так делать нельзя
             //спросить что хотят здесь видеть Front-end
-            response.setMessage(UNEXPECTED_ERROR_MESSAGE+"loginUser");
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" loginUser "+ex.getMessage());
         }
         return response;
     }
@@ -66,6 +71,7 @@ public class UserController {
     BaseResponse<UserInfo> logoutUser(final HttpServletRequest request) {
         BaseResponse<UserInfo> response = new BaseResponse();
         UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+
         try{
             switch(validation.checkValidation(userValidInfo,response)){
                 case VALID:
@@ -78,9 +84,10 @@ public class UserController {
                 case ERROR:
                     break;
             }
-        }finally {
+
+        }catch(Exception ex) {
             response.setStatus(UNEXPECTED_ERROR_STATUS);
-            response.setMessage(UNEXPECTED_ERROR_MESSAGE+"logoutUser");
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" logoutUser " +ex.getMessage());
         }
 
         return response;
@@ -110,9 +117,9 @@ public class UserController {
         }catch(NullPointerException ex){
             response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
             response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
-        }finally {
+        }catch(Exception ex) {
             response.setStatus(UNEXPECTED_ERROR_STATUS);
-            response.setMessage(UNEXPECTED_ERROR_MESSAGE+"fetchUser");
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
     }
         return response;
     }
@@ -125,7 +132,7 @@ public class UserController {
         try{
             switch(validation.checkValidation(userValidInfo,response)){
                 case VALID:
-                    UserInfo userInfo = userService.updateUserInfo(info,request.getIntHeader("id"));
+                    UserInfo userInfo = userService.updateUserInfo(info,userValidInfo.getIdUser());
                     response.setData(userInfo);
                     break;
                 case NON_VALID:
@@ -141,9 +148,9 @@ public class UserController {
         }catch(NullPointerException ex){
             response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
             response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
-        }finally {
+        }catch(Exception ex) {
             response.setStatus(UNEXPECTED_ERROR_STATUS);
-            response.setMessage(UNEXPECTED_ERROR_MESSAGE+"updateUser");
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" updateUser "+ex.getMessage());
         }
         return response;
     }

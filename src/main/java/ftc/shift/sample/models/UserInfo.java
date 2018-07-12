@@ -9,9 +9,10 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 public final class UserInfo implements Serializable{
 
-    public UserInfo(){
+    public UserInfo(Integer idUser){
         this.setId(null);
         this.setFirstName("");
         this.setSecondName("");

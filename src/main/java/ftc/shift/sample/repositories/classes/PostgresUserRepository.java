@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class InMemoryUserRepository implements UserRepository {
+public class PostgresUserRepository implements UserRepository {
 
     @Autowired
     private UserRepositoryEntity userRepository;
@@ -46,15 +46,15 @@ public class InMemoryUserRepository implements UserRepository {
         Iterable<LoginEntity> loginEntities =loginRepository.findAll();
         for(LoginEntity loginEntity: loginEntities){
             if(loginEntity.getLogin().equals(login)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     @Override
     public Boolean authenticate(LoginEntity loginEntity) {
-        LoginEntity baseLoginEntity = provideUserLoginInfo(loginEntity.getUserId());
+        LoginEntity baseLoginEntity = provideUserLoginInfo(loginEntity.getLogin());
         if((baseLoginEntity.getLogin().equals(loginEntity.getLogin()))&&
                 (baseLoginEntity.getPassword().equals(loginEntity.getPassword()))) {
             return true;
@@ -75,7 +75,8 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public void createUser(@NonNull final UserLogin userLogin) {
-        UserInfo userInfo = new UserInfo();
+        //пока не знаю как справиться с этим костылем
+        UserInfo userInfo = new UserInfo(0);
         userInfo = EntityProcessor.userInfoEntityToUserInfo(
                 userRepository.save(
                         EntityProcessor.userInfoToUserInfoEntity(userInfo)
@@ -86,14 +87,15 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public void updateUserLoginInfo (@NonNull LoginEntity loginEntity){
-        loginRepository.delete(provideUserLoginInfo(loginEntity.getUserId()).getId());
+        loginRepository.delete(provideUserLoginInfo(loginEntity.getLogin()).getId());
         loginRepository.save(loginEntity);
     }
 
-    private LoginEntity provideUserLoginInfo(Integer idUser){
+    @Override
+    public LoginEntity provideUserLoginInfo(String userLogin){
         Iterable<LoginEntity> list = loginRepository.findAll();
         for(LoginEntity login :list){
-            if(login.getUserId().equals(idUser)){
+            if(login.getLogin().equals(userLogin)){
                 return login;
             }
         }

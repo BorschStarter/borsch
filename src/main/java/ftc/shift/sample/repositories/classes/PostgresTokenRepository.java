@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class InMemoryTokenRepository implements TokenRepository {
+public class PostgresTokenRepository implements TokenRepository {
 
     @Autowired
     private TokenRepositoryEntity service;

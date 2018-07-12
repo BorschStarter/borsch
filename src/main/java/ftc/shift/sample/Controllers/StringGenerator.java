@@ -16,13 +16,14 @@ import java.util.Random;
     }
     private static String generateToken(String key){
         String timeKey = String.valueOf(System.currentTimeMillis());
+
         key.concat(timeKey);
         Random random = new Random();
         char[] text = new char[key.length()];
         for (int i = 0; i < key.length(); i++) {
             text[i] = key.charAt(random.nextInt(key.length()));
         }
-        return text.toString();
+        return String.valueOf(text);
     }
 
 }

@@ -52,9 +52,9 @@ public class  FoodController {
         }catch(NullPointerException ex){
             response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
             response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
-        }finally {
+        }catch (Exception ex){
             response.setStatus(UNEXPECTED_ERROR_STATUS);
-            response.setMessage(UNEXPECTED_ERROR_MESSAGE+"logoutUser");
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" provideFoodSearchList"+ex.getMessage());
         }
 
         return response;
@@ -80,10 +80,11 @@ public class  FoodController {
         }catch(NullPointerException ex){
             response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
             response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
-        }finally {
+        }catch (Exception ex){
             response.setStatus(UNEXPECTED_ERROR_STATUS);
-            response.setMessage(UNEXPECTED_ERROR_MESSAGE+"logoutUser");
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" createFood"+ex.getMessage());
         }
+
         return response;
     }
 }
