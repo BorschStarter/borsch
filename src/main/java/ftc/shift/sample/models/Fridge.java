@@ -4,12 +4,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Data
 @NoArgsConstructor
 public final class Fridge implements Serializable{
-    private Integer idFridge;
-    private HashMap<String, Product> products = new HashMap<>();
-    //private ArrayList<Product> products;
+    private ArrayList<Product> products;
 }

@@ -1,5 +1,8 @@
 package ftc.shift.sample.services;
 
+import ftc.shift.sample.Controllers.EntityProcessor;
+import ftc.shift.sample.entity.FridgeEntity;
+import ftc.shift.sample.entity.ProductEntity;
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
 import ftc.shift.sample.models.User;
@@ -11,6 +14,9 @@ import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 @Service
 public class FridgeService implements FridgeServiceInterface {
@@ -25,45 +31,90 @@ public class FridgeService implements FridgeServiceInterface {
     }
 
     @Override
-    public Fridge provideFridge(@NonNull Integer idUser) {
-
-        return null;
+    public Fridge provideFridge(@NonNull Integer idUser) throws NoSuchElementException {
+        Fridge fridge = new Fridge();
+        ArrayList<FridgeEntity> fridgeList = fridgeRepository.fetchUserFridge(idUser);
+        if(fridgeList.isEmpty()){
+            throw new NoSuchElementException("Холодильник пользователя пуст");
+        }else{
+            for(FridgeEntity fridgeEntity : fridgeList){
+                Product product = EntityProcessor.productEntityToProduct(
+                        productRepository.fetchProduct(fridgeEntity.getProductId()));
+                fridge.getProducts().add(product);
+            }
+        }
+        return fridge;
     }
 
 
     @Override
-    public Fridge addProductInFridge(@NonNull Integer idUser, @NonNull Product product) {
-//        User user = userRepository.fetchUser(idUser);
-//        user.getFridge().getProducts().put(product.getFoodName(),product);
-//        userRepository.updateUser(user);
-//        return provideFridge(idUser);
-        return null;
+    public void addProductInFridge(@NonNull Integer idUser, @NonNull Product product) throws IllegalArgumentException {
+        if(!isProductCorrect(product)){
+            throw new IllegalArgumentException("Передана некорректная форма проодукта");
+        }else {
+            ProductEntity productEntity = EntityProcessor.productToProductEntity(product);
+            if (isProductAlreadyInFridge(productEntity.getFoodName(), idUser)) {
+                throw new IllegalArgumentException("Продукт уже в холодильнике пользователя");
+            } else{
+                FridgeEntity fridgeEntity = new FridgeEntity();
+            fridgeEntity.setUserId(idUser);
+            productEntity = productRepository.createProduct(productEntity);
+            fridgeEntity.setProductId(productEntity.getId());
+            }
+        }
     }
 
     @Override
-    public Fridge removeProductFromFridge(@NonNull Integer idUser, @NonNull Integer idProduct) {
-//        if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
-//            throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
-//        }
-//        else {
-//            User user = userRepository.fetchUser(idUser);
-//            user.getFridge().getProducts().remove(idProduct);
-//            userRepository.updateUser(user);
-//            return provideFridge(idUser);
-//        }
-        return null;
+    public void removeProductFromFridge(@NonNull Integer idUser, @NonNull Integer idProduct) {
+        if(isProductInFridge(idProduct,idUser)){
+            throw new IllegalArgumentException("В холодильнике пользователя нет такого продукта");
+        }else{
+            fridgeRepository.removeProductFromUserFridge(idUser,idProduct);
+            productRepository.removeProduct(idProduct);
+        }
+
     }
 
     @Override
     public Product getProductFromFridge(@NonNull Integer idUser, @NonNull Integer idProduct) {
-//
-//        if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
-//            throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
-//        }
-//        else {
-//            return provideFridge(idUser).getProducts().get(idProduct);
-//        }
-//    }
+        ArrayList<FridgeEntity> fridgeList = fridgeRepository.fetchUserFridge(idUser);
+        if(fridgeList.isEmpty()){
+            throw new NoSuchElementException("Холодильник пользователя пуст");
+        }else{
+            for(FridgeEntity fridgeEntity : fridgeList){
+                ProductEntity productEntity = productRepository
+                        .fetchProduct(fridgeEntity.getProductId());
+                if(productEntity.getId()==idProduct){
+                    return EntityProcessor.productEntityToProduct(productEntity);
+                }
+            }
+        }
+        throw new NoSuchElementException("В холодильнике пользователя нет такого продукта");
+    }
+
+    private Boolean isProductCorrect(Product product){
+
         return null;
+    }
+
+    private Boolean isProductAlreadyInFridge(String productName, Integer idUser){
+        ArrayList<FridgeEntity> fridgeList = fridgeRepository.fetchUserFridge(idUser);
+        for(FridgeEntity fridgeEntity : fridgeList) {
+            ProductEntity productEntity = productRepository
+                    .fetchProduct(fridgeEntity.getProductId());
+            if(productEntity.getFoodName().equals(productName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Boolean isProductInFridge(Integer productId, Integer idUser){
+
+        ProductEntity productEntity = productRepository.fetchProduct(productId);
+        if(productEntity==null){
+            return true;
+        }
+        return false;
     }
 }
