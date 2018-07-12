@@ -17,7 +17,7 @@ public interface UserServiceInterface {
     Boolean checkAccess(@NonNull UserValidInfo userValidInfo);
 
     //IllegalArgumentException("Пользователя с таким логином не существует")
-    UserInfo provideUserInfo(@NonNull String idUser);
+    UserInfo provideUserInfo(@NonNull Integer idUser);
 
     //IllegalArgumentException("Пользователя с таким логином не существует")
     UserInfo updateUserInfo(@NonNull UserInfo userInfo);
@@ -25,8 +25,8 @@ public interface UserServiceInterface {
     //IllegalArgumentException("Этот логин уже существует")
     void registration(@NonNull UserLogin userLogin);
 
-    void deleteUser(@NonNull String idUser);
+    void deleteUser(@NonNull Integer idUser);
 
     //IllegalArgumentException("Пользователя с таким логином не существует")
-    void updatePassword(@NonNull String idUser, @NonNull String newPassword);
+    void updatePassword(@NonNull Integer idUser, @NonNull String newPassword);
 }

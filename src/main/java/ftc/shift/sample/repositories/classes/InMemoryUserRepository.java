@@ -59,30 +59,19 @@ public class InMemoryUserRepository implements UserRepository {
     private UserRepositoryEntity repository;
 
     @Override
-    public UserInfo fetchUserInfo(@NonNull final String idUser){
+    public User fetchUser(@NonNull final Integer idUser){
         UserEntity userEntity = repository.findOne(0);
         UserInfo userInfo = userEntity.toUserInfo();
-        return userInfo;
+        User user = new User();
+        user.setUserInfo(userInfo);
+        return user;
     }
 
     @Override
-    public UserInfo updateUser(@NonNull final UserInfo userInfo) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(userInfo.getId());
-        userEntity.setFirstName(userInfo.getFirstName());
-        userEntity.setSecondName(userInfo.getSecondName());
-        userEntity.setCity(userInfo.getCity());
-        userEntity.setUniversity(userInfo.getUniversity());
-        userEntity.setDormitory(userInfo.getDormitory());
-        userEntity.setRoom(userInfo.getRoom());
-        userEntity.setVk(userInfo.getVk());
-        userEntity.setTelegram(userInfo.getTelegram());
-        userEntity.setEmail(userInfo.getEmail());
-        userEntity.setCookRate(userInfo.getCookRate());
-        userEntity.setEatRate(userInfo.getEatRate());
-        repository.save(userEntity);
+    public User updateUser(@NonNull final User user) {
+        user.setUserInfo(repository.save(user.getUserInfo().toUserEntity()).toUserInfo());
+        return user;
 
-        return userEntity.toUserInfo();
     }
 
     @Override
@@ -96,8 +85,10 @@ public class InMemoryUserRepository implements UserRepository {
         return user;
     }
 
-//    @Override
-//    public TreeMap<String, ftc.shift.sample.models.User> getAllUsers() {
-//        return userCache;
-//    }
+    @Override
+    public TreeMap<String, User> getAllUsers() {
+        return null;
+    }
+
+
 }

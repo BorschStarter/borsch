@@ -36,15 +36,16 @@ public final class UserService implements UserServiceInterface {
     @Override
     public UserValidInfo createToken(@NonNull UserLogin userLogin) {
 
-        if (!provideUser(userLogin.userName).getPassword().equals(userLogin.getPassword())) {
-            throw new IllegalArgumentException("Вы ввели неправильный пароль");
-        }
-
-        UserValidInfo userValidInfo = new UserValidInfo();
-        userValidInfo.setToken(generateToken(userLogin.getPassword().concat(userLogin.userName)));
-        userValidInfo.setId(userLogin.getUserName());
-        tokenRepository.addToken(userValidInfo);
-        return userValidInfo;
+//        if (!provideUser(userLogin.userName).getPassword().equals(userLogin.getPassword())) {
+//            throw new IllegalArgumentException("Вы ввели неправильный пароль");
+//        }
+//
+//        UserValidInfo userValidInfo = new UserValidInfo();
+//        userValidInfo.setToken(generateToken(userLogin.getPassword().concat(userLogin.userName)));
+//        userValidInfo.setId(userLogin.getUserName());
+//        tokenRepository.addToken(userValidInfo);
+//        return userValidInfo;
+        return null;
     }
 
     @Override
@@ -72,7 +73,7 @@ public final class UserService implements UserServiceInterface {
     }
 
     @Override
-    public UserInfo provideUserInfo(@NonNull String idUser) {
+    public UserInfo provideUserInfo(@NonNull Integer idUser) {
 
         return provideUser(idUser).getUserInfo();
     }
@@ -96,20 +97,19 @@ public final class UserService implements UserServiceInterface {
             UserInfo userInfo = new UserInfo();
             Fridge fridge = new Fridge();
             user.setFridge(fridge);
-            userInfo.setId(userLogin.getUserName());
             user.setUserInfo(userInfo);
             createUser(user);
         }
     }
 
     @Override
-    public void updatePassword(@NonNull String idUser, @NonNull String newPassword) {
+    public void updatePassword(@NonNull Integer idUser, @NonNull String newPassword) {
 
         provideUser(idUser).setPassword(newPassword);
         updateUser(provideUser(idUser));
     }
 
-    private User provideUser(@NonNull String idUser) {
+    private User provideUser(@NonNull Integer idUser) {
 
        // if (userRepository.getAllUsers().containsKey(idUser))
             return userRepository.fetchUser(idUser);
@@ -123,7 +123,7 @@ public final class UserService implements UserServiceInterface {
     }
 
     @Override
-    public void deleteUser(@NonNull String idUser) {
+    public void deleteUser(@NonNull Integer idUser) {
 
         if (userRepository.getAllUsers().containsKey(idUser)) {
             userRepository.deleteUser(idUser);

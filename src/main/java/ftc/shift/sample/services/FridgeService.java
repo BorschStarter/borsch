@@ -23,14 +23,14 @@ public class FridgeService implements FridgeServiceInterface {
     }
 
     @Override
-    public Fridge provideFridge(@NonNull String idUser){
+    public Fridge provideFridge(@NonNull Integer idUser){
 
         return userRepository.fetchUser(idUser).getFridge();
     }
 
 
     @Override
-    public Fridge addProductInFridge(@NonNull String idUser,@NonNull Product product){
+    public Fridge addProductInFridge(@NonNull Integer idUser,@NonNull Product product){
 
         userRepository.fetchUser(idUser).getFridge().getProducts().put(product.getFoodName(),product);
 
@@ -38,7 +38,7 @@ public class FridgeService implements FridgeServiceInterface {
     }
 
     @Override
-    public Fridge removeProductFromFridge(@NonNull String idUser,@NonNull String idProduct) {
+    public Fridge removeProductFromFridge(@NonNull Integer idUser,@NonNull Integer idProduct) {
         if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
             throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
         }
@@ -49,7 +49,7 @@ public class FridgeService implements FridgeServiceInterface {
     }
 
     @Override
-    public Product getProductFromFridge(@NonNull String idUser,@NonNull String idProduct){
+    public Product getProductFromFridge(@NonNull Integer idUser,@NonNull Integer idProduct){
 
         if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
             throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
