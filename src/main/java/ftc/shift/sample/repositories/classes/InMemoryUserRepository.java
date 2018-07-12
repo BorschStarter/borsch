@@ -1,7 +1,9 @@
 package ftc.shift.sample.repositories.classes;
 
+import ftc.shift.sample.entity.LoginEntity;
 import ftc.shift.sample.entity.UserEntity;
 import ftc.shift.sample.models.*;
+import ftc.shift.sample.repositories.interfaces.LoginRepositoryEntity;
 import ftc.shift.sample.repositories.interfaces.UserRepository;
 import ftc.shift.sample.repositories.interfaces.UserRepositoryEntity;
 import lombok.NonNull;
@@ -57,6 +59,8 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Autowired
     private UserRepositoryEntity repository;
+    @Autowired
+    private LoginRepositoryEntity loginRepository;
 
     @Override
     public User fetchUser(@NonNull final Integer idUser){
@@ -68,7 +72,7 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public User updateUser(@NonNull final User user) {
+    public User updateUser(@NonNull  User user) {
         user.setUserInfo(repository.save(user.getUserInfo().toUserEntity()).toUserInfo());
         return user;
 
@@ -80,14 +84,23 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public User createUser(@NonNull final ftc.shift.sample.models.User user) {
-//        userCache.put(user.getLogin(), user);
+    public User createUser(@NonNull final User user) {
+        user.setUserInfo(repository.save(user.getUserInfo().toUserEntity()).toUserInfo());
         return user;
     }
 
     @Override
     public TreeMap<String, User> getAllUsers() {
-        return null;
+        TreeMap<String,User> map = new TreeMap<>();
+        Iterable<LoginEntity> list = loginRepository.findAll();
+
+        for(LoginEntity loginEntity : list){
+            User user = new User();
+            user.setUserInfo(repository.findOne(loginEntity.getId()).toUserInfo());
+            user.setLogin(loginEntity.getLogin());
+            map.put(loginEntity.getLogin(),user);
+        }
+        return  map;
     }
 
 

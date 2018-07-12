@@ -88,18 +88,7 @@ public final class UserService implements UserServiceInterface {
     @Override
     public void registration(@NonNull UserLogin userLogin) {
 
-        if (userRepository.getAllUsers().containsKey(userLogin.getUserName())) {
-            throw new IllegalArgumentException("Этот логин уже существует");
-        } else {
-            User user = new User();
-            user.setLogin(userLogin.getUserName());
-            user.setPassword(userLogin.getPassword());
-            UserInfo userInfo = new UserInfo();
-            Fridge fridge = new Fridge();
-            user.setFridge(fridge);
-            user.setUserInfo(userInfo);
-            createUser(user);
-        }
+
     }
 
     @Override
