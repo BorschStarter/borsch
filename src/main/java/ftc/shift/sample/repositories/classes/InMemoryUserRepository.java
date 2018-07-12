@@ -13,44 +13,44 @@ import java.util.*;
 @Repository
 public class InMemoryUserRepository implements UserRepository {
 
-    private TreeMap<String, ftc.shift.sample.models.User> userCache = new TreeMap<>();
+//    private TreeMap<String, ftc.shift.sample.models.User> userCache = new TreeMap<>();
 
     public InMemoryUserRepository(){
 
 //Pavel Durov
 
-        User user = new User();
-        UserInfo userInfo = new UserInfo();
-        Fridge fridge = new Fridge();
-        ArrayList<Product> arrayList = new ArrayList<>();
-        arrayList.add(new Product("apple","apple",1.0,0.0));
-        arrayList.add(new Product("orange","orange",1.0,0.0));
-        arrayList.add(new Product("potato","potato",1.0,0.0));
-        user.setRecipeState(new HashMap<String,State>());
+//        User user = new User();
+//        UserInfo userInfo = new UserInfo();
+//        Fridge fridge = new Fridge();
+//        ArrayList<Product> arrayList = new ArrayList<>();
+//        arrayList.add(new Product("apple","apple",1.0,0.0));
+//        arrayList.add(new Product("orange","orange",1.0,0.0));
+//        arrayList.add(new Product("potato","potato",1.0,0.0));
+//        user.setRecipeState(new HashMap<String,State>());
 
-        Recipe recipe = new Recipe("Borsch","Borsch","durov",Boolean.FALSE,arrayList,new HashMap<>(),new HashMap<>());
-        HashMap<String,Recipe> hashMap =new HashMap<String,Recipe>() ;
-        hashMap.put("Borsch", recipe);
-        user.setMyRecipes(hashMap);
-        user.setFridge(fridge);
-        user.setLogin("durov");
-        user.setPassword("pavel");
-        userInfo.setId("durov");
-        userInfo.setCity("Saint-Petersburg");
-        userInfo.setCookRate(3);
-        userInfo.setDormitory("134");
-        userInfo.setEatRate(3);
-        userInfo.setEmail("durov@ya.com");
-        userInfo.setFirstName("Pavel");
-        userInfo.setRoom("567");
-        userInfo.setSecondName("Durov");
-        userInfo.setTelegram("https://t.me/durov");
-        userInfo.setUniversity("NSU");
-        userInfo.setVk("https://vk.com/id1");
+//        Recipe recipe = new Recipe("Borsch","Borsch","durov",Boolean.FALSE,arrayList,new HashMap<>(),new HashMap<>());
+//        HashMap<String,Recipe> hashMap =new HashMap<String,Recipe>() ;
+//        hashMap.put("Borsch", recipe);
+//        user.setMyRecipes(hashMap);
+//        user.setFridge(fridge);
+//        user.setLogin("durov");
+//        user.setPassword("pavel");
+//        userInfo.setId("durov");
+//        userInfo.setCity("Saint-Petersburg");
+//        userInfo.setCookRate(3);
+//        userInfo.setDormitory("134");
+//        userInfo.setEatRate(3);
+//        userInfo.setEmail("durov@ya.com");
+//        userInfo.setFirstName("Pavel");
+//        userInfo.setRoom("567");
+//        userInfo.setSecondName("Durov");
+//        userInfo.setTelegram("https://t.me/durov");
+//        userInfo.setUniversity("NSU");
+//        userInfo.setVk("https://vk.com/id1");
 
-        user.setUserInfo(userInfo);
+//        user.setUserInfo(userInfo);
 
-        userCache.put(user.getLogin(),user);
+//        userCache.put(user.getLogin(),user);
 
     //
     }
@@ -81,7 +81,7 @@ public class InMemoryUserRepository implements UserRepository {
         userEntity.setCookRate(userInfo.getCookRate());
         userEntity.setEatRate(userInfo.getEatRate());
         repository.save(userEntity);
-        
+
         return userEntity.toUserInfo();
     }
 
@@ -92,12 +92,12 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User createUser(@NonNull final ftc.shift.sample.models.User user) {
-        userCache.put(user.getLogin(), user);
+//        userCache.put(user.getLogin(), user);
         return user;
     }
 
-    @Override
-    public TreeMap<String, ftc.shift.sample.models.User> getAllUsers() {
-        return userCache;
-    }
+//    @Override
+//    public TreeMap<String, ftc.shift.sample.models.User> getAllUsers() {
+//        return userCache;
+//    }
 }

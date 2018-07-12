@@ -62,7 +62,8 @@ public class UserEntity {
     //В теории можно оставить для лучшей инкапсуляции базы
     public UserInfo toUserInfo(){
         UserInfo userInfo = new UserInfo();
-        userInfo.setId(this.getId().toString());
+//        userInfo.setId(this.getId().toString());
+        userInfo.setId(this.getId());
         userInfo.setFirstName(this.getFirstName());
         userInfo.setSecondName(this.getSecondName());
         userInfo.setCity(this.getCity());

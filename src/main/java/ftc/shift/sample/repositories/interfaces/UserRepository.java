@@ -10,13 +10,11 @@ public interface UserRepository {
 
     UserInfo fetchUserInfo(@NonNull String idUser);
 
-    User fetchUser(@NonNull String idUser);
+    UserInfo updateUser(@NonNull UserInfo userInfo);
 
-    User updateUser(@NonNull User user);
-
-    void deleteUser(@NonNull String idUser);
+    void deleteUser(@NonNull Integer idUser);
 
     User createUser(@NonNull User user);
 
-    TreeMap<String,User> getAllUsers();
+//    TreeMap<String,User> getAllUsers();
 }
