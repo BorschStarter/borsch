@@ -14,18 +14,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 @Service
 public final class UserService implements UserServiceInterface {
 
-    private static final String INCORRECT_LOGIN = "Логин некорректен " +
+    private static final String INCORRECT_LOGIN_FIELD = "Логин некорректен " +
             "Ваш логин должен быть длинее 5 символов и короче 16" +
             "и состоять только из букв латинского алфавита и цифр";
 
-    private static final String INCORRECT_PASSWORD = "Пароль некорректен " +
+    private static final String INCORRECT_PASSWORD_FIELD = "Пароль некорректен " +
             "Ваш пароль должен быть длинее 5 символов и короче 16" +
             "и состоять только из букв латинского алфавита и цифр";
+    private static final String USER_NOT_FOUND = "Пользователь не найден";
+    private static final String LOGIN_IS_RESERVED = "Логин занят";
+    private static final String INCORRECT_PASSWORD = "Вы ввели неверный пароль";
+    private static final String CANT_FIND_USER_WITH_THAT_LOGIN = "Пользователь с таким логином не найден";
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
@@ -39,15 +42,15 @@ public final class UserService implements UserServiceInterface {
     @Override
     public void registration(@NonNull UserLogin userLogin) throws IllegalArgumentException{
         if(loginCorrectCheck(userLogin.getUserName())){
-            throw new IllegalArgumentException(INCORRECT_LOGIN);
+            throw new IllegalArgumentException(INCORRECT_LOGIN_FIELD);
         }
         if(passwordCorrectCheck(userLogin.getPassword())){
-            throw new IllegalArgumentException(INCORRECT_PASSWORD);
+            throw new IllegalArgumentException(INCORRECT_PASSWORD_FIELD);
         }
         if (userRepository.checkInitLogin(userLogin.getUserName())){
             userRepository.createUser(userLogin);
         }else{
-            throw new IllegalArgumentException("Логин занят");
+            throw new IllegalArgumentException(LOGIN_IS_RESERVED);
         }
 
     }
@@ -60,10 +63,10 @@ public final class UserService implements UserServiceInterface {
             if(userRepository.authenticate(loginEntity)){
                 return startTokenSession(userLogin);
             }else{
-                throw new IllegalArgumentException("Вы ввели неверный пароль.");
+                throw new IllegalArgumentException(INCORRECT_PASSWORD);
             }
         }else{
-            throw new IllegalArgumentException("Пользователь с таким лоогином не найден.");
+            throw new IllegalArgumentException(CANT_FIND_USER_WITH_THAT_LOGIN);
         }
 
     }
@@ -75,28 +78,24 @@ public final class UserService implements UserServiceInterface {
 
     @Override
     public Boolean checkAccess(@NonNull UserValidInfo userValidInfo) throws IllegalArgumentException {
-        if (userRepository.checkInitLogin(userValidInfo.getLogin())){
-            try{
-                if(checkTokenValid(userValidInfo)){
-                    return true;
-                }else{
-                    return false;
-                }
-            }catch (IllegalArgumentException ex){
+        if (userRepository.checkInitLogin(userValidInfo.getLogin())) {
+            try {
+                return (checkTokenValid(userValidInfo));
+            } catch (IllegalArgumentException ex) {
                 throw ex;
             }
-
-        }else{
-            throw new IllegalArgumentException("Пользователь с таким лоогином не найден.");
+        } else{
+            throw new IllegalArgumentException(CANT_FIND_USER_WITH_THAT_LOGIN);
         }
     }
 
     @Override
     public UserInfo provideUserInfo(@NonNull Integer idUser) throws IllegalArgumentException{
-        try{
-                return userRepository.fetchUser(idUser);
-        }catch (IllegalArgumentException ex){
-                throw ex;
+        UserInfoEntity userInfoEntity =userRepository.fetchUser(idUser);
+        if(userInfoEntity==null){
+            throw new IllegalArgumentException(USER_NOT_FOUND);
+        }else{
+            return EntityProcessor.userInfoEntityToUserInfo(userInfoEntity);
         }
     }
 
@@ -113,10 +112,10 @@ public final class UserService implements UserServiceInterface {
     @Override
     public void updateUserLoginInfo(@NonNull UserLogin userLogin) throws IllegalArgumentException {
         if(loginCorrectCheck(userLogin.getUserName())){
-            throw new IllegalArgumentException(INCORRECT_LOGIN);
+            throw new IllegalArgumentException(INCORRECT_LOGIN_FIELD);
         }
         if(passwordCorrectCheck(userLogin.getPassword())){
-            throw new IllegalArgumentException(INCORRECT_PASSWORD);
+            throw new IllegalArgumentException(INCORRECT_PASSWORD_FIELD);
         }
         LoginEntity loginEntity = EntityProcessor.userLoginToLoginEntity(userLogin);
         if (userRepository.checkInitLogin(userLogin.getUserName())){
@@ -128,11 +127,10 @@ public final class UserService implements UserServiceInterface {
 
     @Override
     public void deleteUser(@NonNull Integer idUser) throws IllegalArgumentException {
-        try {
-            userRepository.fetchUser(idUser);
+        if (userRepository.fetchUser(idUser)==null){
+            throw new IllegalArgumentException(CANT_FIND_USER_WITH_THAT_LOGIN);
+        }else {
             userRepository.deleteUser(idUser);
-        }catch (IllegalArgumentException ex){
-            throw ex;
         }
     }
 
@@ -149,11 +147,7 @@ public final class UserService implements UserServiceInterface {
         if (userToken==null){
             throw new IllegalArgumentException("Нет открытых сессий у данного пользователя");
         }
-        if (userToken.contains(userValidInfo.getToken())){
-            return true;
-        }else{
-            return false;
-        }
+        return userToken.contains(userValidInfo.getToken());
     }
 
     private Boolean loginCorrectCheck(String login){
@@ -161,11 +155,7 @@ public final class UserService implements UserServiceInterface {
                 ((login.length()>16))){
             return false;
         }else{
-            if (login.matches("[A-Za-z]+[0-9]")) {
-                return true;
-            } else {
-                return false;
-            }
+            return login.matches("[A-Za-z]+[0-9]");
         }
     }
 
@@ -174,11 +164,7 @@ public final class UserService implements UserServiceInterface {
                 ((password.length()>16))){
             return false;
         }else{
-            if (password.matches("[A-Za-z]+[0-9]")) {
-                return true;
-            } else {
-                return false;
-            }
+            return password.matches("[A-Za-z]+[0-9]");
         }
     }
 

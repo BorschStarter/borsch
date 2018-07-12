@@ -1,7 +1,5 @@
 package ftc.shift.sample.api;
 
-
-
 import ftc.shift.sample.Controllers.HeaderProcessor;
 import ftc.shift.sample.models.UserInfo;
 import ftc.shift.sample.models.UserLogin;
@@ -24,6 +22,7 @@ public class UserController {
     private static final String NON_VALID_ERROR_STATUS ="NON_VALID_ERROR";
     private static final String NON_VALID_ERROR_MESSAGE ="Данная сессия была завершена." +
             " Повторите авторизацию";
+    //Не уверен что фронту вообще это надо (может удалить где иименно возник нул?
     private static final String NULL_POINTER_EXCEPTION_STATUS ="NULL_POINTER_EXCEPTION";
     private static final String NULL_POINTER_EXCEPTION_MESSAGE = "Тело запроса " +
             "отсутствует или некорректно";
@@ -118,6 +117,9 @@ public class UserController {
         }catch (IllegalArgumentException ex){
             response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
             response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
         }finally {
             response.setStatus(UNEXPECTED_ERROR_STATUS);
             response.setMessage(UNEXPECTED_ERROR_MESSAGE+"fetchUser");
@@ -146,6 +148,9 @@ public class UserController {
         }catch (IllegalArgumentException ex){
             response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
             response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
         }finally {
             response.setStatus(UNEXPECTED_ERROR_STATUS);
             response.setMessage(UNEXPECTED_ERROR_MESSAGE+"updateUser");

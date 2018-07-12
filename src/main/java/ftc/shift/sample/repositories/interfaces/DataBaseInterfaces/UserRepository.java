@@ -11,7 +11,7 @@ import java.util.TreeMap;
 
 public interface UserRepository {
 
-    UserInfo fetchUser(@NonNull Integer idUser);
+    UserInfoEntity fetchUser(@NonNull Integer idUser);
 
     Boolean checkInitLogin(@NonNull String login);
 

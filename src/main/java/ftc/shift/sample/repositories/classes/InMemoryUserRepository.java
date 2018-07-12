@@ -40,14 +40,8 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public UserInfo fetchUser(@NonNull final Integer idUser) throws IllegalArgumentException {
-        //todo Вынести проверки и приведения в логику
-        UserInfo userInfo = EntityProcessor.userInfoEntityToUserInfo(userRepository.findOne(idUser));
-        if(userInfo==null){
-            throw new IllegalArgumentException("Пользователь не найден");
-        }else{
-            return userInfo;
-        }
+    public UserInfoEntity fetchUser(@NonNull final Integer idUser) throws IllegalArgumentException {
+            return userRepository.findOne(idUser);
     }
 
     @Override

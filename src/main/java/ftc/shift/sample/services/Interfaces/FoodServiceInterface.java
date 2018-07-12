@@ -12,7 +12,7 @@ public interface FoodServiceInterface {
     ArrayList<Food> getListFoodStartWith(@NonNull String startNameOfFood);
 
     //IllegalArgumentException("Такого food не существует")
-    Food provideFood(@NonNull Integer idFood);
+    Food provideFood(@NonNull Integer idFood) throws IllegalArgumentException;
 
     Food updateFood(@NonNull Food food);
 
@@ -21,5 +21,4 @@ public interface FoodServiceInterface {
 
     Food createFood(@NonNull Food food);
 
-    TreeMap<String,Food> provideFoods();
 }

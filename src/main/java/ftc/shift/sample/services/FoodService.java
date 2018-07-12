@@ -42,11 +42,11 @@ public class FoodService implements FoodServiceInterface {
     }
 
     @Override
-    public Food provideFood(@NonNull Integer idFood) {
+    public Food provideFood(@NonNull Integer idFood) throws IllegalArgumentException{
         Food food = foodRepository.fetchFood(idFood);
         if (food!=null)
             return foodRepository.fetchFood(idFood);
-        else throw new IllegalArgumentException("Такого food не существует");
+        else throw new IllegalArgumentException("Продукт не найден в базе");
     }
 
     @Override
@@ -71,8 +71,7 @@ public class FoodService implements FoodServiceInterface {
         return food;
     }
 
-    @Override
-    public TreeMap<String,Food> provideFoods() {
+    private TreeMap<String,Food> provideFoods() {
         return foodRepository.getAllFoods();
     }
 }
