@@ -37,7 +37,7 @@ public class UserController {
         return response;
     }
 
-    @GetMapping(USERS_PATH+"/{userName}")
+    @GetMapping(USERS_PATH+"/{userId}")
     public @ResponseBody
     BaseResponse<UserInfo> createUser(@PathVariable Integer userId,final HttpServletRequest request) {
         BaseResponse<UserInfo> response = new BaseResponse();
