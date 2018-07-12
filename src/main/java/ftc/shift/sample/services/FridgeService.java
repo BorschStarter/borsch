@@ -23,11 +23,15 @@ public class FridgeService implements FridgeServiceInterface {
 
     private final FridgeRepository fridgeRepository;
     private final ProductRepository productRepository;
+    private final FoodRepository foodRepository;
 
     @Autowired
-    public FridgeService(FridgeRepository fridgeRepository, ProductRepository productRepository) {
+    public FridgeService(FridgeRepository fridgeRepository,
+                         ProductRepository productRepository,
+                         FoodRepository foodRepository) {
         this.fridgeRepository = fridgeRepository;
         this.productRepository = productRepository;
+        this.foodRepository = foodRepository;
     }
 
     @Override
@@ -93,8 +97,13 @@ public class FridgeService implements FridgeServiceInterface {
     }
 
     private Boolean isProductCorrect(Product product){
-
-        return null;
+        if(product.getAllWeight()==null)return false;
+        if(product.getAllWeight()<1) return false;
+        if(product.getFoodId()==null) return false;
+        if(foodRepository.fetchFood(product.getFoodId())==null) return false;
+        if(product.getReservedWeight()==null) return false;
+        if(product.getReservedWeight()!=0) return false;
+        return true;
     }
 
     private Boolean isProductAlreadyInFridge(String productName, Integer idUser){
