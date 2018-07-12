@@ -41,6 +41,7 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public UserInfo fetchUser(@NonNull final Integer idUser) throws IllegalArgumentException {
+        //todo Вынести проверки и приведения в логику
         UserInfo userInfo = EntityProcessor.userInfoEntityToUserInfo(userRepository.findOne(idUser));
         if(userInfo==null){
             throw new IllegalArgumentException("Пользователь не найден");
@@ -51,12 +52,24 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public Boolean checkInitLogin(String login) {
-        return null;
+        Iterable<LoginEntity> loginEntities =loginRepository.findAll();
+        for(LoginEntity loginEntity: loginEntities){
+            if(loginEntity.getLogin().equals(login)){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
-    public Boolean authenticate(UserLogin userLogin) {
-        return null;
+    public Boolean authenticate(LoginEntity loginEntity) {
+        LoginEntity baseLoginEntity = provideUserLoginInfo(loginEntity.getUserId());
+        if((baseLoginEntity.getLogin().equals(loginEntity.getLogin()))&&
+                (baseLoginEntity.getPassword().equals(loginEntity.getPassword()))) {
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Override

@@ -15,7 +15,7 @@ public interface UserRepository {
 
     Boolean checkInitLogin(@NonNull String login);
 
-    Boolean authenticate(@NonNull UserLogin userLogin);
+    Boolean authenticate(@NonNull LoginEntity loginEntity);
 
     UserInfoEntity updateUserInfo(@NonNull UserInfoEntity userInfoEntity);
 

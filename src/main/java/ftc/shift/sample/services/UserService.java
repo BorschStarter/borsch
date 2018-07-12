@@ -54,8 +54,10 @@ public final class UserService implements UserServiceInterface {
 
     @Override
     public UserValidInfo logIn(@NonNull UserLogin userLogin) throws IllegalArgumentException{
+
         if(userRepository.checkInitLogin(userLogin.getUserName())){
-            if(userRepository.authenticate(userLogin)){
+            LoginEntity loginEntity = EntityProcessor.userLoginToLoginEntity(userLogin);
+            if(userRepository.authenticate(loginEntity)){
                 return startTokenSession(userLogin);
             }else{
                 throw new IllegalArgumentException("Вы ввели неверный пароль.");
@@ -160,6 +162,7 @@ public final class UserService implements UserServiceInterface {
             return false;
         }
     }
+
     private Boolean loginCorrectCheck(String login){
         if((login==null)||(login.length()<6)||
                 ((login.length()>16))){
