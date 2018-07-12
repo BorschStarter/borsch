@@ -82,7 +82,7 @@ public class UserController {
     public @ResponseBody
     BaseResponse<UserInfo> updateBook(final HttpServletRequest request, @RequestBody UserInfo info) {
         BaseResponse<UserInfo> response = new BaseResponse<>();
-        UserInfo result = userService.updateUserInfo(info);
+        UserInfo result = userService.updateUserInfo(info,request.getIntHeader("id"));
         response.setData(result);
         return response;
     }

@@ -3,6 +3,7 @@ package ftc.shift.sample.repositories.classes;
 import ftc.shift.sample.Controllers.EntityProcessor;
 import ftc.shift.sample.entity.LoginEntity;
 import ftc.shift.sample.entity.ProductEntity;
+import ftc.shift.sample.entity.UserInfoEntity;
 import ftc.shift.sample.models.*;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.UserRepository;
@@ -59,27 +60,8 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public User updateUser(@NonNull  User user) {
-//        UserInfo userInfo =EntityProcessor.userInfoEntityToUserInfo(
-//                userRepository
-//                        .save(EntityProcessor
-//                                .userInfoToUserInfoEntity(
-//                                        user
-//                                                .getUserInfo()
-//                                )));
-//
-//        for(ProductEntity productEntity: productRepository.findAll()){
-//            if(productEntity.getUserId().equals(user.getUserInfo().getId()));
-//            productRepository.delete(productEntity.getId());
-//        }
-//        for(Product product : user.getFridge().getProducts().values()){
-//            productRepository.save(product.toProductEntity());
-//        }
-//
-//
-//        return fetchUser(user.getUserInfo().getId());
-        return null;
-
+    public UserInfoEntity updateUserInfo(@NonNull  UserInfoEntity userInfoEntity) {
+        return userRepository.save(userInfoEntity);
     }
 
     @Override

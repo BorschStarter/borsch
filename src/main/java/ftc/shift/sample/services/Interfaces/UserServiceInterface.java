@@ -20,7 +20,7 @@ public interface UserServiceInterface {
     UserInfo provideUserInfo(@NonNull Integer idUser);
 
     //IllegalArgumentException("Пользователя с таким логином не существует")
-    UserInfo updateUserInfo(@NonNull UserInfo userInfo);
+    UserInfo updateUserInfo(@NonNull UserInfo userInfo, @NonNull Integer idUser);
 
     //IllegalArgumentException("Этот логин уже существует")
     void registration(@NonNull UserLogin userLogin);

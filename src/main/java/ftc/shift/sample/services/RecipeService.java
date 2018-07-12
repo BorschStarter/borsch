@@ -35,10 +35,10 @@ public class RecipeService implements RecipeServiceInterface {
         return null;
     }
 
-    private void updateUser(@NonNull User user) {
-
-        userRepository.updateUser(user);
-    }
+//    private void updateUser(@NonNull User user) {
+//
+//        userRepository.updateUser(user);
+//    }
 
     @Override
     public HashMap<String,Recipe> getAllMyRecipes(@NonNull Integer idUser) {
@@ -180,12 +180,12 @@ public class RecipeService implements RecipeServiceInterface {
     @Override
     public void removeProductFromMyRecipe(@NonNull Recipe recipe,@NonNull Product product) {
 
-        provideUser(recipe.getIdCooker())
-                .getMyRecipes()
-                .get(recipe.getName())
-                .getProductList()
-                .remove(product);
-        updateUser(provideUser(recipe.getIdCooker()));
+//        provideUser(recipe.getIdCooker())
+//                .getMyRecipes()
+//                .get(recipe.getName())
+//                .getProductList()
+//                .remove(product);
+//        updateUser(provideUser(recipe.getIdCooker()));
     }
 
     @Override
@@ -231,17 +231,17 @@ public class RecipeService implements RecipeServiceInterface {
     @Override
     public void removeUserFromFinalListRecipe(@NonNull Recipe recipe,@NonNull Product product,@NonNull Integer idUser) {
 
-        provideUser(recipe.getIdCooker())
-                .getMyRecipes()
-                .get(recipe.getName())
-                .getFinalUserList()
-                .remove(product.getId(),idUser);
-
-        updateUser(provideUser(recipe.getIdCooker()));
-
-        changeRecipeState(idUser,recipe,WAITING);
-
-        updateUser(provideUser(idUser));
+//        provideUser(recipe.getIdCooker())
+//                .getMyRecipes()
+//                .get(recipe.getName())
+//                .getFinalUserList()
+//                .remove(product.getId(),idUser);
+//
+//        updateUser(provideUser(recipe.getIdCooker()));
+//
+//        changeRecipeState(idUser,recipe,WAITING);
+//
+//        updateUser(provideUser(idUser));
     }
 
     @Override
@@ -257,18 +257,18 @@ public class RecipeService implements RecipeServiceInterface {
     @Override
     public void deleteUserFromListForProductIdForRecipeId(@NonNull Recipe recipe,@NonNull Product product,@NonNull Integer idUser){
 
-        provideUser(recipe.getIdCooker())
-                .getMyRecipes()
-                .get(recipe.getName())
-                .getListUsersForEachProduct()
-                .get(product.getId())
-                .remove(idUser);
-
-        updateUser(provideUser(recipe.getIdCooker()));
-
-        changeRecipeState(idUser,recipe,DENIED);
-
-        updateUser(provideUser(idUser));
+//        provideUser(recipe.getIdCooker())
+//                .getMyRecipes()
+//                .get(recipe.getName())
+//                .getListUsersForEachProduct()
+//                .get(product.getId())
+//                .remove(idUser);
+//
+//        updateUser(provideUser(recipe.getIdCooker()));
+//
+//        changeRecipeState(idUser,recipe,DENIED);
+//
+//        updateUser(provideUser(idUser));
     }
 
     @Override

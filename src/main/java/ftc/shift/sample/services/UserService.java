@@ -1,6 +1,8 @@
 package ftc.shift.sample.services;
 
+import ftc.shift.sample.Controllers.EntityProcessor;
 import ftc.shift.sample.Controllers.StringGenerator;
+import ftc.shift.sample.entity.UserInfoEntity;
 import ftc.shift.sample.models.*;
 
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.TokenRepository;
@@ -99,14 +101,13 @@ public final class UserService implements UserServiceInterface {
 
 
     @Override
-    public UserInfo updateUserInfo(@NonNull UserInfo userInfo) {
-//        User user = provideUser(userInfo.getId());
-//        userInfo.setEatRate(user.getUserInfo().getEatRate());
-//        userInfo.setCookRate(user.getUserInfo().getCookRate());
-//        user.setUserInfo(userInfo);
-//        updateUser(user);
-//        return provideUser(userInfo.getId()).getUserInfo();
-        return null;
+    public UserInfo updateUserInfo(@NonNull UserInfo userInfo, @NonNull Integer idUser) {
+        userInfo = correctUserInfo(provideUserInfo(idUser),userInfo);
+        UserInfoEntity userInfoEntity = EntityProcessor.userInfoToUserInfoEntity(userInfo);
+        userInfoEntity.setId(idUser);
+        userInfoEntity = userRepository.updateUserInfo(userInfoEntity);
+        userInfo = EntityProcessor.userInfoEntityToUserInfo(userInfoEntity);
+        return userInfo;
     }
 
 
@@ -119,11 +120,6 @@ public final class UserService implements UserServiceInterface {
     }
 
 
-    private User updateUser(@NonNull User user) {
-
-        userRepository.updateUser(user);
-        return user;
-    }
 
     @Override
     public void deleteUser(@NonNull Integer idUser) {
@@ -180,4 +176,75 @@ public final class UserService implements UserServiceInterface {
         }
     }
 
+    private UserInfo correctUserInfo(UserInfo baseInfo, UserInfo userInfo){
+        UserInfo result = new UserInfo();
+
+        if(userInfo.getCity()==null){
+            result.setCity(baseInfo.getCity());
+        }else{
+            result.setCity(userInfo.getCity());
+        }
+
+        if(userInfo.getVk()==null){
+            result.setVk(baseInfo.getVk());
+        }else{
+            result.setVk(userInfo.getVk());
+        }
+
+        if(userInfo.getCookRate()==null){
+            result.setCookRate(baseInfo.getCookRate());
+        }else{
+            result.setCookRate(userInfo.getCookRate());
+        }
+
+        if(userInfo.getDormitory()==null){
+            result.setDormitory(baseInfo.getDormitory());
+        }else{
+            result.setDormitory(userInfo.getDormitory());
+        }
+
+        if(userInfo.getEatRate()==null){
+            result.setEatRate(baseInfo.getEatRate());
+        }else{
+            result.setEatRate(userInfo.getEatRate());
+        }
+
+        if(userInfo.getEmail()==null){
+            result.setEmail(baseInfo.getEmail());
+        }else{
+            result.setEmail(userInfo.getEmail());
+        }
+
+        if(userInfo.getFirstName()==null){
+            result.setFirstName(baseInfo.getFirstName());
+        }else{
+            result.setFirstName(userInfo.getFirstName());
+        }
+
+        if(userInfo.getSecondName()==null){
+            result.setSecondName(baseInfo.getSecondName());
+        }else{
+            result.setSecondName(userInfo.getSecondName());
+        }
+
+        if(userInfo.getRoom()==null){
+            result.setRoom(baseInfo.getRoom());
+        }else{
+            result.setRoom(userInfo.getRoom());
+        }
+
+        if(userInfo.getTelegram()==null){
+            result.setTelegram(baseInfo.getTelegram());
+        }else{
+            result.setTelegram(userInfo.getTelegram());
+        }
+
+        if(userInfo.getUniversity()==null){
+            result.setUniversity(baseInfo.getUniversity());
+        }else{
+            result.setUniversity(userInfo.getUniversity());
+        }
+
+        return result;
+    }
 }
