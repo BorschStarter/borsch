@@ -64,23 +64,30 @@ public class InMemoryUserRepository implements UserRepository {
         UserInfo userInfo = userEntity.toUserInfo();
         return userInfo;
     }
+
     @Override
-    public User fetchUser(@NonNull final String idUser) {
-//        User user = new ftc.shift.sample.models.User();
-//        user.setUserInfo(fetchUserInfo(idUser));
-        return userCache.get(idUser);
+    public UserInfo updateUser(@NonNull final UserInfo userInfo) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(userInfo.getId());
+        userEntity.setFirstName(userInfo.getFirstName());
+        userEntity.setSecondName(userInfo.getSecondName());
+        userEntity.setCity(userInfo.getCity());
+        userEntity.setUniversity(userInfo.getUniversity());
+        userEntity.setDormitory(userInfo.getDormitory());
+        userEntity.setRoom(userInfo.getRoom());
+        userEntity.setVk(userInfo.getVk());
+        userEntity.setTelegram(userInfo.getTelegram());
+        userEntity.setEmail(userInfo.getEmail());
+        userEntity.setCookRate(userInfo.getCookRate());
+        userEntity.setEatRate(userInfo.getEatRate());
+        repository.save(userEntity);
+        
+        return userEntity.toUserInfo();
     }
 
-
     @Override
-    public User updateUser(@NonNull final ftc.shift.sample.models.User user) {
-        userCache.put(user.getLogin(), user);
-        return user;
-    }
-
-    @Override
-    public void deleteUser(@NonNull final String iduser) {
-        userCache.remove(iduser);
+    public void deleteUser(@NonNull final Integer iduser) {
+        repository.delete(iduser);
     }
 
     @Override
