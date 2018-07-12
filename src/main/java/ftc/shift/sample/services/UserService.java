@@ -2,6 +2,7 @@ package ftc.shift.sample.services;
 
 import ftc.shift.sample.Controllers.EntityProcessor;
 import ftc.shift.sample.Controllers.StringGenerator;
+import ftc.shift.sample.entity.LoginEntity;
 import ftc.shift.sample.entity.UserInfoEntity;
 import ftc.shift.sample.models.*;
 
@@ -113,22 +114,31 @@ public final class UserService implements UserServiceInterface {
 
 
     @Override
-    public void updatePassword(@NonNull Integer idUser, @NonNull String newPassword) {
-
-//        provideUser(idUser).setPassword(newPassword);
-//        updateUser(provideUser(idUser));
+    public void updateUserLoginInfo(@NonNull UserLogin userLogin) throws IllegalArgumentException {
+        if(loginCorrectCheck(userLogin.getUserName())){
+            throw new IllegalArgumentException(INCORRECT_LOGIN);
+        }
+        if(passwordCorrectCheck(userLogin.getPassword())){
+            throw new IllegalArgumentException(INCORRECT_PASSWORD);
+        }
+        LoginEntity loginEntity = EntityProcessor.userLoginToLoginEntity(userLogin);
+        if (userRepository.checkInitLogin(userLogin.getUserName())){
+            userRepository.updateUserLoginInfo(loginEntity);
+        }else{
+            throw new IllegalArgumentException("Логин занят");
+        }
     }
 
 
 
     @Override
-    public void deleteUser(@NonNull Integer idUser) {
-
-//        if (userRepository.getAllUsers().containsKey(idUser)) {
-//            userRepository.deleteUser(idUser);
-//        } else {
-//            throw new IllegalArgumentException("Вы пытаетесь удалить несуществующего пользователя");
-//        }
+    public void deleteUser(@NonNull Integer idUser) throws IllegalArgumentException {
+        try {
+            userRepository.fetchUser(idUser);
+            userRepository.deleteUser(idUser);
+        }catch (IllegalArgumentException ex){
+            throw ex;
+        }
     }
 
 

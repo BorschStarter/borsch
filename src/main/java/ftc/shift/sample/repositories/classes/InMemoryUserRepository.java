@@ -66,7 +66,7 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public void deleteUser(@NonNull final Integer iduser) {
-        userRepository.delete(iduser);
+        //ToDo После всего функционала написать БЕЗОПАСНОЕ удаление юзера
     }
 
     @Override
@@ -82,7 +82,13 @@ public class InMemoryUserRepository implements UserRepository {
         return userInfo;
     }
 
-    public LoginEntity provideUserLoginInfo(Integer idUser){
+    @Override
+    public void updateUserLoginInfo (@NonNull LoginEntity loginEntity){
+        loginRepository.delete(provideUserLoginInfo(loginEntity.getUserId()).getId());
+        loginRepository.save(loginEntity);
+    }
+
+    private LoginEntity provideUserLoginInfo(Integer idUser){
         Iterable<LoginEntity> list = loginRepository.findAll();
         for(LoginEntity login :list){
             if(login.getUserId().equals(idUser)){
@@ -91,6 +97,7 @@ public class InMemoryUserRepository implements UserRepository {
         }
         return null;
     }
+
 
 
 

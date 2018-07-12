@@ -1,5 +1,6 @@
 package ftc.shift.sample.repositories.interfaces.DataBaseInterfaces;
 
+import ftc.shift.sample.entity.LoginEntity;
 import ftc.shift.sample.entity.UserInfoEntity;
 import ftc.shift.sample.models.User;
 import ftc.shift.sample.models.UserInfo;
@@ -17,6 +18,8 @@ public interface UserRepository {
     Boolean authenticate(@NonNull UserLogin userLogin);
 
     UserInfoEntity updateUserInfo(@NonNull UserInfoEntity userInfoEntity);
+
+    void updateUserLoginInfo (@NonNull LoginEntity loginEntity);
 
     void deleteUser(@NonNull Integer idUser);
 

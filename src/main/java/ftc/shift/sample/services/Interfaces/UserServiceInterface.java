@@ -6,27 +6,19 @@ import ftc.shift.sample.models.UserValidInfo;
 import lombok.NonNull;
 
 public interface UserServiceInterface {
-
-    //IllegalArgumentException("Вы ввели неправильный пароль")
-    //IllegalArgumentException("Пользователя с таким логином не существует")
-
     UserValidInfo logIn(@NonNull UserLogin userLogin) throws IllegalArgumentException;
 
     void LogOut(@NonNull UserValidInfo userValidInfo);
 
     Boolean checkAccess(@NonNull UserValidInfo userValidInfo);
 
-    //IllegalArgumentException("Пользователя с таким логином не существует")
     UserInfo provideUserInfo(@NonNull Integer idUser);
 
-    //IllegalArgumentException("Пользователя с таким логином не существует")
     UserInfo updateUserInfo(@NonNull UserInfo userInfo, @NonNull Integer idUser);
 
-    //IllegalArgumentException("Этот логин уже существует")
     void registration(@NonNull UserLogin userLogin);
 
     void deleteUser(@NonNull Integer idUser);
 
-    //IllegalArgumentException("Пользователя с таким логином не существует")
-    void updatePassword(@NonNull Integer idUser, @NonNull String newPassword);
+    void updateUserLoginInfo(@NonNull UserLogin userLogin);
 }

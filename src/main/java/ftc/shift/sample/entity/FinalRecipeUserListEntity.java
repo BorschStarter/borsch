@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FinalREcipeUserListEntity {
+public class FinalRecipeUserListEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
