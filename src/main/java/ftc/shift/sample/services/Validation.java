@@ -1,7 +1,7 @@
 package ftc.shift.sample.services;
 
 import ftc.shift.sample.api.BaseResponse;
-import ftc.shift.sample.api.ValidationStatus;
+import ftc.shift.sample.Enums.ValidationStatus;
 import ftc.shift.sample.models.UserValidInfo;
 import ftc.shift.sample.services.Interfaces.UserServiceInterface;
 import lombok.NonNull;
@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static ftc.shift.sample.api.ExceptionsConst.*;
-import static ftc.shift.sample.api.ValidationStatus.ERROR;
-import static ftc.shift.sample.api.ValidationStatus.NON_VALID;
-import static ftc.shift.sample.api.ValidationStatus.VALID;
+import static ftc.shift.sample.Enums.ValidationStatus.ERROR;
+import static ftc.shift.sample.Enums.ValidationStatus.NON_VALID;
+import static ftc.shift.sample.Enums.ValidationStatus.VALID;
 
 @Service
 public class Validation {

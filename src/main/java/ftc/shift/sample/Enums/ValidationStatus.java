@@ -1,4 +1,4 @@
-package ftc.shift.sample.api;
+package ftc.shift.sample.Enums;
 
 public enum ValidationStatus {
     VALID, NON_VALID,ERROR;

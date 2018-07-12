@@ -6,12 +6,10 @@ import ftc.shift.sample.models.UserLogin;
 import ftc.shift.sample.models.UserValidInfo;
 import ftc.shift.sample.services.Interfaces.UserServiceInterface;
 import ftc.shift.sample.services.Validation;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import static ftc.shift.sample.api.ExceptionsConst.*;
-import static ftc.shift.sample.api.ValidationStatus.*;
 
 @RestController
 public class UserController {
