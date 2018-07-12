@@ -1,20 +1,16 @@
 package ftc.shift.sample.api;
 
 
-import ftc.shift.sample.models.Food;
-import ftc.shift.sample.models.Fridge;
-import ftc.shift.sample.models.Product;
-import ftc.shift.sample.services.FridgeService;
-import ftc.shift.sample.services.Interfaces.FoodServiceInterface;
+import ftc.shift.sample.Controllers.HeaderProcessor;
+import ftc.shift.sample.models.*;
 import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import ftc.shift.sample.services.Validation;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+
+import static ftc.shift.sample.api.ExceptionsConst.*;
 
 @RestController
 public class FridgeController {
@@ -23,17 +19,40 @@ public class FridgeController {
     private static final String FRIDGE_PATH = Resources.API_PREFIX + "fridge";
     private static final String FOOD_PATH = Resources.API_PREFIX + "food";
 
-        @Autowired
-        private FridgeServiceInterface service;
+    @Autowired
+    private FridgeServiceInterface fridgeService;
+    @Autowired
+    private Validation validation;
 
         @GetMapping(FRIDGE_PATH)
         public @ResponseBody
         BaseResponse<Collection<Product>> provideFridgeInfo(final HttpServletRequest request) {
             BaseResponse<Collection<Product>> response = new BaseResponse();
-//            Fridge fridge =service.provideFridge(request.getIntHeader("idUser"));
-//            Collection<Product> list = fridge.getProducts().values();
-//            response.setData(list);
-
+            UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+            try{
+                switch(validation.checkValidation(userValidInfo,response)){
+                    case VALID:
+                        Collection<Product> products = fridgeService
+                            .provideFridge(userValidInfo.getIdUser()).getProducts();
+                        response.setData(products);
+                        break;
+                    case NON_VALID:
+                        response.setStatus(NON_VALID_ERROR_STATUS);
+                        response.setMessage(NON_VALID_ERROR_MESSAGE);
+                        break;
+                    case ERROR:
+                        break;
+                }
+            }catch (IllegalArgumentException ex){
+                response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+                response.setMessage(ex.getMessage());
+            }catch(NullPointerException ex){
+                response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+                response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+            }catch(Exception ex) {
+                response.setStatus(UNEXPECTED_ERROR_STATUS);
+                response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+            }
             return response;
         }
 
@@ -41,24 +60,65 @@ public class FridgeController {
         public @ResponseBody
         BaseResponse<Collection<Product>> addProductToFriedge(@RequestBody Product product,final HttpServletRequest request) {
             BaseResponse<Collection<Product>> response = new BaseResponse();
-//            product.setUserId(request.getIntHeader("idUser"));
-//            String login = request.getHeader("Login");
-//            Fridge fridge = service.addProductInFridge(request.getIntHeader("idUser"),product);
-//            System.out.println(fridge.toString());
-//            Collection<Product> list = fridge.getProducts().values();
-//            response.setData(list);
+            UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+            try{
+                switch(validation.checkValidation(userValidInfo,response)){
+                    case VALID:
+                        fridgeService.addProductInFridge(userValidInfo.getIdUser(),product);
+                        Collection<Product> products = fridgeService
+                                .provideFridge(userValidInfo.getIdUser()).getProducts();
+                        response.setData(products);
+                        break;
+                    case NON_VALID:
+                        response.setStatus(NON_VALID_ERROR_STATUS);
+                        response.setMessage(NON_VALID_ERROR_MESSAGE);
+                        break;
+                    case ERROR:
+                        break;
+                }
+            }catch (IllegalArgumentException ex){
+                response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+                response.setMessage(ex.getMessage());
+            }catch(NullPointerException ex){
+                response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+                response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+            }catch(Exception ex) {
+                response.setStatus(UNEXPECTED_ERROR_STATUS);
+                response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+            }
             return response;
 
     }
     @DeleteMapping(FRIDGE_PATH)
     public @ResponseBody
-    BaseResponse<Collection<Product>> removeProductToFriedge(@RequestBody Product product,final HttpServletRequest request) {
+    BaseResponse<Collection<Product>> removeProductToFriedge(@RequestBody Integer Idproduct,final HttpServletRequest request) {
         BaseResponse<Collection<Product>> response = new BaseResponse();
-//        String login = request.getHeader("Login");
-//        Fridge fridge = service.removeProductFromFridge(Integer.getInteger(request.getHeader("id")),product.getId());
-//        System.out.println(fridge.toString());
-//        Collection<Product> list = fridge.getProducts().values();
-//        response.setData(list);
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try{
+            switch(validation.checkValidation(userValidInfo,response)){
+                case VALID:
+                    fridgeService.removeProductFromFridge(userValidInfo.getIdUser(),Idproduct);
+                    Collection<Product> products = fridgeService
+                            .provideFridge(userValidInfo.getIdUser()).getProducts();
+                    response.setData(products);
+                    break;
+                case NON_VALID:
+                    response.setStatus(NON_VALID_ERROR_STATUS);
+                    response.setMessage(NON_VALID_ERROR_MESSAGE);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }catch (IllegalArgumentException ex){
+            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+            response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+        }catch(Exception ex) {
+            response.setStatus(UNEXPECTED_ERROR_STATUS);
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+        }
         return response;
 
     }
