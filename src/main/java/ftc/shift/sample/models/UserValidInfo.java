@@ -7,6 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public final class UserValidInfo {
-    private String id;
+    private Integer idUser;
     private String token;
+    private String login;
+
 }

@@ -5,11 +5,27 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@NoArgsConstructor
+
 @Data
 @AllArgsConstructor
 @Builder
 public final class UserInfo implements Serializable{
+
+    public UserInfo(){
+        this.setId(null);
+        this.setFirstName("");
+        this.setSecondName("");
+        this.setCity("");
+        this.setUniversity("");
+        this.setDormitory("");
+        this.setRoom("");
+        this.setVk("");
+        this.setTelegram("");
+        this.setEmail("");
+         this.setCookRate(0);
+         this.setEatRate(0);
+    }
+
     private Integer id;
     private String firstName;
     private String secondName;

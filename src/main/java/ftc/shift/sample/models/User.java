@@ -6,11 +6,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@NoArgsConstructor
 @Data
 @AllArgsConstructor
 //@Builder
 public class User implements Serializable{
+
+    public User(){
+        userInfo = new UserInfo();
+        fridge = new Fridge();
+    }
+
+
     private UserInfo userInfo;
     private Fridge fridge;
     private String login;

@@ -20,12 +20,12 @@ public class InMemoryTokenRepository implements TokenRepository {
     public InMemoryTokenRepository() {}
 
     @Override
-    public void addToken(@NonNull final UserValidInfo userValidInfo, Integer userId, String login) {
+    public void addToken(@NonNull final UserValidInfo userValidInfo) {
 
 //        tokenCache.put(userValidInfo.getId(),userValidInfo.getToken());
         TokenEntity token = new TokenEntity();
-        token.setLogin(login);
-        token.setUserId(userId);
+        token.setLogin(userValidInfo.getLogin());
+        token.setUserId(userValidInfo.getIdUser());
         token.setToken(userValidInfo.getToken());
 
         service.save(token);

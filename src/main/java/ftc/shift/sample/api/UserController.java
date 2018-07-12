@@ -60,7 +60,7 @@ public class UserController {
     BaseResponse<UserInfo> logoutUser(@PathVariable String userName,final HttpServletRequest request) {
         BaseResponse<UserInfo> response = new BaseResponse();
         UserValidInfo userValidInfo = new UserValidInfo();
-        userValidInfo.setId(userName);
+        userValidInfo.setIdUser(request.getIntHeader("idUser"));
         userValidInfo.setToken(request.getHeader("Token"));
         service.deleteToken(userValidInfo);
         return response;

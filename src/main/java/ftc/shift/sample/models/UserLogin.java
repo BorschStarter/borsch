@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public final class UserLogin {
+    public Integer idUser;
     public String userName;
     public String password;
 }

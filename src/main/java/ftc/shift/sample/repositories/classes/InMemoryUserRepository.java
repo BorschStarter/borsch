@@ -68,6 +68,9 @@ public class InMemoryUserRepository implements UserRepository {
         UserInfo userInfo = userEntity.toUserInfo();
         User user = new User();
         user.setUserInfo(userInfo);
+        LoginEntity login = provideUserLoginInfo(idUser);
+        user.setPassword(login.getPassword());
+        user.setLogin(login.getLogin());
         return user;
     }
 
@@ -86,7 +89,24 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public User createUser(@NonNull final User user) {
         user.setUserInfo(repository.save(user.getUserInfo().toUserEntity()).toUserInfo());
+        LoginEntity login = new LoginEntity();
+        login.setLogin(user.getLogin());
+        login.setPassword(user.getPassword());
+        login.setUserId(user.getUserInfo().getId());
+        login=loginRepository.save(login);
+        user.setLogin(login.getLogin());
+        user.setPassword(login.getPassword());
         return user;
+    }
+
+    public LoginEntity provideUserLoginInfo(Integer idUser){
+        Iterable<LoginEntity> list = loginRepository.findAll();
+        for(LoginEntity login :list){
+            if(login.getUserId().equals(idUser)){
+                return login;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -95,9 +115,7 @@ public class InMemoryUserRepository implements UserRepository {
         Iterable<LoginEntity> list = loginRepository.findAll();
 
         for(LoginEntity loginEntity : list){
-            User user = new User();
-            user.setUserInfo(repository.findOne(loginEntity.getId()).toUserInfo());
-            user.setLogin(loginEntity.getLogin());
+            User user = fetchUser(loginEntity.getUserId());
             map.put(loginEntity.getLogin(),user);
         }
         return  map;

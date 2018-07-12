@@ -9,6 +9,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Random;
 
 @Service
@@ -33,43 +34,49 @@ public final class UserService implements UserServiceInterface {
         return new String(text);
     }
 
+
+    public Integer getUserByLogin(String login){
+        return userRepository.getAllUsers().get(login).getUserInfo().getId();
+
+    }
+
     @Override
     public UserValidInfo createToken(@NonNull UserLogin userLogin) {
+    userLogin.setIdUser(getUserByLogin(userLogin.getUserName()));
+        if (!provideUser(userLogin.getIdUser()).getPassword().equals(userLogin.getPassword())) {
+            throw new IllegalArgumentException("Вы ввели неправильный пароль");
+        }
 
-//        if (!provideUser(userLogin.userName).getPassword().equals(userLogin.getPassword())) {
-//            throw new IllegalArgumentException("Вы ввели неправильный пароль");
-//        }
-//
-//        UserValidInfo userValidInfo = new UserValidInfo();
-//        userValidInfo.setToken(generateToken(userLogin.getPassword().concat(userLogin.userName)));
-//        userValidInfo.setId(userLogin.getUserName());
-//        tokenRepository.addToken(userValidInfo);
-//        return userValidInfo;
-        return null;
+        UserValidInfo userValidInfo = new UserValidInfo();
+        userValidInfo.setToken(generateToken(userLogin.getPassword().concat(userLogin.userName)));
+        userValidInfo.setLogin(userLogin.getUserName());
+        userValidInfo.setIdUser(userLogin.getIdUser());
+        tokenRepository.addToken(userValidInfo);
+        return userValidInfo;
     }
 
     @Override
     public void deleteToken(@NonNull UserValidInfo userValidInfo) {
-
-        if (userRepository.getAllUsers().containsKey(userValidInfo.getId())) {
-            if (tokenRepository.getAllTokensUser(userValidInfo.getId()).contains(userValidInfo.getToken())) {
-                tokenRepository.deleteToken(userValidInfo);
-            } else {
-                throw new IllegalArgumentException("Токена с таким пользователем не существует");
-            }
-        } else {
-            throw new IllegalArgumentException("Пользователя с таким логином не существует");
-        }
+//
+//        if (userRepository.getAllUsers().containsKey(userValidInfo.getIdUser())) {
+//            if (tokenRepository.getAllTokensUser(userValidInfo.getIdUser()).contains(userValidInfo.getToken())) {
+//                tokenRepository.deleteToken(userValidInfo);
+//            } else {
+//                throw new IllegalArgumentException("Токена с таким пользователем не существует");
+//            }
+//        } else {
+//            throw new IllegalArgumentException("Пользователя с таким логином не существует");
+//        }
     }
 
     @Override
     public Boolean checkAccess(@NonNull UserValidInfo userValidInfo) {
-
-        for (String token : tokenRepository.getAllTokensUser(userValidInfo.getId())) {
-            if (token.equals(userValidInfo.getToken()))
-                return true;
-        }
-        return false;
+//
+//        for (String token : tokenRepository.getAllTokensUser(userValidInfo.getId())) {
+//            if (token.equals(userValidInfo.getToken()))
+//                return true;
+//        }
+         return false;
     }
 
     @Override
@@ -87,7 +94,10 @@ public final class UserService implements UserServiceInterface {
 
     @Override
     public void registration(@NonNull UserLogin userLogin) {
-
+        User user = new User();
+        user.setLogin(userLogin.getUserName());
+        user.setPassword(userLogin.getPassword());
+        userRepository.createUser(user);
 
     }
 

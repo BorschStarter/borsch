@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface TokenRepository {
 
-    void addToken(@NonNull UserValidInfo userValidInfo, Integer userId, String login);
+    void addToken(@NonNull UserValidInfo userValidInfo);
     ArrayList<String> getAllTokensUser(@NonNull String idUser);
     void deleteToken(@NonNull UserValidInfo userValidInfo);
 }
