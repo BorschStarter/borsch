@@ -10,9 +10,8 @@ public interface FridgeRepository  {
 
     ArrayList<FridgeEntity> fetchUserFridge(Integer idUser);
     
-    void addProductInUserFridge(Integer idUser, ProductEntity productEntity);
+    void addProductInUserFridge(FridgeEntity fridgeEntity);
     
     void removeProductFromUserFridge(Integer idUser,Integer idProduct);
-    
-    ProductEntity getProductFromUserFridge( Integer idUser,  Integer idProduct);
+
 }

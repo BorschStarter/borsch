@@ -5,15 +5,14 @@ import ftc.shift.sample.entity.FridgeEntity;
 import ftc.shift.sample.entity.ProductEntity;
 import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
-import ftc.shift.sample.models.User;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FridgeRepository;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.ProductRepository;
-import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.UserRepository;
 import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import static ftc.shift.sample.services.ServiceResources.*;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -39,7 +38,7 @@ public class FridgeService implements FridgeServiceInterface {
         Fridge fridge = new Fridge();
         ArrayList<FridgeEntity> fridgeList = fridgeRepository.fetchUserFridge(idUser);
         if(fridgeList.isEmpty()){
-            throw new NoSuchElementException("Холодильник пользователя пуст");
+            throw new NoSuchElementException(USERS_FRIDGE_IS_EMPTY);
         }else{
             for(FridgeEntity fridgeEntity : fridgeList){
                 Product product = EntityProcessor.productEntityToProduct(
@@ -54,16 +53,17 @@ public class FridgeService implements FridgeServiceInterface {
     @Override
     public void addProductInFridge(@NonNull Integer idUser, @NonNull Product product) throws IllegalArgumentException {
         if(!isProductCorrect(product)){
-            throw new IllegalArgumentException("Передана некорректная форма проодукта");
+            throw new IllegalArgumentException(INCORRECT_PRODUCT_FORM );
         }else {
             ProductEntity productEntity = EntityProcessor.productToProductEntity(product);
             if (isProductAlreadyInFridge(productEntity.getFoodName(), idUser)) {
-                throw new IllegalArgumentException("Продукт уже в холодильнике пользователя");
+                throw new IllegalArgumentException(PRODUCT_ALREADY_IN_USER_FRIDGE);
             } else{
                 FridgeEntity fridgeEntity = new FridgeEntity();
-            fridgeEntity.setUserId(idUser);
-            productEntity = productRepository.createProduct(productEntity);
-            fridgeEntity.setProductId(productEntity.getId());
+                fridgeEntity.setUserId(idUser);
+                productEntity = productRepository.createProduct(productEntity);
+                fridgeEntity.setProductId(productEntity.getId());
+                fridgeRepository.addProductInUserFridge(fridgeEntity);
             }
         }
     }
@@ -71,7 +71,7 @@ public class FridgeService implements FridgeServiceInterface {
     @Override
     public void removeProductFromFridge(@NonNull Integer idUser, @NonNull Integer idProduct) {
         if(isProductInFridge(idProduct,idUser)){
-            throw new IllegalArgumentException("В холодильнике пользователя нет такого продукта");
+            throw new IllegalArgumentException(NO_THAT_PRODUCT_IN_USER_FRIDGE);
         }else{
             fridgeRepository.removeProductFromUserFridge(idUser,idProduct);
             productRepository.removeProduct(idProduct);
@@ -83,7 +83,7 @@ public class FridgeService implements FridgeServiceInterface {
     public Product getProductFromFridge(@NonNull Integer idUser, @NonNull Integer idProduct) {
         ArrayList<FridgeEntity> fridgeList = fridgeRepository.fetchUserFridge(idUser);
         if(fridgeList.isEmpty()){
-            throw new NoSuchElementException("Холодильник пользователя пуст");
+            throw new NoSuchElementException(USERS_FRIDGE_IS_EMPTY);
         }else{
             for(FridgeEntity fridgeEntity : fridgeList){
                 ProductEntity productEntity = productRepository
@@ -93,7 +93,7 @@ public class FridgeService implements FridgeServiceInterface {
                 }
             }
         }
-        throw new NoSuchElementException("В холодильнике пользователя нет такого продукта");
+        throw new NoSuchElementException(NO_THAT_PRODUCT_IN_USER_FRIDGE);
     }
 
     private Boolean isProductCorrect(Product product){
