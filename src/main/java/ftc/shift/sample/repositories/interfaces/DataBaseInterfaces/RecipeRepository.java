@@ -7,13 +7,13 @@ import java.util.Collection;
 
 public interface RecipeRepository {
 
-    Recipe fetchRecipe(@NonNull String idRecipe);
+    Recipe fetchRecipe( String idRecipe);
 
-    Recipe updateRecipe(@NonNull Recipe recipe);
+    Recipe updateRecipe( Recipe recipe);
 
-    void deleteRecipe(@NonNull String idRecipe);
+    void deleteRecipe( String idRecipe);
 
-    Recipe createRecipe(@NonNull Recipe recipe);
+    Recipe createRecipe( Recipe recipe);
 
     Collection<Recipe> getAllRecipe();
 }

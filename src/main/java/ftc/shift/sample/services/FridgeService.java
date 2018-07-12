@@ -4,6 +4,8 @@ import ftc.shift.sample.models.Fridge;
 import ftc.shift.sample.models.Product;
 import ftc.shift.sample.models.User;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FoodRepository;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FridgeRepository;
+import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.ProductRepository;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.UserRepository;
 import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import lombok.NonNull;
@@ -13,22 +15,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class FridgeService implements FridgeServiceInterface {
 
-    private final UserRepository userRepository;
+    private final FridgeRepository fridgeRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public FridgeService(final UserRepository userRepository, FoodRepository foodRepository) {
-        this.userRepository = userRepository;
+    public FridgeService(FridgeRepository fridgeRepository, ProductRepository productRepository) {
+        this.fridgeRepository = fridgeRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
-    public Fridge provideFridge(@NonNull Integer idUser){
+    public Fridge provideFridge(@NonNull Integer idUser) {
 
-        return null; //userRepository.fetchUser(idUser).getFridge();
+        return null;
     }
 
 
     @Override
-    public Fridge addProductInFridge(@NonNull Integer idUser,@NonNull Product product){
+    public Fridge addProductInFridge(@NonNull Integer idUser, @NonNull Product product) {
 //        User user = userRepository.fetchUser(idUser);
 //        user.getFridge().getProducts().put(product.getFoodName(),product);
 //        userRepository.updateUser(user);
@@ -37,7 +41,7 @@ public class FridgeService implements FridgeServiceInterface {
     }
 
     @Override
-    public Fridge removeProductFromFridge(@NonNull Integer idUser,@NonNull Integer idProduct) {
+    public Fridge removeProductFromFridge(@NonNull Integer idUser, @NonNull Integer idProduct) {
 //        if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
 //            throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
 //        }
@@ -51,13 +55,15 @@ public class FridgeService implements FridgeServiceInterface {
     }
 
     @Override
-    public Product getProductFromFridge(@NonNull Integer idUser,@NonNull Integer idProduct){
-
-        if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
-            throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
-        }
-        else {
-            return provideFridge(idUser).getProducts().get(idProduct);
-        }
+    public Product getProductFromFridge(@NonNull Integer idUser, @NonNull Integer idProduct) {
+//
+//        if (!provideFridge(idUser).getProducts().containsKey(idProduct)){
+//            throw new IllegalArgumentException("Такого продукта нет в холодильнике данного пользователя");
+//        }
+//        else {
+//            return provideFridge(idUser).getProducts().get(idProduct);
+//        }
+//    }
+        return null;
     }
 }

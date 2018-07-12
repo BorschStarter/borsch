@@ -62,4 +62,22 @@ public class EntityProcessor {
         return loginEntity;
     }
 
+    public static Product productEntityToProduct(ProductEntity productEntity){
+        Product product = new Product();
+        product.setFoodName(productEntity.getFoodName());
+        product.setFoodId(productEntity.getFoodId());
+        product.setReservedWeight(productEntity.getReservedWeight());
+        product.setId(productEntity.getId());
+        product.setAllWeight(productEntity.getAllWeight());
+        return product;
+    }
+    public static ProductEntity productToProductEntity(Product product){
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setFoodName(product.getFoodName());
+        productEntity.setFoodId(product.getFoodId());
+        productEntity.setReservedWeight(product.getReservedWeight());
+        productEntity.setId(product.getId());
+        productEntity.setAllWeight(product.getAllWeight());
+        return productEntity;
+    }
 }

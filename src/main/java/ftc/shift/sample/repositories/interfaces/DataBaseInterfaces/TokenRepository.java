@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public interface TokenRepository {
 
-    UserValidInfo addToken(@NonNull UserValidInfo userValidInfo);
+    UserValidInfo addToken( UserValidInfo userValidInfo);
 
-    void deleteToken(@NonNull UserValidInfo userValidInfo);
+    void deleteToken( UserValidInfo userValidInfo);
 
-    ArrayList<String> getAllTokensUser(@NonNull final Integer idUser);
+    ArrayList<String> getAllTokensUser( final Integer idUser);
 }

@@ -18,23 +18,7 @@ public class PostgresUserRepository implements UserRepository {
     private UserRepositoryEntity userRepository;
     @Autowired
     private LoginRepositoryEntity loginRepository;
-    @Autowired
-    private FridgeRepositoryEntity fridgeRepository;
-    @Autowired
-    private ProductRepositoryEntity productRepository;
-    @Autowired
-    private FoodRepository foodRepository;
-    @Autowired
-    private FoodRepositoryEntity foodRepositoryEntity;
 
-    public Integer getFoodId(String foodName){
-        for (Food food: foodRepository.getAllFoods().values()){
-            if(food.getName().equals(foodName)){
-                return food.getId();
-            }
-        }
-        return null;
-    }
 
     @Override
     public UserInfoEntity fetchUser(@NonNull final Integer idUser) throws IllegalArgumentException {

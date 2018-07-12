@@ -12,20 +12,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 @Builder
 public final class Product {
     private Integer id;
-    private Integer userId;
     private Integer foodId;
     private String foodName;
     private Integer allWeight;
     private Integer reservedWeight;
 
-    public ProductEntity toProductEntity(){
-        ProductEntity productEntity = new ProductEntity();
-        productEntity.setId(this.getId());
-        productEntity.setFoodId(this.getFoodId());
-        productEntity.setAllWeight(this.getAllWeight());
-        productEntity.setReservedWeight(this.getReservedWeight());
-        productEntity.setUserId(this.getUserId());
-        return productEntity;
-
-    }
 }

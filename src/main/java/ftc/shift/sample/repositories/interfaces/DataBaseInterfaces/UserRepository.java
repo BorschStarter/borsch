@@ -11,19 +11,19 @@ import java.util.TreeMap;
 
 public interface UserRepository {
 
-    UserInfoEntity fetchUser(@NonNull Integer idUser);
+    UserInfoEntity fetchUser( Integer idUser);
 
-    Boolean checkInitLogin(@NonNull String login);
+    Boolean checkInitLogin( String login);
 
-    Boolean authenticate(@NonNull LoginEntity loginEntity);
+    Boolean authenticate( LoginEntity loginEntity);
 
-    UserInfoEntity updateUserInfo(@NonNull UserInfoEntity userInfoEntity);
+    UserInfoEntity updateUserInfo( UserInfoEntity userInfoEntity);
 
-    void updateUserLoginInfo (@NonNull LoginEntity loginEntity);
+    void updateUserLoginInfo ( LoginEntity loginEntity);
 
-    void deleteUser(@NonNull Integer idUser);
+    void deleteUser( Integer idUser);
 
-    void createUser(@NonNull UserLogin userLogin);
+    void createUser( UserLogin userLogin);
 
     LoginEntity provideUserLoginInfo(String userLogin);
 

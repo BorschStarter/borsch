@@ -9,13 +9,13 @@ import java.util.TreeMap;
 
 public interface FoodRepository {
 
-    FoodEntity fetchFood(@NonNull Integer idFood);
+    FoodEntity fetchFood(Integer idFood);
 
-    FoodEntity updateFood(@NonNull FoodEntity foodEntity);
+    FoodEntity updateFood(FoodEntity foodEntity);
 
-    void deleteFood(@NonNull Integer idFood);
+    void deleteFood(Integer idFood);
 
-    FoodEntity createFood(@NonNull FoodEntity foodEntity);
+    FoodEntity createFood(FoodEntity foodEntity);
 
     TreeMap<String,Food> getAllFoods();
 }
