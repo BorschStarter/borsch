@@ -11,10 +11,10 @@ import java.util.HashMap;
 @AllArgsConstructor
 //@Builder
 public final class Recipe implements Serializable{
-    private String idRecipe;
+    private Integer idRecipe;
     private String name;
-    private String idCooker;
-    private Boolean isInProcess;
+    private Integer idCooker;
+    private Integer isInProcess;
     private ArrayList<Product> productList = new ArrayList<>();
     private HashMap<String, String> finalUserList = new HashMap<>();
     private HashMap<String,HashMap<String,User>> listUsersForEachProduct = new HashMap<>();

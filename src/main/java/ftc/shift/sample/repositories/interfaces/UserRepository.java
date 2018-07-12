@@ -8,13 +8,13 @@ import java.util.TreeMap;
 
 public interface UserRepository {
 
-    UserInfo fetchUserInfo(@NonNull String idUser);
+    User fetchUser(@NonNull Integer idUser);
 
-    UserInfo updateUser(@NonNull UserInfo userInfo);
+    User updateUser(@NonNull User user);
 
     void deleteUser(@NonNull Integer idUser);
 
     User createUser(@NonNull User user);
 
-//    TreeMap<String,User> getAllUsers();
+    TreeMap<String,User> getAllUsers();
 }

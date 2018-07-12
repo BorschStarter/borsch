@@ -29,7 +29,7 @@ public class RecipeService implements RecipeServiceInterface {
         this.userRepository = userRepository;
     }
 
-    private User provideUser(@NonNull String idUser) {
+    private User provideUser(@NonNull Integer idUser) {
 
         if (userRepository.getAllUsers().containsKey(idUser))
             return userRepository.fetchUser(idUser);
@@ -42,13 +42,13 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public HashMap<String,Recipe> getAllMyRecipes(@NonNull String idUser) {
+    public HashMap<String,Recipe> getAllMyRecipes(@NonNull Integer idUser) {
         return provideUser(idUser)
                 .getMyRecipes();
     }
 
     @Override
-    public HashMap<String,Recipe> getAllNotMyRecipes(@NonNull String idUser) {
+    public HashMap<String,Recipe> getAllNotMyRecipes(@NonNull Integer idUser) {
         return provideUser(idUser)
                 .getNotMyRecipes();
     }
@@ -64,7 +64,7 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public void addRecipeToNotMyRecipes(@NonNull Recipe recipe, @NonNull String idUser, @NonNull Product product) {
+    public void addRecipeToNotMyRecipes(@NonNull Recipe recipe, @NonNull Integer idUser, @NonNull Product product) {
 
         provideUser(idUser)
                 .getNotMyRecipes()
@@ -78,7 +78,7 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public HashMap<String,Recipe> getAllRecipesForUser(@NonNull String idUser){
+    public HashMap<String,Recipe> getAllRecipesForUser(@NonNull Integer idUser){
 
         HashMap<String,Recipe> myLenta = new HashMap<>();
 
@@ -103,15 +103,20 @@ public class RecipeService implements RecipeServiceInterface {
         return myLenta;
     }
 
-    @Override
-    public void addUserToAllUsersForProductIdForRecipeId(@NonNull Recipe recipe, @NonNull String idUser, @NonNull Product product){
+//    @Override
+//    public void addUserToAllUsersForProductIdForRecipeId(@NonNull Recipe recipe, @NonNull Integer idUser, @NonNull Product product){
+//
+//        getAllUsersForProductIdForRecipeId(recipe,product)
+//                .put(idUser,provideUser(idUser));
+//    }
 
-        getAllUsersForProductIdForRecipeId(recipe,product)
-                .put(idUser,provideUser(idUser));
+    @Override
+    public void changeRecipeState(Integer idUser, Recipe recipe, State newState) {
+
     }
 
     @Override
-    public void removeRecipeFromMyRecipes(@NonNull String idUser, @NonNull String idRecipe) {
+    public void removeRecipeFromMyRecipes(@NonNull Integer idUser, @NonNull Integer idRecipe) {
 
         if (provideUser(idUser).getMyRecipes().containsKey(idRecipe)) {
             provideUser(idUser).getMyRecipes().remove(idRecipe);
@@ -123,7 +128,7 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public void removeRecipeFromNotMyRecipes(@NonNull String idUser, @NonNull String idRecipe) {
+    public void removeRecipeFromNotMyRecipes(@NonNull Integer idUser, @NonNull Integer idRecipe) {
 
         if (provideUser(idUser).getNotMyRecipes().containsKey(idRecipe)) {
             provideUser(idUser).getNotMyRecipes().remove(idRecipe);
@@ -135,13 +140,18 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public void changeRecipeState(@NonNull String idUser,@NonNull Recipe recipe,@NonNull State newState) {
+    public void addUserToAllUsersForProductIdForRecipeId(Recipe recipe, Integer idUser, Product product) {
 
-        provideUser(idUser)
-                .getRecipeState()
-                .put(recipe.getIdRecipe(),newState);
-        updateUser(provideUser(idUser));
     }
+
+//    @Override
+//    public void changeRecipeState(@NonNull Integer idUser,@NonNull Recipe recipe,@NonNull State newState) {
+//
+//        provideUser(idUser)
+//                .getRecipeState()
+//                .put(recipe.getIdRecipe(),newState);
+//        updateUser(provideUser(idUser));
+//    }
 
     @Override
     public ArrayList<Product> getProductsFromRecipe(@NonNull Recipe recipe) {
@@ -188,34 +198,39 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public void addUserToFinalListRecipe(@NonNull Recipe recipe,@NonNull Product product,@NonNull String idUser) {
+    public void addUserToFinalListRecipe(Recipe recipe, Product product, Integer idUser) {
 
-        provideUser(recipe.getIdCooker())
-                .getMyRecipes()
-                .get(recipe.getIdRecipe())
-                .getFinalUserList()
-                .put(product.getId(),idUser);
-
-        changeRecipeState(idUser,recipe,ACCEPTED);
-        updateUser(provideUser(recipe.getIdCooker()));
-        if (getAllUsersForProductIdForRecipeId(recipe, product)==null){
-
-            //throw new IllegalArgumentException("По этому продукту нет заявок");
-        }else {
-            Set<String> set = getAllUsersForProductIdForRecipeId(recipe, product).keySet();
-            for (String entry : set) {
-
-
-                if (!idUser.equals(entry)) {
-                    deleteUserFromListForProductIdForRecipeId(recipe, product, entry);
-                    updateUser(provideUser(idUser));
-                }
-            }
-        }
     }
 
+//    @Override
+//    public void addUserToFinalListRecipe(@NonNull Recipe recipe,@NonNull Product product,@NonNull Integer idUser) {
+//
+//        provideUser(recipe.getIdCooker())
+//                .getMyRecipes()
+//                .get(recipe.getIdRecipe())
+//                .getFinalUserList()
+//                .put(product.getId(),idUser);
+//
+//        changeRecipeState(idUser,recipe,ACCEPTED);
+//        updateUser(provideUser(recipe.getIdCooker()));
+//        if (getAllUsersForProductIdForRecipeId(recipe, product)==null){
+//
+//            //throw new IllegalArgumentException("По этому продукту нет заявок");
+//        }else {
+//            Set<String> set = getAllUsersForProductIdForRecipeId(recipe, product).keySet();
+//            for (String entry : set) {
+//
+//
+//                if (!idUser.equals(entry)) {
+//                    deleteUserFromListForProductIdForRecipeId(recipe, product, entry);
+//                    updateUser(provideUser(idUser));
+//                }
+//            }
+//        }
+//    }
+
     @Override
-    public void removeUserFromFinalListRecipe(@NonNull Recipe recipe,@NonNull Product product,@NonNull String idUser) {
+    public void removeUserFromFinalListRecipe(@NonNull Recipe recipe,@NonNull Product product,@NonNull Integer idUser) {
 
         provideUser(recipe.getIdCooker())
                 .getMyRecipes()
@@ -241,7 +256,7 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public void deleteUserFromListForProductIdForRecipeId(@NonNull Recipe recipe,@NonNull Product product,@NonNull String idUser){
+    public void deleteUserFromListForProductIdForRecipeId(@NonNull Recipe recipe,@NonNull Product product,@NonNull Integer idUser){
 
         provideUser(recipe.getIdCooker())
                 .getMyRecipes()
@@ -258,7 +273,7 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public State getRecipeState(@NonNull String userId,@NonNull Recipe recipe) {
+    public State getRecipeState(@NonNull Integer userId,@NonNull Recipe recipe) {
         return provideUser(userId).getRecipeState().get(recipe.getName());
     }
 }
