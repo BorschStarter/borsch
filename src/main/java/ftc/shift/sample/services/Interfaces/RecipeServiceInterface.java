@@ -1,31 +1,24 @@
 package ftc.shift.sample.services.Interfaces;
 
 import ftc.shift.sample.models.Product;
-import ftc.shift.sample.models.Recipe;
 import ftc.shift.sample.models.RecipeInfo;
-import ftc.shift.sample.models.State;
 import lombok.NonNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public interface RecipeServiceInterface {
 
     ArrayList<RecipeInfo> fetchAllRecipes (@NonNull Integer idUser);
 
-    Recipe fetchRecipe(@NonNull Integer idRecipe);
+    RecipeInfo fetchActiveRecipe(@NonNull Integer idUser);
 
-    ArrayList<Integer> fetchEatersId(@NonNull Integer idRecipe);
+    void createRecipe(@NonNull Integer idUser,@NonNull RecipeInfo recipeInfo);
 
-    Recipe fetchActiveRecipe(@NonNull Integer idUser);
+    void removeRecipe(@NonNull Integer idRecipe,@NonNull Integer idUser);
 
-    RecipeInfo createRecipe(@NonNull Integer idUser,@NonNull String recipeName);
+    void addProductToRecipe(@NonNull Integer idRecipe,@NonNull Product product,@NonNull Integer idUser);
 
-    void removeRecipe(@NonNull Integer idRecipe);
-
-    void addProductToRecipe(@NonNull Integer idRecipe,@NonNull Product product);
-
-    void removeProductFromRecipe(@NonNull Integer idRecipe, @NonNull Integer idProduct);
+    void removeProductFromRecipe(@NonNull Integer idRecipe, @NonNull Integer idProduct, @NonNull Integer idUser);
 
 
 

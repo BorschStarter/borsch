@@ -88,6 +88,7 @@ public class EntityProcessor {
         recipeInfo.setRecipeId(listOfRecipeEntity.get(0).getRecipeId());
         recipeInfo.setRecipeName(listOfRecipeEntity.get(0).getName());
         recipeInfo.setUserId(listOfRecipeEntity.get(0).getUserId());
+        recipeInfo.setRecipeStatement(listOfRecipeEntity.get(0).getRecipeStatement());
         ArrayList<Integer> idProducts = new ArrayList<Integer>();
         for(RecipeEntity recipeEntity :listOfRecipeEntity){
             idProducts.add(recipeEntity.getProductId());
@@ -100,6 +101,7 @@ public class EntityProcessor {
         RecipeEntity recipeEntity;
         for(Integer productId : recipeInfo.getIdProducts()){
             recipeEntity = new RecipeEntity();
+            recipeEntity.setRecipeStatement(recipeInfo.getRecipeStatement());
             recipeEntity.setName(recipeInfo.getRecipeName());
             recipeEntity.setUserId(recipeInfo.getUserId());
             recipeEntity.setRecipeId(recipeInfo.getRecipeId());

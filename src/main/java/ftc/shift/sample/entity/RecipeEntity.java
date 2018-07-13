@@ -31,4 +31,7 @@ public class RecipeEntity {
 
     @Column(name="name")
     private String name;
+
+    @Column(name="recipe_statement", columnDefinition = "boolean")
+    private Boolean recipeStatement;
 }
