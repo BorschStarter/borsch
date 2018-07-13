@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.NoSuchElementException;
 
 @Service
@@ -90,10 +90,10 @@ public class RecipeService implements RecipeServiceInterface {
     @Override
     public void removeRecipe(Integer idRecipe,Integer idUser) {
        if(recipeRepository.fetchUserRecipe(idUser, idRecipe)==null){
-           throw new IllegalArgumentException("Рецепт не существует");
-       }else{
-           recipeRepository.deleteRecipe(idRecipe,idUser);
-       }
+            throw new IllegalArgumentException("Рецепт не существует");
+        }else{
+            recipeRepository.deleteRecipe(idRecipe,idUser);
+        }
     }
 
     @Override
@@ -109,7 +109,6 @@ public class RecipeService implements RecipeServiceInterface {
             productEntity = productRepository.createProduct(productEntity);
             product=EntityProcessor.productEntityToProduct(productEntity);
             RecipeEntity recipeEntity = listOfRecipeEntity.get(0);
-            recipeEntity.setId(0);
             recipeEntity.setProductId(product.getId());
             recipeRepository.addProductInRecipe(recipeEntity);
         }

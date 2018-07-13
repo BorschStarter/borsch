@@ -1,13 +1,7 @@
 package ftc.shift.sample.repositories.interfaces.DataBaseInterfaces;
 
 import ftc.shift.sample.entity.RecipeEntity;
-import ftc.shift.sample.models.Product;
-import ftc.shift.sample.models.Recipe;
-import lombok.NonNull;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public interface RecipeRepository {
 

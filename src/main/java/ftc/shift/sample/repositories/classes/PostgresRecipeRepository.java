@@ -90,7 +90,13 @@ public class PostgresRecipeRepository implements RecipeRepository {
 
     @Override
     public void addProductInRecipe(RecipeEntity recipeEntity) {
-        recipeService.save(recipeEntity);
+        RecipeEntity recipe = new RecipeEntity();
+        recipe.setRecipeId(recipeEntity.getRecipeId());
+        recipe.setProductId(recipeEntity.getProductId());
+        recipe.setRecipeStatement(recipeEntity.getRecipeStatement());
+        recipe.setName(recipeEntity.getName());
+        recipe.setUserId(recipeEntity.getUserId());
+        recipeService.save(recipe);
     }
 
     @Override
