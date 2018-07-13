@@ -276,12 +276,14 @@ public class RecipeController {
 
         return response;
     }
-//
+
+
+    //
 //    @PostMapping(RECIPE_PATH+"/accept")
 //    public @ResponseBody
 //    BaseResponse<Collection<Recipe>> accepUserForRecipe(@RequestBody AcceptDeniedModel acceptDeniedModel, final HttpServletRequest request) {
 //        BaseResponse<Collection<Recipe>> response = new BaseResponse();
-//        // System.out.println(product.toString());
+//        // System.out.pr intln(product.toString());
 //        String login = request.getHeader("Login");
 //        Product product = serviceFridge.getProductFromFridge(acceptDeniedModel.getUserName(), acceptDeniedModel.getProductName());
 //        Recipe recipe = service.getAllMyRecipes(login).get(acceptDeniedModel.getRecipeName());

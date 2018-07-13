@@ -89,13 +89,13 @@ public class FridgeController {
     }
     @DeleteMapping(FRIDGE_PATH)
     public @ResponseBody
-    BaseResponse<Collection<Product>> removeProductToFriedge(@RequestBody Integer Idproduct,final HttpServletRequest request) {
+    BaseResponse<Collection<Product>> removeProductFromFriedge(@RequestBody Product product,final HttpServletRequest request) {
         BaseResponse<Collection<Product>> response = new BaseResponse();
         UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
         try{
             switch(validation.checkValidation(userValidInfo,response)){
                 case VALID:
-                    fridgeService.removeProductFromFridge(userValidInfo.getIdUser(),Idproduct);
+                    fridgeService.removeProductFromFridge(userValidInfo.getIdUser(),product.getId());
                     Collection<Product> products = fridgeService
                             .provideFridge(userValidInfo.getIdUser()).getProducts();
                     response.setData(products);

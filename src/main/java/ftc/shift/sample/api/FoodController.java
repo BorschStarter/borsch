@@ -59,6 +59,37 @@ public class  FoodController {
 
         return response;
     }
+    @GetMapping(FOOD_PATH)
+    public @ResponseBody
+    BaseResponse<Collection<Food>> provideFoodSearchList(final HttpServletRequest request) {
+        BaseResponse<Collection<Food>> response = new BaseResponse();
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try {
+            switch (validation.checkValidation(userValidInfo, response)) {
+                case VALID:
+                    Collection<Food> food = foodService.provideFoods().values();
+                    response.setData(food);
+                    break;
+                case NON_VALID:
+                    response.setStatus(NON_VALID_ERROR_STATUS);
+                    response.setMessage(NON_VALID_ERROR_MESSAGE);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }catch (IllegalArgumentException ex){
+            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+            response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+        }catch (Exception ex){
+            response.setStatus(UNEXPECTED_ERROR_STATUS);
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" provideFoodSearchList"+ex.getMessage());
+        }
+
+        return response;
+    }
 
     @PutMapping(FOOD_PATH)
     public @ResponseBody
