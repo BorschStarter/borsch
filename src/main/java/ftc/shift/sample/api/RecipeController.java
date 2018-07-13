@@ -1,112 +1,247 @@
 package ftc.shift.sample.api;
 
 
+import ftc.shift.sample.Controllers.HeaderProcessor;
 import ftc.shift.sample.models.*;
-import ftc.shift.sample.services.Interfaces.FridgeServiceInterface;
 import ftc.shift.sample.services.Interfaces.RecipeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import ftc.shift.sample.services.Validation;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
-import java.util.Set;
+
+import static ftc.shift.sample.api.ExceptionsConst.*;
+import static ftc.shift.sample.api.Resources.RECIPE_PATH;
+
 
 @RestController
 public class RecipeController {
 
 
-    private static final String RECIPE_PATH = Resources.API_PREFIX + "recipes";
-
     @Autowired
     private RecipeServiceInterface recipeService;
     @Autowired
-    private FridgeServiceInterface serviceFridge;
+    private Validation validation;
 
-//    @GetMapping(RECIPE_PATH+"/processState")
-//    public @ResponseBody
-//    BaseResponse<Recipe> getActiveRecipe(final HttpServletRequest request){
-//        BaseResponse<Recipe> response = new BaseResponse<>();
-//        response.setStatus("NO");
-//        String login = request.getHeader("Login");
-//        for(Recipe recipe :service.getAllMyRecipes(login).values()){
-//            if(recipe.getIsInProcess()){
-//                response.setStatus("OK");
-//                response.setData(recipe);
-//                break;
-//            }
-//        }
-//        return response;
-//
-//    }
-//
-//    @GetMapping(RECIPE_PATH+"/{recipeName}")
-//    public @ResponseBody
-//    BaseResponse<Recipe> provideRecipe(@PathVariable String recipeName, final HttpServletRequest request) {
-//        BaseResponse<Recipe> response = new BaseResponse();
-//        Recipe resipe = service.getAllMyRecipes(request.getHeader("Login")).get(recipeName);
-//        response.setData(resipe);
-//        return response;
-//    }
-//
-//    @GetMapping(RECIPE_PATH)
-//    public @ResponseBody
-//    BaseResponse<Set<String>> provideAllRecipeNames(final HttpServletRequest request) {
-//        BaseResponse<Set<String>> response = new BaseResponse();
-//        Set<String> recipeNames = service.getAllMyRecipes(request.getHeader("Login")).keySet();
-//        response.setData(recipeNames);
-//        return response;
-//    }
-//
-//    @PostMapping(RECIPE_PATH)
-//    public @ResponseBody
-//    BaseResponse<Collection<Recipe>> addRecipe(@RequestBody Recipe recipe,final HttpServletRequest request) {
-//        BaseResponse<Collection<Recipe>> response = new BaseResponse();
-//        String login = request.getHeader("Login");
-//        recipe.setIdCooker(login);
-//        recipe.setIdRecipe(recipe.getName());
-//        service.addRecipeToMyRecipes(recipe);
-//        Collection<Recipe> list = service.getAllMyRecipes(login).values();
-//        response.setData(list);
-//        return response;
-//
-//    }
-////
-////    @PutMapping(RECIPE_PATH+"/{recipeName}")
-////    public @ResponseBody
-////    BaseResponse<Recipe> addProductToRecipe(@PathVariable Recipe recipe,@RequestBody Product product,final HttpServletRequest request) {
-////        BaseResponse<Recipe> response = new BaseResponse();
-////        // System.out.println(product.toString());
-////        String login = request.getHeader("Login");
-////        Recipe recipe = service.getAllMyRecipes(login).get(recipeName);
-////        service.addProductToMyRecipe(recipe,product);
-////        response.setData(recipe);
-////        return response;
-////
-////    }
-//
-////    @DeleteMapping(RECIPE_PATH+"/{recipeName}/{productName}")
-////    public @ResponseBody
-////    BaseResponse<Recipe> deleteProductFromRecipe(@PathVariable String recipeName,@PathVariable String productName,final HttpServletRequest request) {
-////        BaseResponse<Recipe> response = new BaseResponse();
-////        // System.out.println(product.toString());
-////        String login = request.getHeader("Login");
-////        Recipe recipe = service.removeProductFromMyRecipe(recipeName,productName,login);
-////        response.setData(recipe);
-////        return response;
-////
-////    }
-//
-//    @DeleteMapping(RECIPE_PATH+"/{recipeName}")
-//    public @ResponseBody
-//    BaseResponse<Collection<Recipe>> deleteRecipe(@PathVariable String recipeName,final HttpServletRequest request) {
-//        BaseResponse<Collection<Recipe>> response = new BaseResponse();
-//        String userName = request.getHeader("Login");
-//        service.removeRecipeFromMyRecipes(userName,recipeName);
-//        Collection<Recipe> list = service.getAllMyRecipes(request.getHeader("Login")).values();
-//        response.setData(list);
-//
-//        return response;
-//    }
+    @GetMapping(RECIPE_PATH+"/processState")
+    public @ResponseBody
+    BaseResponse<RecipeInfo> getActiveRecipe(final HttpServletRequest request){
+        BaseResponse<RecipeInfo> response = new BaseResponse<>();
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try{
+            switch(validation.checkValidation(userValidInfo,response)){
+                case VALID:
+                    RecipeInfo recipeInfo = recipeService
+                            .fetchActiveRecipe(userValidInfo.getIdUser());
+                    response.setData(recipeInfo);
+                    break;
+                case NON_VALID:
+                    response.setStatus(NON_VALID_ERROR_STATUS);
+                    response.setMessage(NON_VALID_ERROR_MESSAGE);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }catch (IllegalArgumentException ex){
+            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+            response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+        }catch(Exception ex) {
+            response.setStatus(UNEXPECTED_ERROR_STATUS);
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+        }
+        return response;
+
+    }
+
+    @GetMapping(RECIPE_PATH+"/{recipeId}")
+    public @ResponseBody
+    BaseResponse<RecipeInfo> provideRecipe(@PathVariable Integer recipeId, final HttpServletRequest request) {
+        BaseResponse<RecipeInfo> response = new BaseResponse();
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try{
+            switch(validation.checkValidation(userValidInfo,response)){
+                case VALID:
+                    RecipeInfo recipeInfo = recipeService.fetchRecipe(recipeId);
+                    response.setData(recipeInfo);
+                    break;
+                case NON_VALID:
+                    response.setStatus(NON_VALID_ERROR_STATUS);
+                    response.setMessage(NON_VALID_ERROR_MESSAGE);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }catch (IllegalArgumentException ex){
+            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+            response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+        }catch(Exception ex) {
+            response.setStatus(UNEXPECTED_ERROR_STATUS);
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+        }
+        return response;
+    }
+
+    @GetMapping(RECIPE_PATH)
+    public @ResponseBody
+    BaseResponse<Collection<RecipeInfo>> provideAllRecipeNames(final HttpServletRequest request) {
+        BaseResponse<Collection<RecipeInfo>> response = new BaseResponse();
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try{
+            switch(validation.checkValidation(userValidInfo,response)){
+                case VALID:
+                    Collection<RecipeInfo> collectionOfRecipeInfo = recipeService
+                            .fetchAllRecipes(userValidInfo.getIdUser());
+                    response.setData(collectionOfRecipeInfo);
+                    break;
+                case NON_VALID:
+                    response.setStatus(NON_VALID_ERROR_STATUS);
+                    response.setMessage(NON_VALID_ERROR_MESSAGE);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }catch (IllegalArgumentException ex){
+            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+            response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+        }catch(Exception ex) {
+            response.setStatus(UNEXPECTED_ERROR_STATUS);
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+        }
+        return response;
+    }
+
+    @PostMapping(RECIPE_PATH)
+    public @ResponseBody
+    BaseResponse addRecipe(@RequestBody RecipeInfo recipeInfo,final HttpServletRequest request) {
+        BaseResponse response = new BaseResponse();
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try{
+            switch(validation.checkValidation(userValidInfo,response)){
+                case VALID:
+                    recipeService.createRecipe(userValidInfo.getIdUser(),recipeInfo);
+                    break;
+                case NON_VALID:
+                    response.setStatus(NON_VALID_ERROR_STATUS);
+                    response.setMessage(NON_VALID_ERROR_MESSAGE);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }catch (IllegalArgumentException ex){
+            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+            response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+        }catch(Exception ex) {
+            response.setStatus(UNEXPECTED_ERROR_STATUS);
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+        }
+        return response;
+
+    }
+
+    @PutMapping(RECIPE_PATH+"/{recipeId}")
+    public @ResponseBody
+    BaseResponse addProductToRecipe(@PathVariable Integer recipeId,@RequestBody Product product,final HttpServletRequest request) {
+        BaseResponse response = new BaseResponse();
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try{
+            switch(validation.checkValidation(userValidInfo,response)){
+                case VALID:
+                    recipeService.addProductToRecipe(recipeId,product,userValidInfo.getIdUser());
+                    break;
+                case NON_VALID:
+                    response.setStatus(NON_VALID_ERROR_STATUS);
+                    response.setMessage(NON_VALID_ERROR_MESSAGE);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }catch (IllegalArgumentException ex){
+            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+            response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+        }catch(Exception ex) {
+            response.setStatus(UNEXPECTED_ERROR_STATUS);
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+        }
+        return response;
+
+    }
+
+    @DeleteMapping(RECIPE_PATH+"/{recipeId}/{productId}")
+    public @ResponseBody
+    BaseResponse deleteProductFromRecipe(@PathVariable Integer recipeId,@PathVariable Integer productId,final HttpServletRequest request) {
+        BaseResponse response = new BaseResponse();
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try{
+            switch(validation.checkValidation(userValidInfo,response)){
+                case VALID:
+                    recipeService.removeProductFromRecipe(recipeId,productId,userValidInfo.getIdUser());
+                    break;
+                case NON_VALID:
+                    response.setStatus(NON_VALID_ERROR_STATUS);
+                    response.setMessage(NON_VALID_ERROR_MESSAGE);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }catch (IllegalArgumentException ex){
+            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+            response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+        }catch(Exception ex) {
+            response.setStatus(UNEXPECTED_ERROR_STATUS);
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+        }
+        return response;
+
+    }
+
+    @DeleteMapping(RECIPE_PATH+"/{recipeId}")
+    public @ResponseBody
+    BaseResponse deleteRecipe(@PathVariable Integer recipeId,final HttpServletRequest request) {
+        BaseResponse response = new BaseResponse();
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try{
+            switch(validation.checkValidation(userValidInfo,response)){
+                case VALID:
+                    recipeService.removeRecipe(recipeId,userValidInfo.getIdUser());
+                    break;
+                case NON_VALID:
+                    response.setStatus(NON_VALID_ERROR_STATUS);
+                    response.setMessage(NON_VALID_ERROR_MESSAGE);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }catch (IllegalArgumentException ex){
+            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+            response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+        }catch(Exception ex) {
+            response.setStatus(UNEXPECTED_ERROR_STATUS);
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+        }
+
+        return response;
+    }
 //
 //    @PostMapping(RECIPE_PATH+"/accept")
 //    public @ResponseBody

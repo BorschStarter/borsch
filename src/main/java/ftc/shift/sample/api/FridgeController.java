@@ -11,13 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 import static ftc.shift.sample.api.ExceptionsConst.*;
+import static ftc.shift.sample.api.Resources.FRIDGE_PATH;
 
 @RestController
 public class FridgeController {
 
-
-    private static final String FRIDGE_PATH = Resources.API_PREFIX + "fridge";
-    private static final String FOOD_PATH = Resources.API_PREFIX + "food";
 
     @Autowired
     private FridgeServiceInterface fridgeService;

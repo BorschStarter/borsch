@@ -47,6 +47,11 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
+    public RecipeInfo fetchRecipe(Integer recipeId) {
+        return null;
+    }
+
+    @Override
     public RecipeInfo fetchActiveRecipe(Integer idUser) {
         ArrayList<RecipeEntity> listOfRecipeEntity = recipeRepository.fetchActiveUserRecipe(idUser);
         if(listOfRecipeEntity.isEmpty()){

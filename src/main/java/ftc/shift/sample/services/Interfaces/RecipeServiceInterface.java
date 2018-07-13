@@ -10,6 +10,8 @@ public interface RecipeServiceInterface {
 
     ArrayList<RecipeInfo> fetchAllRecipes (@NonNull Integer idUser);
 
+    RecipeInfo fetchRecipe(@NonNull Integer recipeId);
+
     RecipeInfo fetchActiveRecipe(@NonNull Integer idUser);
 
     void createRecipe(@NonNull Integer idUser,@NonNull RecipeInfo recipeInfo);
