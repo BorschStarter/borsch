@@ -29,7 +29,7 @@ public class RecipeEntity {
     @Column(name="product_id")
     private Integer productId;
 
-    @Column(name="name")
+    @Column(name="name", columnDefinition = "text")
     private String name;
 
     @Column(name="recipe_statement", columnDefinition = "boolean")
