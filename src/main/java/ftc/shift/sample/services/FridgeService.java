@@ -23,6 +23,7 @@ public class FridgeService implements FridgeServiceInterface {
     private final FridgeRepository fridgeRepository;
     private final ProductRepository productRepository;
     private final FoodRepository foodRepository;
+
     @Autowired
     public FridgeService(FridgeRepository fridgeRepository,
                          ProductRepository productRepository,

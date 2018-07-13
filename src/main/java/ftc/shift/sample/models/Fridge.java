@@ -10,5 +10,5 @@ import java.util.HashMap;
 @Data
 @NoArgsConstructor
 public final class Fridge implements Serializable{
-    private ArrayList<Product> products;
+    private ArrayList<Product> products = new ArrayList<>();
 }

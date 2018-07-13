@@ -30,6 +30,9 @@ public class ProductEntity {
     @Column(name="food_name", columnDefinition = "text")
     private String foodName;
 
+    @Column(name = "user_id")
+    private Integer idUser;
+
     @Column(name="all_weight")
     private Integer allWeight;
 

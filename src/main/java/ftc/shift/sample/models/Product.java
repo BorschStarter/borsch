@@ -16,5 +16,6 @@ public final class Product {
     private String foodName;
     private Integer allWeight;
     private Integer reservedWeight;
+    private Integer userId;
 
 }

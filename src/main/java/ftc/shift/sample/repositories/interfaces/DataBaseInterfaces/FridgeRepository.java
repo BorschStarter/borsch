@@ -1,8 +1,7 @@
 package ftc.shift.sample.repositories.interfaces.DataBaseInterfaces;
 
 import ftc.shift.sample.entity.FridgeEntity;
-import ftc.shift.sample.entity.ProductEntity;
-import lombok.NonNull;
+
 
 import java.util.ArrayList;
 

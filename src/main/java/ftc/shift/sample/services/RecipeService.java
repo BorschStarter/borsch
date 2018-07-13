@@ -4,7 +4,6 @@ import ftc.shift.sample.Controllers.EntityProcessor;
 import ftc.shift.sample.entity.ProductEntity;
 import ftc.shift.sample.entity.RecipeEntity;
 import ftc.shift.sample.models.Product;
-import ftc.shift.sample.models.Recipe;
 import ftc.shift.sample.models.RecipeInfo;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.ProductRepository;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.RecipeRepository;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.NoSuchElementException;
 
 @Service
@@ -26,6 +26,12 @@ public class RecipeService implements RecipeServiceInterface {
                          ProductRepository productRepository) {
         this.recipeRepository = recipeRepository;
         this.productRepository=productRepository;
+    }
+
+    @Override
+    public Product fetchProducts(Integer productId) {
+        return  EntityProcessor.productEntityToProduct(productRepository.fetchProduct(productId));
+
     }
 
     @Override
@@ -48,7 +54,7 @@ public class RecipeService implements RecipeServiceInterface {
 
     @Override
     public RecipeInfo fetchRecipe(Integer recipeId) {
-        return null;
+        return EntityProcessor.recipeEntitysToRecipeInfo(recipeRepository.fetchRecipe(recipeId));
     }
 
     @Override
@@ -63,15 +69,23 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     @Override
-    public void createRecipe(Integer idUser, RecipeInfo recipeInfo) {
-        if(!isRecipeInfoCorrect(recipeInfo)){
-            throw new IllegalArgumentException("Переданный рецепт некорректен");
-        }else{
+    public void createRecipe(Integer idUser, String recipeName, Product product) {
+            RecipeInfo recipeInfo = new RecipeInfo();
+            recipeInfo.setRecipeName(recipeName);
+            product.setUserId(idUser);
+            ProductEntity productEntity = EntityProcessor.productToProductEntity(product);
+            productEntity= productRepository.createProduct(productEntity);
+
+            recipeInfo.setRecipeStatement(false);
+            recipeInfo.setUserId(idUser);
+            ArrayList<Integer> productId = new ArrayList<>();
+            productId.add(productEntity.getId());
+            recipeInfo.setIdProducts(productId);
             ArrayList<RecipeEntity> listOfRecipeEntity=
                     EntityProcessor.recipeInfoToRecipeEntitys(recipeInfo);
             recipeRepository.createRecipe(listOfRecipeEntity);
         }
-    }
+
 
     @Override
     public void removeRecipe(Integer idRecipe,Integer idUser) {
@@ -119,7 +133,6 @@ public class RecipeService implements RecipeServiceInterface {
     }
 
     private boolean isRecipeInfoCorrect (RecipeInfo recipeInfo){
-        if(recipeInfo.getIdProducts().isEmpty()) return false;
         if(recipeInfo.getRecipeStatement()) return false;
         if(recipeInfo.getRecipeName().equals(""))return false;
         return true;

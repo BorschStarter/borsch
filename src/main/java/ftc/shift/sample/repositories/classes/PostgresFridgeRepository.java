@@ -5,9 +5,10 @@ import ftc.shift.sample.entity.FridgeEntity;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.FridgeRepository;
 import ftc.shift.sample.repositories.interfaces.EntityUnterfaces.FridgeRepositoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 
+@Repository
 public class PostgresFridgeRepository  implements FridgeRepository {
 
     @Autowired

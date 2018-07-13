@@ -4,13 +4,27 @@ import ftc.shift.sample.entity.RecipeEntity;
 import ftc.shift.sample.repositories.interfaces.DataBaseInterfaces.RecipeRepository;
 import ftc.shift.sample.repositories.interfaces.EntityUnterfaces.RecipeRepositoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 
+@Repository
 public class PostgresRecipeRepository implements RecipeRepository {
 
     @Autowired
     private RecipeRepositoryEntity recipeService;
+
+    @Override
+    public ArrayList<RecipeEntity> fetchRecipe(Integer idRecipe) {
+        Iterable<RecipeEntity> listOfRecipeEntitie = recipeService.findAll();
+        ArrayList<RecipeEntity> result = new ArrayList<>();
+        for(RecipeEntity recipeEntity:listOfRecipeEntitie){
+            if (recipeEntity.getRecipeId().equals(idRecipe)){
+                result.add(recipeEntity);
+            }
+        }
+        return result;
+    }
 
     @Override
     public ArrayList<RecipeEntity> fetchUserRecipe(Integer idUser, Integer idRecipe) {
@@ -54,7 +68,13 @@ public class PostgresRecipeRepository implements RecipeRepository {
 
     @Override
     public void createRecipe(ArrayList<RecipeEntity> listOfRecipeEntity) {
-        recipeService.save(listOfRecipeEntity);
+        RecipeEntity recipeEntity = recipeService.save(listOfRecipeEntity.get(0));
+        listOfRecipeEntity.remove(0);
+        recipeEntity.setRecipeId(recipeEntity.getId());
+        recipeService.save(recipeEntity);
+        if(!listOfRecipeEntity.isEmpty()) {
+            recipeService.save(listOfRecipeEntity);
+        }
     }
 
     @Override

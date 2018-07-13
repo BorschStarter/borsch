@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ftc.shift.sample.services.Validation;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import static ftc.shift.sample.api.ExceptionsConst.*;
@@ -16,7 +17,6 @@ import static ftc.shift.sample.api.Resources.RECIPE_PATH;
 
 @RestController
 public class RecipeController {
-
 
     @Autowired
     private RecipeServiceInterface recipeService;
@@ -119,15 +119,16 @@ public class RecipeController {
         return response;
     }
 
-    @PostMapping(RECIPE_PATH)
+    @PostMapping(RECIPE_PATH+"/{recipeName}")
     public @ResponseBody
-    BaseResponse addRecipe(@RequestBody RecipeInfo recipeInfo,final HttpServletRequest request) {
+    BaseResponse addRecipe(@PathVariable String recipeName,
+                           @RequestBody Product product, final HttpServletRequest request) {
         BaseResponse response = new BaseResponse();
         UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
         try{
             switch(validation.checkValidation(userValidInfo,response)){
                 case VALID:
-                    recipeService.createRecipe(userValidInfo.getIdUser(),recipeInfo);
+                    recipeService.createRecipe(userValidInfo.getIdUser(),recipeName,product);
                     break;
                 case NON_VALID:
                     response.setStatus(NON_VALID_ERROR_STATUS);
@@ -221,6 +222,39 @@ public class RecipeController {
             switch(validation.checkValidation(userValidInfo,response)){
                 case VALID:
                     recipeService.removeRecipe(recipeId,userValidInfo.getIdUser());
+                    break;
+                case NON_VALID:
+                    response.setStatus(NON_VALID_ERROR_STATUS);
+                    response.setMessage(NON_VALID_ERROR_MESSAGE);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }catch (IllegalArgumentException ex){
+            response.setStatus(ILLEGAL_ARGUMENT_ERROR_STATUS);
+            response.setMessage(ex.getMessage());
+        }catch(NullPointerException ex){
+            response.setStatus(NULL_POINTER_EXCEPTION_STATUS);
+            response.setMessage(NULL_POINTER_EXCEPTION_MESSAGE+"  "+ex.getMessage());
+        }catch(Exception ex) {
+            response.setStatus(UNEXPECTED_ERROR_STATUS);
+            response.setMessage(UNEXPECTED_ERROR_MESSAGE+" fetchUser "+ex.getMessage());
+        }
+
+        return response;
+    }
+
+    @PatchMapping(RECIPE_PATH+"/product")
+    public @ResponseBody
+    BaseResponse<Product> getProducts(@RequestBody Product product,final HttpServletRequest request){
+        BaseResponse<Product>  response = new BaseResponse();
+        UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
+        try{
+            switch(validation.checkValidation(userValidInfo,response)){
+                case VALID:
+                    System.out.println(product.getId());
+                    Product resProduct = recipeService.fetchProducts(product.getId());
+                    response.setData(resProduct);
                     break;
                 case NON_VALID:
                     response.setStatus(NON_VALID_ERROR_STATUS);

@@ -70,6 +70,7 @@ public class EntityProcessor {
         product.setFoodId(productEntity.getFoodId());
         product.setReservedWeight(productEntity.getReservedWeight());
         product.setId(productEntity.getId());
+        product.setUserId(productEntity.getIdUser());
         product.setAllWeight(productEntity.getAllWeight());
         return product;
     }
@@ -79,6 +80,7 @@ public class EntityProcessor {
         productEntity.setFoodId(product.getFoodId());
         productEntity.setReservedWeight(product.getReservedWeight());
         productEntity.setId(product.getId());
+        productEntity.setIdUser(product.getUserId());
         productEntity.setAllWeight(product.getAllWeight());
         return productEntity;
     }
@@ -106,6 +108,7 @@ public class EntityProcessor {
             recipeEntity.setUserId(recipeInfo.getUserId());
             recipeEntity.setRecipeId(recipeInfo.getRecipeId());
             recipeEntity.setProductId(productId);
+            listOfRecipeEntitie.add(recipeEntity);
         }
         return listOfRecipeEntitie;
     }

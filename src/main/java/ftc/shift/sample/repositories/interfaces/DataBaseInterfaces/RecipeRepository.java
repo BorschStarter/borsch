@@ -11,6 +11,8 @@ import java.util.Collection;
 
 public interface RecipeRepository {
 
+    ArrayList<RecipeEntity> fetchRecipe(Integer idRecipe);
+
     ArrayList<RecipeEntity> fetchUserRecipe(Integer idUser, Integer idRecipe);
 
     ArrayList<RecipeEntity> fetchActiveUserRecipe(Integer idUser);

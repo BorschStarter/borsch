@@ -62,9 +62,9 @@ public class FridgeController {
             try{
                 switch(validation.checkValidation(userValidInfo,response)){
                     case VALID:
+                        product.setUserId(userValidInfo.getIdUser());
                         fridgeService.addProductInFridge(userValidInfo.getIdUser(),product);
-                        Collection<Product> products = fridgeService
-                                .provideFridge(userValidInfo.getIdUser()).getProducts();
+                        Collection<Product> products = fridgeService.provideFridge(userValidInfo.getIdUser()).getProducts();
                         response.setData(products);
                         break;
                     case NON_VALID:
