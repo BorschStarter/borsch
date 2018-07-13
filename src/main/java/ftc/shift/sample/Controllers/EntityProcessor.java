@@ -112,4 +112,40 @@ public class EntityProcessor {
         }
         return listOfRecipeEntitie;
     }
+
+    public static UserForEachProductListEntity toUserForEachProductListEntity(UserForEachProductList userForEachProductList){
+        UserForEachProductListEntity userForEachProductListEntity = new UserForEachProductListEntity();
+        userForEachProductListEntity.setId(userForEachProductList.getId());
+        userForEachProductListEntity.setProductId(userForEachProductList.getProductId());
+        userForEachProductListEntity.setRecipeId(userForEachProductList.getRecipeId());
+        userForEachProductListEntity.setUserId(userForEachProductList.getUserId());
+        return userForEachProductListEntity;
+    }
+
+    public static UserForEachProductList toUserForEachProductList(UserForEachProductListEntity userForEachProductListEntity){
+        UserForEachProductList userForEachProductList = new UserForEachProductList();
+        userForEachProductList.setId(userForEachProductListEntity.getId());
+        userForEachProductList.setProductId(userForEachProductListEntity.getProductId());
+        userForEachProductList.setRecipeId(userForEachProductListEntity.getRecipeId());
+        userForEachProductList.setUserId(userForEachProductListEntity.getUserId());
+        return userForEachProductList;
+    }
+
+    public static FinalRecipeUserListEntity toFinalRecipeUserListEntity(FinalRecipeUserList finalRecipeUserList){
+        FinalRecipeUserListEntity finalRecipeUserListEntity = new FinalRecipeUserListEntity();
+        finalRecipeUserListEntity.setId(finalRecipeUserList.getId());
+        finalRecipeUserListEntity.setRecipeId(finalRecipeUserList.getRecipeId());
+        finalRecipeUserListEntity.setProductId(finalRecipeUserList.getProductId());
+        finalRecipeUserListEntity.setUserId(finalRecipeUserList.getUserId());
+        return finalRecipeUserListEntity;
+    }
+
+    public static FinalRecipeUserList toFinalRecipeUserList(FinalRecipeUserListEntity finalRecipeUserListEntity){
+        FinalRecipeUserList finalRecipeUserList = new FinalRecipeUserList();
+        finalRecipeUserList.setId(finalRecipeUserListEntity.getId());
+        finalRecipeUserList.setRecipeId(finalRecipeUserListEntity.getRecipeId());
+        finalRecipeUserList.setProductId(finalRecipeUserListEntity.getProductId());
+        finalRecipeUserList.setUserId(finalRecipeUserListEntity.getUserId());
+        return finalRecipeUserList;
+    }
 }

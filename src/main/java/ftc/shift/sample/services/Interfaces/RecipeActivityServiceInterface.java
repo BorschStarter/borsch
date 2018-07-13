@@ -6,4 +6,6 @@ public interface RecipeActivityServiceInterface {
 
     void changeRecipeStatement (@NonNull Integer userId,@NonNull Integer recipeId);
 
+    void addRecipeToPool (@NonNull )
+
 }
