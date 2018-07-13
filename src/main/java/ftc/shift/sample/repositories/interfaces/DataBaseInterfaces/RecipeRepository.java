@@ -23,6 +23,6 @@ public interface RecipeRepository {
 
     void addProductInRecipe(RecipeEntity recipeEntity);
 
-    void removeProductFromUserRecipe(Integer idRecipe, Integer idProduct);
+    void removeProductFromUserRecipe(Integer idUser,Integer idRecipe, Integer idProduct);
 
 }

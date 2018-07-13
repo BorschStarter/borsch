@@ -108,13 +108,16 @@ public class RecipeService implements RecipeServiceInterface {
         }else if(!isRecipeContainProduct(listOfRecipeEntity,idProduct)) {
             throw new IllegalArgumentException("Данного продукта нет в рецепте");
         }else{
-            recipeRepository.deleteRecipe(idRecipe,idProduct);
+            recipeRepository.removeProductFromUserRecipe(idUser,idRecipe,idProduct);
             productRepository.removeProduct(idProduct);
         }
     }
 
     private boolean isRecipeInfoCorrect (RecipeInfo recipeInfo){
-        return false;
+        if(recipeInfo.getIdProducts().isEmpty()) return false;
+        if(recipeInfo.getRecipeStatement()) return false;
+        if(recipeInfo.getRecipeName().equals(""))return false;
+        return true;
     }
 
     private boolean isRecipeContainProduct (ArrayList<RecipeEntity> listOfRecipeEntity,
