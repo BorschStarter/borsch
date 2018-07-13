@@ -61,7 +61,7 @@ public class  FoodController {
     }
     @GetMapping(FOOD_PATH)
     public @ResponseBody
-    BaseResponse<Collection<Food>> provideFoodSearchList(final HttpServletRequest request) {
+    BaseResponse<Collection<Food>> provideFoodList(final HttpServletRequest request) {
         BaseResponse<Collection<Food>> response = new BaseResponse();
         UserValidInfo userValidInfo = HeaderProcessor.pullUserValidInfo(request);
         try {
